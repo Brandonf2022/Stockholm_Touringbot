@@ -1,0 +1,2737 @@
+[
+    {
+        "konsert_datum": "25.01.08",
+        "konsert_namn": "Middags-Konsert",
+        "lokal_namn": "Berns Salonger",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Middagskonsert",
+        "Producer": "Etablissementets Orkester",
+        "custom_id": "dark-64165-1-2-1",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "25.01.08",
+        "konsert_namn": "Hans Burmeister Orkesters Kaffe- och Aftonkonsert",
+        "lokal_namn": "H\u00f4tel Fenix",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Burmeister, Hans",
+        "custom_id": "dark-64165-1-2-2",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "25.01.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Stora Eftersalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64165-1-2-3",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64165-1-2-4",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "28.01.08, 30.01.08, 01.02.08",
+        "konsert_namn": "3 Beethoven aftnar",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "3 kr, 2:50kr, 2kr",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "Brussel-Kvartetten",
+        "custom_id": "dark-64165-1-2-7",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "25.01.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "UNiingar",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64165-1-2-8",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "25.01.08",
+        "konsert_namn": "Kaffe- och Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och Aftonkonsert",
+        "Producer": "Tillierstedt, B.",
+        "custom_id": "dark-64165-1-2-9",
+        "url": "https://tidningar.kb.se/h1txn0wt1gprhrb"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Konsert i Gustaf Vasa-kyrkan",
+        "lokal_namn": "Gustaf Vasa-kyrkan",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64217-1-5-10",
+        "url": "https://tidningar.kb.se/8slpfrql54gtb6c"
+    },
+    {
+        "konsert_datum": "05.02.08",
+        "konsert_namn": "Fajanskoncert med f\u00f6rst\u00e4rkt orkester",
+        "lokal_namn": "Alhambra-teaterns salonger",
+        "konsert_biljettpris": "FREE ENTRY",
+        "konserttyp_namn": "Fajanskoncert",
+        "Producer": "Ok\u00e4nt",
+        "custom_id": "dark-64217-1-5-12",
+        "url": "https://tidningar.kb.se/8slpfrql54gtb6c"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Bissellkvartetten konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64208-1-7-13",
+        "url": "https://tidningar.kb.se/zh9d4gf942rngvn"
+    },
+    {
+        "konsert_datum": "18.01.08",
+        "konsert_namn": "Fru Hanka Petzold pianistkonsert",
+        "lokal_namn": "Vetenskapsakademiens lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63677-1-7-15",
+        "url": "https://tidningar.kb.se/5phlbm1h25mjrx6"
+    },
+    {
+        "konsert": [
+            {
+                "konsert_datum": "16.01.08",
+                "konsert_namn": "Herold avskedskonsert",
+                "lokal_namn": "UNKNOWN",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Solokonsert",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "22.01.08",
+                "konsert_namn": "Br\u00fcsselkvartettens Beethovenkv\u00e4llar",
+                "lokal_namn": "Musikaliska akademiens sal",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Abonnemangskonsert",
+                "Producer": "Lundquist, Abr"
+            },
+            {
+                "konsert_datum": "UNKNOWN",
+                "konsert_namn": "Kyrkokonsert i Gustaf Vasakyrkan",
+                "lokal_namn": "Gustaf Vasakyrkan",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Kyrkokonsert",
+                "Producer": "Typografiska f\u00f6reningen"
+            },
+            {
+                "konsert_datum": "15.02.08",
+                "konsert_namn": "Nya dramatiska teaterns invigning",
+                "lokal_namn": "Nya dramatiska teatern",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Teaterf\u00f6rest\u00e4llning",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "UNKNOWN",
+                "konsert_namn": "Borgarskolans konsert f\u00f6r Wennerbergestoden",
+                "lokal_namn": "K Ii U Ms stora h\u00f6rsal",
+                "konsert_biljettpris": "M\u00f6jligen \u00f6fVerblifna biljet",
+                "konserttyp_namn": "V\u00e4lg\u00f6renhetskonsert",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "UNKNOWN",
+                "konsert_namn": "Popul\u00e4r-konsert i Vetenskapsakademiens h\u00f6rsal",
+                "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Popul\u00e4rkonsert",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "25.01.08",
+                "konsert_namn": "S\u00e4llskapet f\u00f6r svenska kvartetts\u00e5ngens jubileumsm\u00f6te",
+                "lokal_namn": "Restaurang Metropool",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "M\u00f6te",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "15.02.08",
+                "konsert_namn": "Strindbergs M\u00e4ster Olof",
+                "lokal_namn": "Nya dramatiska teatern",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Dramaf\u00f6rest\u00e4llning",
+                "Producer": "UNKNOWN"
+            }
+        ],
+        "custom_id": "dark-63677-1-7-16",
+        "url": "https://tidningar.kb.se/5phlbm1h25mjrx6"
+    },
+    {
+        "konsert_datum": "14.02.08",
+        "konsert_namn": "Aljoscha Schuolnick tredje konsert",
+        "lokal_namn": "Kungliga musikaliska akademien",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Violinistkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64236-1-5-17",
+        "url": "https://tidningar.kb.se/xg8c3ff8350f2dk"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Mozart Konsert av fr\u00f6ken Sigrid Almqvist och en v\u00e4n",
+        "lokal_namn": "Grevgatan 24",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64236-1-5-18",
+        "url": "https://tidningar.kb.se/xg8c3ff8350f2dk"
+    },
+    {
+        "konsert_datum": "12.01.08",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "Lundberg, Anna",
+        "custom_id": "dark-63679-1-2-19",
+        "url": "https://tidningar.kb.se/7rkndp3k4285kwj"
+    },
+    {
+        "konsert_datum": "11.01.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ok\u00e4nd",
+        "producer": "UNKNOWN",
+        "custom_id": "dark-63679-1-2-20",
+        "url": "https://tidningar.kb.se/7rkndp3k4285kwj"
+    },
+    {
+        "konsert_datum": "11.01.08",
+        "konsert_namn": "Halld\u00e9n aftonkonsert",
+        "lokal_namn": "Slesfaurant Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kv\u00e4llskonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63679-1-2-21",
+        "url": "https://tidningar.kb.se/7rkndp3k4285kwj"
+    },
+    {
+        "konsert_datum": "11.01.08",
+        "konsert_namn": "Etablissementets Orkester middagskonsert",
+        "lokal_namn": "Berns Salonger",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Middagskonsert",
+        "Producer": "Hennerberg, Eicli",
+        "custom_id": "dark-63679-1-2-22",
+        "url": "https://tidningar.kb.se/7rkndp3k4285kwj"
+    },
+    {
+        "konsert_datum": "17.01.08",
+        "konsert_namn": "Kaffe- och Aftonkonsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "2:60kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Pianoafton",
+        "Producer": "Burmesters, Hans",
+        "custom_id": "dark-63679-1-2-23",
+        "url": "https://tidningar.kb.se/7rkndp3k4285kwj"
+    },
+    {
+        "konsert_datum": "10.02.08",
+        "konsert_namn": "Blor Konsert",
+        "lokal_namn": "Berns Salonger",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64218-1-2-25",
+        "url": "https://tidningar.kb.se/bvnrhtsn3mb87z8"
+    },
+    {
+        "konsert_datum": "10.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "B\u00e4dhus-Restaurangen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64218-1-2-26",
+        "url": "https://tidningar.kb.se/bvnrhtsn3mb87z8"
+    },
+    {
+        "konsert_datum": "10.02.08",
+        "konsert_namn": "UNKNOWN",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64218-1-2-27",
+        "url": "https://tidningar.kb.se/bvnrhtsn3mb87z8"
+    },
+    {
+        "konsert_datum": "11.02.08",
+        "konsert_namn": "Aurora Molander",
+        "lokal_namn": "Lundquists hofmusikhandel",
+        "konsert_biljettpris": "2kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Gellin, Eduard",
+        "custom_id": "dark-64218-1-2-28",
+        "url": "https://tidningar.kb.se/bvnrhtsn3mb87z8"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "UNKNOWN",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64218-1-2-29",
+        "url": "https://tidningar.kb.se/bvnrhtsn3mb87z8"
+    },
+    {
+        "konsert_datum": "02.01.08",
+        "konsert_namn": "Stor-konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63667-1-2-30",
+        "url": "https://tidningar.kb.se/fzrvlw5r0jk9tjs"
+    },
+    {
+        "konsert_datum": "05.01.08",
+        "konsert_namn": "Nordisk Afton S\u00e4song-Konsert",
+        "lokal_namn": "Hotel Continental festsal",
+        "konsert_biljettpris": "2kr, 1kr:50\u00f6re, 1kr",
+        "konserttyp_namn": "S\u00e4songkonsert",
+        "Producer": "Gellin, Eduard",
+        "custom_id": "dark-63667-1-2-31",
+        "url": "https://tidningar.kb.se/fzrvlw5r0jk9tjs"
+    },
+    {
+        "konsert_datum": "02.01.08",
+        "konsert_namn": "H\u00f6tel Fenix h\u00e5rkonsert",
+        "lokal_namn": "H\u00f6tel Fenix",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Salongkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63667-1-2-32",
+        "url": "https://tidningar.kb.se/fzrvlw5r0jk9tjs"
+    },
+    {
+        "konsert_datum": "23.01.08",
+        "konsert_namn": "Tor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64161-1-1-33",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsert_datum": "23.01.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64161-1-1-34",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsert_datum": "02.01.08",
+        "konsert_namn": "Fr\u00f6ken Hildur Ohlsons konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "2:60kr, 2kr, 1kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Schkolnick, Aljoschti",
+        "custom_id": "dark-64161-1-1-35",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsert_datum": "28.01.08, 30.01.08, 01.02.08",
+        "konsert_namn": "Beethoven aftnar",
+        "lokal_namn": "Br\u00f6derna S\u00f6derbergs lokal",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr",
+        "konserttyp_namn": "Kvartettkonsert",
+        "Producer": "Lundquist, Abr",
+        "custom_id": "dark-64161-1-1-36",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsert_datum": "23.01.08",
+        "konsert_namn": "Gasparinec Ungarischen konsert",
+        "lokal_namn": "Grand Hotel, Stockholm",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Grand Hotel",
+        "custom_id": "dark-64161-1-1-37",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsertar": [
+            {
+                "konsert_datum": "19.01.08",
+                "konsert_namn": "Mozarts Requiem",
+                "lokal_namn": "Wien",
+                "konserttyp_namn": "Sj\u00e4lam\u00e4ssa",
+                "Producer": "Metternich, Pauline",
+                "organisat\u00f6r": "Wien",
+                "anledning": "Till st\u00f6d f\u00f6r byggandet av Mozarthus i Salzburg"
+            },
+            {
+                "konsert_datum": "05.12.08",
+                "konsert_namn": "Wilhelm Stenhammars konsert",
+                "lokal_namn": "Musikaliska akademiens stora sal",
+                "konserttyp_namn": "Ok\u00e4nt",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "05.02.08",
+                "konsert_namn": "Dagny Griinerts konsert",
+                "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+                "konserttyp_namn": "Solokonsert",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "19.01.08",
+                "konsert_namn": "Nya Filharmoniska S\u00e4llskapets abonnemangskonsert",
+                "lokal_namn": "UNKNOWN",
+                "konserttyp_namn": "S\u00e4llskapskonsert",
+                "organisat\u00f6r": "Nya Filharmoniska S\u00e4llskapet"
+            },
+            {
+                "konsert_datum": "UNKNOWN",
+                "konsert_namn": "Kerns salonger Familjeafton",
+                "lokal_namn": "Kerns salonger",
+                "konserttyp_namn": "Familjeafton",
+                "organisat\u00f6r": "Kerns salonger"
+            }
+        ],
+        "custom_id": "dark-64161-1-5-39",
+        "url": "https://tidningar.kb.se/bvnrhtqn13l63wt"
+    },
+    {
+        "konsert_datum": "29.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Taurant",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64240-1-1-41",
+        "url": "https://tidningar.kb.se/2ldh7kkd1htbvxn"
+    },
+    {
+        "konsert_datum": "01.02.08",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "Arbetareinstitutet, Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64240-1-1-42",
+        "url": "https://tidningar.kb.se/2ldh7kkd1htbvxn"
+    },
+    {
+        "konsert_datum": "03.03.08",
+        "konsert_namn": "Aftonkonsert av Hans Bins mesters orkester",
+        "lokal_namn": "Kungliga Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "2:00kr, 2:00kr, 1:50kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Jackson-Porris, Henry",
+        "custom_id": "dark-64240-1-1-43",
+        "url": "https://tidningar.kb.se/2ldh7kkd1htbvxn"
+    },
+    {
+        "konsert_datum": "29.02.08",
+        "konsert_namn": "Kronobergs regementes musikk\u00e5rs amerikaturn\u00e9",
+        "lokal_namn": "Academy of Music, New York",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Milit\u00e4rkonsert",
+        "Producer": "H\u00f6gberg, K.",
+        "custom_id": "dark-64240-1-3-46",
+        "url": "https://tidningar.kb.se/2ldh7kkd1htbvxn"
+    },
+    {
+        "konsert_datum": "21.03.08",
+        "konsert_namn": "Beethoven konsert",
+        "lokal_namn": "Kongl Teatern",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Symfonikonsert",
+        "Producer": "J\u00e4mefelt, Armas",
+        "custom_id": "dark-64251-1-2-47",
+        "url": "https://tidningar.kb.se/fzrvlxxr10p93cp"
+    },
+    {
+        "konsert_datum": "20.03.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Festv\u00e5ning l\u00f6r",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64251-1-2-48",
+        "url": "https://tidningar.kb.se/fzrvlxxr10p93cp"
+    },
+    {
+        "konsert_datum": "20.03.08",
+        "konsert_namn": "Stor konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Unknown",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64251-1-2-49",
+        "url": "https://tidningar.kb.se/fzrvlxxr10p93cp"
+    },
+    {
+        "konsert_datum": "20.03.08",
+        "konsert_namn": "Kafle- och Aftonkonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kafle- och aftonkonsert",
+        "Producer": "Tinnerstedt, B.",
+        "custom_id": "dark-64251-1-2-50",
+        "url": "https://tidningar.kb.se/fzrvlxxr10p93cp"
+    },
+    {
+        "konsert_datum": "20.03.08",
+        "konsert_namn": "Daalijien Middags- och Aftonkonserter",
+        "lokal_namn": "Kambapellet Mihloiiha",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Middags- och Aftonkonserter",
+        "Producer": "Tattersall",
+        "custom_id": "dark-64251-1-2-51",
+        "url": "https://tidningar.kb.se/fzrvlxxr10p93cp"
+    },
+    {
+        "konsert_datum": "12.02.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64228-1-2-52",
+        "url": "https://tidningar.kb.se/n603t55033ctf0h"
+    },
+    {
+        "konsert_datum": "14.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "KFUM:s h\u00f6rsal Birger Jarlsgatan 85",
+        "konsert_biljettpris": "1kr, 0:50kr",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "J E Sander",
+        "custom_id": "dark-64228-1-2-53",
+        "url": "https://tidningar.kb.se/n603t55033ctf0h"
+    },
+    {
+        "konsert_datum": "13.02.08",
+        "konsert_namn": "Fr\u00f6ken Martha Ohlsons sista konsert",
+        "lokal_namn": "Herr Abr Lundquists Hemmam",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64228-1-2-54",
+        "url": "https://tidningar.kb.se/n603t55033ctf0h"
+    },
+    {
+        "konsert_datum": "13.02.08",
+        "konsert_namn": "Kaffe- och Aftonkonsert",
+        "lokal_namn": "K\u00e5dhus-Restauranten",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och Aftonkonsert",
+        "Producer": "Tinnerstedt, E.",
+        "custom_id": "dark-64228-1-2-55",
+        "url": "https://tidningar.kb.se/n603t55033ctf0h"
+    },
+    {
+        "konsertar": [
+            {
+                "konsert_datum": "22.01.08",
+                "konsert_namn": "Aljovscha Schkolnick konsert",
+                "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Solokonsert",
+                "Producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "19.01.08",
+                "konsert_namn": "Kyrkokonsert i Vasa kyrkan",
+                "lokal_namn": "Vasa kyrkan",
+                "konsert_biljettpris": "1kr",
+                "konserttyp_namn": "Kyrkokonsert",
+                "Producer": "Typografiska f\u00f6reningen"
+            },
+            {
+                "konsert_datum": "21.01.08",
+                "konsert_namn": "Familjeafton i Berns salonger",
+                "lokal_namn": "Berns salonger",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Familjekonsert",
+                "Producer": "Henneberg, Hofkapellm\u00e4stare"
+            },
+            {
+                "konsert_datum": "21.01.08",
+                "konsert_namn": "Familjeafton i Berns salonger",
+                "lokal_namn": "Berns salonger",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Familjekonsert",
+                "Producer": "Henneberg, Hofkapellm\u00e4stare"
+            },
+            {
+                "konsert_datum": "19.02.08",
+                "konsert_namn": "Popul\u00e4r S\u00e5ng-Afton",
+                "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "S\u00e5ngkonsert",
+                "Producer": "Lundberg, Anna"
+            }
+        ],
+        "custom_id": "dark-63686-1-5-56",
+        "url": "https://tidningar.kb.se/g0swmxbs5p82ssl"
+    },
+    {
+        "konsert_datum": "21.03.08",
+        "konsert_namn": "Stor Konsert med Dardini trio, Paul Galey, Berg\u00e9 3 lustige Weber, Brothers Hermaner, The New York Comedy, m.fl.",
+        "lokal_namn": "Arbetareinstitutet (Stockholms Borgareskola)",
+        "konsert_biljettpris": "1:50 kr",
+        "konserttyp_namn": "Variet\u00e9",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64252-1-1-59",
+        "url": "https://tidningar.kb.se/g0swmzzs42z9368"
+    },
+    {
+        "konsert_datum": "22.03.08",
+        "konsert_namn": "Mozart, Alfv\u00e9n, Wennerberg pianotrio konsert",
+        "lokal_namn": "Ok\u00e4nd",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64252-1-1-60",
+        "url": "https://tidningar.kb.se/g0swmzzs42z9368"
+    },
+    {
+        "konsert_datum": "21.03.08",
+        "konsert_namn": "Kaiic och Aftonkonsert",
+        "lokal_namn": "Norstedts",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr",
+        "konserttyp_namn": "Kv\u00e4llskonsert",
+        "Producer": "Hedenblad, Ivar",
+        "custom_id": "dark-64252-1-1-61",
+        "url": "https://tidningar.kb.se/g0swmzzs42z9368"
+    },
+    {
+        "konsert_datum": "02.03.08",
+        "konsert_namn": "Orgelkonsert",
+        "lokal_namn": "St. Jacobs kyrka",
+        "konsert_biljettpris": "6kr, 1.50kr, 1kr",
+        "konserttyp_namn": "Orgelkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64252-1-1-62",
+        "url": "https://tidningar.kb.se/g0swmzzs42z9368"
+    },
+    {
+        "konsert_datum": "25.02.08",
+        "konsert_namn": "Hudel Fenix Kaffe- och Aftonkonsert",
+        "lokal_namn": "Hotel Fenix",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64243-1-1-64",
+        "url": "https://tidningar.kb.se/5phlbnnh51vz0z9"
+    },
+    {
+        "konsert_datum": "25.02.08",
+        "konsert_namn": "Damkapellet Daglig Middags- och Aftonkonsert",
+        "lokal_namn": "Restaurant Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Damkapellet",
+        "custom_id": "dark-64243-1-1-65",
+        "url": "https://tidningar.kb.se/5phlbnnh51vz0z9"
+    },
+    {
+        "konsert_datum": "25.02.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Unknown",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64243-1-1-66",
+        "url": "https://tidningar.kb.se/5phlbnnh51vz0z9"
+    },
+    {
+        "konsert_datum": "25.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64243-1-1-67",
+        "url": "https://tidningar.kb.se/5phlbnnh51vz0z9"
+    },
+    {
+        "konsert_datum": "26.02.08",
+        "konsert_namn": "Aulinkvartettens i f\u00f6rening med Prof Fr Norudas kammarkonsert",
+        "lokal_namn": "Vetenskaps Akademiens h\u00f6rsal",
+        "konsert_biljettpris": "8kr (nummer) och 2:60kr (onummer)",
+        "konserttyp_namn": "Kammarmusik-Konsert",
+        "Producer": "Aulinkvartetten",
+        "custom_id": "dark-64226-1-1-69",
+        "url": "https://tidningar.kb.se/l4x1r32x39rdgv4"
+    },
+    {
+        "konsert_datum": "24.02.08",
+        "konsert_namn": "Aurora Molanders konsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "2:50kr, 2kr, 1:60kr",
+        "konserttyp_namn": "Stor konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64226-1-1-70",
+        "url": "https://tidningar.kb.se/l4x1r32x39rdgv4"
+    },
+    {
+        "konsert_datum": "21.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Pantf\u00f6reningens festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64226-1-1-71",
+        "url": "https://tidningar.kb.se/l4x1r32x39rdgv4"
+    },
+    {
+        "konsert_datum": "09.02.08",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64221-1-2-72",
+        "url": "https://tidningar.kb.se/fzrvlxwr0522cmv"
+    },
+    {
+        "konsert_datum": "17.02.08",
+        "konsert_namn": "Stor konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64221-1-2-73",
+        "url": "https://tidningar.kb.se/fzrvlxwr0522cmv"
+    },
+    {
+        "konsert_datum": "08.02.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Iaurani 11",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64221-1-2-74",
+        "url": "https://tidningar.kb.se/fzrvlxwr0522cmv"
+    },
+    {
+        "konsert_datum": "13.02.08",
+        "konsert_namn": "Martha Ohlson",
+        "lokal_namn": "Herr Abr Lundquists Musikhandel",
+        "konsert_biljettpris": "2kr, 2:50kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64221-1-2-75",
+        "url": "https://tidningar.kb.se/fzrvlxwr0522cmv"
+    },
+    {
+        "konsert_datum": "11.02.08",
+        "konsert_namn": "M\u00e5cilius-Mestaurasiten kaffe- och aftonkonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och Aftonkonsert",
+        "Producer": "Tinnerstedt, E.",
+        "custom_id": "dark-64221-1-2-76",
+        "url": "https://tidningar.kb.se/fzrvlxwr0522cmv"
+    },
+    {
+        "konsert_datum": "11.04.08",
+        "konsert_namn": "Kaffe- och Aftonkonsert",
+        "lokal_namn": "Strakorkesters festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och Aftonkonsert",
+        "Producer": "Halid\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64294-1-2-2",
+        "url": "https://tidningar.kb.se/xg8c3fh85f23xjl"
+    },
+    {
+        "konsert_datum": "12.04.08",
+        "konsert_namn": "Zelina Wall och Axel Aunquist konsert",
+        "lokal_namn": "Klara Kyrka",
+        "konsert_biljettpris": "1:60kr, 1kr",
+        "konserttyp_namn": "Kyrkokonsert",
+        "Producer": "Hayg, Gustaf",
+        "custom_id": "dark-64294-1-2-3",
+        "url": "https://tidningar.kb.se/xg8c3fh85f23xjl"
+    },
+    {
+        "konsert_datum": "12.04.08",
+        "konsert_namn": "Wiener-Damen-Concert",
+        "lokal_namn": "Brunkebergs h\u00f6rsal",
+        "konsert_biljettpris": "75 \u00f6re",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Stockholms t\u00f6rsta Bl\u00e4bandst\u00f6rening",
+        "custom_id": "dark-64294-1-2-4",
+        "url": "https://tidningar.kb.se/xg8c3fh85f23xjl"
+    },
+    {
+        "konsert_datum": "22.04.08",
+        "konsert_namn": "Euy\u00e9iie Concert",
+        "lokal_namn": "Herr Abr Landflis Musiksalong",
+        "konsert_biljettpris": "3:50kr, 3kr, 2:60kr, 2kr",
+        "konserttyp_namn": "Ok\u00e4nd",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64294-1-2-5",
+        "url": "https://tidningar.kb.se/xg8c3fh85f23xjl"
+    },
+    {
+        "konsert_datum": "05.04.08",
+        "konsert_namn": "Konsert p\u00e5 terrassen",
+        "lokal_namn": "Terrassen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64297-1-2-6",
+        "url": "https://tidningar.kb.se/1kcg6jlc4cp0fbz"
+    },
+    {
+        "konsert_datum": "04.05.08",
+        "konsert_namn": "KTHs Kaffe-Aftonkonsert",
+        "lokal_namn": "Kungliga Tekniska H\u00f6gskolan",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64297-1-2-7",
+        "url": "https://tidningar.kb.se/1kcg6jlc4cp0fbz"
+    },
+    {
+        "konsert_datum": "04.05.08",
+        "konsert_namn": "Nya Filharmoniska S\u00e4llskapets 2:a L\u00f6nnem\u00e4ts-konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "3:00kr, 2:60kr, 2kr",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64297-1-2-8",
+        "url": "https://tidningar.kb.se/1kcg6jlc4cp0fbz"
+    },
+    {
+        "konsert_datum": "19.04.08",
+        "konsert_namn": "Veilradin garue",
+        "lokal_namn": "\u00d6sears-Teatern",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Operett",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64289-1-2-9",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "V\u00e5rs\u00e5ng, Natten, V\u00e4rendsl\u00e5t, Blommorna blekna, O hr de jag en guldpokal, Midsommardans, En glad trall, Don nalkande ormren, Bilden, I skogen, Dr\u00f6mmar, Vandrings\u00e5r, Min farfar hade en stor pokal, Medborgars\u00e5ng, Bacchus snyfta, Partema syns, I n\u00e4rvarande parter, Tr\u00e4d fram du nattens gud, Klinga nu med klarinetter",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Mixed Choir Concert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64289-1-2-10",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "1908.04.18",
+        "konsert_namn": "Middagskonsert och Aftonkonsert",
+        "lokal_namn": "Variet\u00e9-Foyern",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Variet\u00e9konsert",
+        "Producer": "Dahlberg, Erik",
+        "custom_id": "dark-64289-1-2-11",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Thorolf Jansson's Utst\u00e4llningskonsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Utst\u00e4llningskonsert",
+        "Producer": "Jansson, Thorolf",
+        "custom_id": "dark-64289-1-2-12",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "22.04.08",
+        "konsert_namn": "Eug\u00e9ne Tsaye konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "3:60kr, 3kr, 2:60kr, 2kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Lundqvist, Abr",
+        "custom_id": "dark-64289-1-2-13",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Middags- och Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Wiener-Damen-Concert-Orchester",
+        "custom_id": "dark-64289-1-2-14",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Str\u00e5korkester Kaffe- \u00e5 Aftonkonsert",
+        "lokal_namn": "OB's Festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Hulld\u00e9li, M.",
+        "custom_id": "dark-64289-1-2-15",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Konsert med Zelma Wais, Gustaf Molander, David Ahlberg, Carl Gentzel",
+        "lokal_namn": "Hotell",
+        "konsert_biljettpris": "1kr",
+        "konserttyp_namn": "Mixed Concert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64289-1-2-16",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Damkapellet lyra daglig middags- och aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64289-1-2-17",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "18.04.08",
+        "konsert_namn": "Oratoriet Skapelsen",
+        "lokal_namn": "\u00d6stermalmskyrkan",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Oratoriumskonsert",
+        "Producer": "Nordqvist, Conrad",
+        "custom_id": "dark-64289-1-3-18",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "22.04.08",
+        "konsert_namn": "Eug\u00e9ne Ysayes konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Ysaye, Eug\u00e9ne",
+        "custom_id": "dark-64289-1-4-21",
+        "url": "https://tidningar.kb.se/r936x8b32thxmrn"
+    },
+    {
+        "konsert_datum": "16.04.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-22",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "16.04.08",
+        "konsert_namn": "Kaffe-Aftonkonsert med Str\u00e5korkester",
+        "lokal_namn": "OBS Festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64266-1-2-23",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "17.04.08",
+        "konsert_namn": "Variet\u00e9-Joy aftonkonsert",
+        "lokal_namn": "Variet\u00e9-Joy",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-24",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "16.04.08",
+        "konsert_namn": "Damkapellet Mlklo konsert",
+        "lokal_namn": "Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-25",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "16.04.08",
+        "konsert_namn": "Tv\u00e5 konserter",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "59 \u00f6re, barn under 3 \u00e5r fritt intr\u00e4de",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-26",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "19.04.08",
+        "konsert_namn": "V\u00e5rkonsert",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "25kr och 10kr",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-27",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "22.04.08",
+        "konsert_namn": "Eug\u00e9ne Ysaye Konsert",
+        "lokal_namn": "Herr V hr Lundquists Hof",
+        "konsert_biljettpris": "3kr, 2:60kr, 2kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-28",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "16.04.08",
+        "konsert_namn": "Kung Svea eller Kungl Gijta Lifgardets musikk\u00e5rs konsert",
+        "lokal_namn": "Parken",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Milit\u00e4rmusik",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-29",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "19.04.08",
+        "konsert_namn": "Peinigs Symfonikoncert",
+        "lokal_namn": "Konserthusteatern",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Symfonikoncert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64266-1-2-30",
+        "url": "https://tidningar.kb.se/zh9d4gh91pwvw86"
+    },
+    {
+        "konsert_datum": "05.04.08",
+        "konsert_namn": "Livl\u00e4ndska koraler Konsert",
+        "lokal_namn": "Skansen",
+        "konsert_biljettpris": "50 \u00f6re, fritt f\u00f6r barn under 12 \u00e5r, gratis f\u00f6r barn under 3 \u00e5r",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-2-31",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "12.04.08",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-2-32",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "04.04.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "HaSId\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64281-1-2-33",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "04.04.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-2-34",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "06.04.08",
+        "konsert_namn": "F\u00f6rm\u00e5nskonsert f\u00f6r Oscars f\u00f6rsamlingens skollovs koloni och kristliga nykterhetsverksamhet p\u00e5 \u00d6stermalm",
+        "lokal_namn": "Oscars kyrkan",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "V\u00e4lg\u00f6renhetskonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-2-35",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "04.04.08",
+        "konsert_namn": "Wiener-Damen-Concert-Orchester middags- och aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-2-36",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "08.04.08",
+        "konsert_namn": "Ok\u00e4nd",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "2kr, 2kr, 1kr",
+        "konserttyp_namn": "Ok\u00e4nt",
+        "Producer": "Lundquist, Abr",
+        "custom_id": "dark-64281-1-2-37",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "12.04.08",
+        "konsert_namn": "Gustaf H\u00e4ggs konsert",
+        "lokal_namn": "Klara kyrka",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orgelkonsert",
+        "Producer": "Bohlin, Carl",
+        "custom_id": "dark-64281-1-7-38",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "04.04.08",
+        "konsert_namn": "Predikoturer",
+        "lokal_namn": "Various churches (Slottskyrkan, Storkyrkan, Klara kyrka, Jakobi kyrka, Skeppsbron's kyrka, Johannes kyrka, Adolf Fredriks kyrka, Maria kyrka, Adolf Fredriks kyrka, Matteus kyrka, Stockholms Borgerskapets kyrka, Ansgarii-kyrkan, Maria-Samuelens kirka, Rosenlund's \u00e5lderdomshem, Katarina kyrka, Solna kyrban, Helighinds kapellet, Diakonisskyrka, Medvig Eleonorkyrka, Oscars kyrka, Djurg\u00e5rdskyrkan, Kyrkosalen vid Hjorthagen, Predikolokalen Surbrunnsgatan 10, Kungsholms kyrka, Salen Handtverkaregatan 41s, Hedvig Eleonora kyrka, Sundbybergs gamla kapell, Hagalunds kyrka, Arbetsljuset vid Kungsholmsgatan 54-58, Bethlehemskyrkan, Missionshyddan in Adolf Fredrik, Missionshyddan in Maria Filgr\u00e4nd, Missionshyddan at Kungsholmen, Florakyrkan, Mikaeliksforsamlingen, Lutherska Missionshuset, Immanuelkyrkan, Missionssalen Kungsgatan 48, Sundbyberg Immanuelskapellet, Bethesda Missionshuset, Missionssalen Vasastan, Lutherska Missionsf\u00f6reningen, S:t Pauls kyrka, S:t Peters kyrka, Trefaldighetskyrkan, S:t Markus kyrka, S:t Johannes kyrka)",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Predikoturer",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64281-1-7-39",
+        "url": "https://tidningar.kb.se/g0swmz0s5sd9xbd"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Eug\u00e8ne Ysaye-konserten",
+        "lokal_namn": "Musikaliska akademien",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64291-1-5-40",
+        "url": "https://tidningar.kb.se/tc580bd53c4htqr"
+    },
+    {
+        "konsert_datum": "23.04.08",
+        "konsert_namn": "Hr Ysayes konsert",
+        "lokal_namn": "Centraltryckeriets Paragon-avdelning, Stockholm, Klara V Kyrkogata 11",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64291-1-5-41",
+        "url": "https://tidningar.kb.se/tc580bd53c4htqr"
+    },
+    {
+        "konsert_datum": "23.04.08",
+        "konsert_namn": "Aulinska kvartettens kammarmusikkonsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusikkonsert",
+        "Producer": "Neruda, F., Molander, Aurora",
+        "custom_id": "dark-64291-1-5-42",
+        "url": "https://tidningar.kb.se/tc580bd53c4htqr"
+    },
+    {
+        "konsert_datum": "11.04.08",
+        "konsert_namn": "K F D I Norr",
+        "lokal_namn": "R\u00e5dhus-Restauranten",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64279-1-2-43",
+        "url": "https://tidningar.kb.se/dxqtkwxq0h5j0sp"
+    },
+    {
+        "konsert_datum": "10.04.08",
+        "konsert_namn": "IF\u00d6 M-Gymnasternas konsert",
+        "lokal_namn": "Kungliga Palatset",
+        "konsert_biljettpris": "0:75kr, 1kr, 1:60kr",
+        "konserttyp_namn": "V\u00e4lg\u00f6renhetskonsert",
+        "Producer": "IF\u00d6 M-Gymnasternas",
+        "custom_id": "dark-64279-1-2-44",
+        "url": "https://tidningar.kb.se/dxqtkwxq0h5j0sp"
+    },
+    {
+        "konsert_datum": "12.04.08",
+        "konsert_namn": "Musikk\u00e5rens konsert till f\u00f6rm\u00e5n f\u00f6r enskilda pensionskassan",
+        "lokal_namn": "Immanuelskyrkan, Tegnergatan 3",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "V\u00e4lg\u00f6renhetskonsert",
+        "Producer": "Knngi, Giiita Lilgirdes Musikk\u00e5r",
+        "custom_id": "dark-64279-1-2-45",
+        "url": "https://tidningar.kb.se/dxqtkwxq0h5j0sp"
+    },
+    {
+        "konsert_datum": "10.04.08",
+        "konsert_namn": "Bainknpctlet nikluska J personer daglig middags- och aftonkonsert",
+        "lokal_namn": "Restaurant Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Mixad konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64279-1-2-46",
+        "url": "https://tidningar.kb.se/dxqtkwxq0h5j0sp"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Hicbfird Andersson konsert i Musikaliska akademiens stora sal",
+        "lokal_namn": "Musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Pianokonsert",
+        "Producer": "Andersson, Hicbfird",
+        "custom_id": "dark-64275-1-5-47",
+        "url": "https://tidningar.kb.se/8slpfrsl0tmtcwr"
+    },
+    {
+        "konsert_datum": "24.04.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen, Hotel Lyra",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Damliapellet Lyra",
+        "custom_id": "dark-64283-1-2-49",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "24.04.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "OBS Festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64283-1-2-50",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "29.04.08",
+        "konsert_namn": "S\u00e5ngs\u00e4llskapet 'Sjung Slung' v\u00e5rkonsert",
+        "lokal_namn": "Kungliga Musikaliska Akademiens stora sal",
+        "konsert_biljettpris": "1kr, 1:50kr",
+        "konserttyp_namn": "V\u00e5rkonsert",
+        "Producer": "Smidborg, Oscar",
+        "custom_id": "dark-64283-1-2-51",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "20.04.08",
+        "konsert_namn": "Ysaye-Konserten",
+        "lokal_namn": "Herr Alf Lundquist's Hofmusikhandel",
+        "konsert_biljettpris": "3:50kr, 3kr, 2:60kr, 2kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Lundquist, Alf",
+        "custom_id": "dark-64283-1-2-52",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "28.04.08",
+        "konsert_namn": "JKlanchestcrs valsf\u00f6rehigelser - Annonskonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "3kr, 2:50kr, 2kr",
+        "konserttyp_namn": "Oratorium",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64283-1-2-53",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "24.04.08",
+        "konsert_namn": "Damkap\u00e9llei Mlklosk\u00bb (0 personer",
+        "lokal_namn": "Restaurant Tattersail",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Dagliga Middags- och Aftonkonserter",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64283-1-2-54",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "24.04.08",
+        "konsert_namn": "Kammarmusik med Valinska kvartetten",
+        "lokal_namn": "Kungliga musikaliska akademiens lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64283-1-7-55",
+        "url": "https://tidningar.kb.se/j2vzp12v0dss108"
+    },
+    {
+        "konsert_datum": "30.04.08",
+        "konsert_namn": "Ysaye-konsert",
+        "lokal_namn": "Orohie-stra Hall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Ysaye, Theo",
+        "custom_id": "dark-64280-1-7-58",
+        "url": "https://tidningar.kb.se/fzrvlxzr289zjxm"
+    },
+    {
+        "konsert_datum": "12.05.08",
+        "konsert_namn": "Dramatisk soir\u00e9",
+        "lokal_namn": "Folkets hus teater",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Dramatisk soir\u00e9",
+        "Producer": "Hwassner, Anna Lisa",
+        "custom_id": "dark-64280-1-7-59",
+        "url": "https://tidningar.kb.se/fzrvlxzr289zjxm"
+    },
+    {
+        "konsert_datum": "10.06.08",
+        "konsert_namn": "Svensk konsert",
+        "lokal_namn": "Kensingtom Town Hall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "Roos, Hr. och Maja K\u00f6bler",
+        "custom_id": "dark-64323-1-5-60",
+        "url": "https://tidningar.kb.se/xg8c3fj83b92dft"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Svenska s\u00e5ngk\u00f6rens i Paris konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "K\u00f6rkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64260-1-3-61",
+        "url": "https://tidningar.kb.se/q825w78252hc4rj"
+    },
+    {
+        "konsert_datum": "22.04.08",
+        "konsert_namn": "Theo Ysayes konsert",
+        "lokal_namn": "Herr Abram Lundquists Hofmusikhandel",
+        "konsert_biljettpris": "3.50kr, 3kr, 2.60kr, 2kr, 1.50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64273-1-2-64",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "23.04.08",
+        "konsert_namn": "\u00c5hlinska Kvartettens 5:te och sista Kammarmusik-Konsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "3kr, 2:50kr",
+        "konserttyp_namn": "Kammarmusik-Konsert",
+        "Producer": "Prof F., Idenad",
+        "custom_id": "dark-64273-1-2-65",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "21.04.08",
+        "konsert_namn": "Wiener-Damen-Concert-Orchester",
+        "lokal_namn": "Fenix",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64273-1-2-66",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "21.04.08",
+        "konsert_namn": "Str\u00e5korkester kaffe-aftonkonsert",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "OK\u00c4NT",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Halld\u00e9n, Bj\u00f6rn",
+        "custom_id": "dark-64273-1-2-67",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "21.04.08",
+        "konsert_namn": "Dagliga Middags- och Aftonkonserter",
+        "lokal_namn": "Restaurant Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "BSauiknpellet KBiltltOMlka",
+        "custom_id": "dark-64273-1-2-68",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "21.04.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "L\u00e4tes Restaurangen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64273-1-2-69",
+        "url": "https://tidningar.kb.se/6qjmcpqj4gb4mvv"
+    },
+    {
+        "konsert_datum": "25.06.08",
+        "konsert_namn": "Konsert med violinisten S. Kjellstr\u00f6m",
+        "lokal_namn": "Delsbo kyrkvallar",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64324-1-6-70",
+        "url": "https://tidningar.kb.se/zh9d4gk958z2q01"
+    },
+    {
+        "konsert_datum": "06.04.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Sveasalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64286-1-2-73",
+        "url": "https://tidningar.kb.se/n603t57056n2wvj"
+    },
+    {
+        "konsert_datum": "10.04.08",
+        "konsert_namn": "Noria Avani-Carreras konsert",
+        "lokal_namn": "Vetenskapsakademiens lokaler",
+        "konsert_biljettpris": "2kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Abr Landquist",
+        "custom_id": "dark-64286-1-2-74",
+        "url": "https://tidningar.kb.se/n603t57056n2wvj"
+    },
+    {
+        "konsert_datum": "23.09.08",
+        "konsert_namn": "Hyska Konstn\u00e4rska Pellets Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- Afton-Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64651-1-2-1",
+        "url": "https://tidningar.kb.se/2ldh7k3d16wg24t"
+    },
+    {
+        "konsert_datum": "23.09.08",
+        "konsert_namn": "Middags-Aftonkonsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "Kjelldsen, Georg",
+        "custom_id": "dark-64651-1-2-2",
+        "url": "https://tidningar.kb.se/2ldh7k3d16wg24t"
+    },
+    {
+        "konsert_datum": "23.09.08",
+        "konsert_namn": "UNKNOWN",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "Baumert, Direkt\u00f6r \u00c5",
+        "custom_id": "dark-64651-1-2-3",
+        "url": "https://tidningar.kb.se/2ldh7k3d16wg24t"
+    },
+    {
+        "konsert_datum": "16.09.08",
+        "konsert_namn": "Maria Avani Carreras pianokonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Pianokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64633-1-7-5",
+        "url": "https://tidningar.kb.se/fzrvlxfr0fwnkv9"
+    },
+    {
+        "konsert_datum": "21.09.08",
+        "konsert_namn": "Dr. Ludvig Wiillneirs konsert",
+        "lokal_namn": "Musikaliska akademien",
+        "konsert_biljettpris": "OK\u00c4ND",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Wiillneir, Ludvig",
+        "custom_id": "dark-64633-1-7-6",
+        "url": "https://tidningar.kb.se/fzrvlxfr0fwnkv9"
+    },
+    {
+        "konsert_datum": "23.09.08",
+        "konsert_namn": "Legende i 5 delar - Brahms Deutsch Volkslieder",
+        "lokal_namn": "Abr Lundqvists hofmusikhandel",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "L\u00f6we Gregor",
+        "custom_id": "dark-64633-1-7-7",
+        "url": "https://tidningar.kb.se/fzrvlxfr0fwnkv9"
+    },
+    {
+        "konsert_datum": "25.09.08",
+        "konsert_namn": "Milddags-Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64650-1-2-10",
+        "url": "https://tidningar.kb.se/1kcg6j2c3z2slvh"
+    },
+    {
+        "konsert_datum": "25.09.08",
+        "konsert_namn": "Dagliga morgon- och aftonkonsert av 6 damer",
+        "lokal_namn": "Restaurant Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64650-1-2-11",
+        "url": "https://tidningar.kb.se/1kcg6j2c3z2slvh"
+    },
+    {
+        "konsert_datum": "10.10.08",
+        "konsert_namn": "Ok\u00e4nd",
+        "lokal_namn": "Ok\u00e4nd",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Ok\u00e4nd",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64650-1-2-12",
+        "url": "https://tidningar.kb.se/1kcg6j2c3z2slvh"
+    },
+    {
+        "konsert_datum": "06.10.08",
+        "konsert_namn": "Kathleen Parlow konsert",
+        "lokal_namn": "Musikaliska akademins stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64650-1-7-13",
+        "url": "https://tidningar.kb.se/1kcg6j2c3z2slvh"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "Baumert, A.",
+        "custom_id": "dark-64660-1-2-14",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell Kaffe- Aftonkonsert",
+        "lokal_namn": "Restaurang Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- Aftonkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64660-1-2-15",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "Georgi Wintilescu konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64660-1-2-16",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "\u00f6siways ESaumans Stapeii konsert",
+        "lokal_namn": "Hamburger B\u00f6rs",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Middags- och Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64660-1-2-17",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "Caffe- o Aftonkonsert",
+        "lokal_namn": "Stora Hotel Svea",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och Aftonkonsert",
+        "Producer": "Mossesson, R.",
+        "custom_id": "dark-64660-1-2-18",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "29.09.08",
+        "konsert_namn": "Daglig Middags- och Aftonkonsert av 6 damer",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblerkonsert",
+        "Producer": "Sestaurant Tattersall",
+        "custom_id": "dark-64660-1-2-19",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Kathleen Mas konsert",
+        "lokal_namn": "Herr Abr Lundqnists Hem",
+        "konsert_biljettpris": "3:59kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64660-1-2-20",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_lista": [
+            {
+                "konsert_datum": "29.09.08",
+                "konsert_namn": "Kathleen Parlov konsert",
+                "lokal_namn": "Musikaliska akademiens stora sal",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Solokonsert",
+                "producer": "UNKNOWN"
+            },
+            {
+                "konsert_datum": "08.10.08",
+                "konsert_namn": "Aino Ackt\u00e9s konsert",
+                "lokal_namn": "Musikaliska akademiens",
+                "konsert_biljettpris": "UNKNOWN",
+                "konserttyp_namn": "Konsert",
+                "producer": "UNKNOWN"
+            }
+        ],
+        "custom_id": "dark-64660-1-5-21",
+        "url": "https://tidningar.kb.se/cwpsjvdp4575w4q"
+    },
+    {
+        "konsert_datum": "30.09.08",
+        "konsert_namn": "Afskeds-Konsert af Gelleriska Sfp\u00e5korkestern",
+        "lokal_namn": "Berns Salonger",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Gelleriska Sfp\u00e5korkestern",
+        "custom_id": "dark-64666-1-2-22",
+        "url": "https://tidningar.kb.se/k3w0q2lw23j1ngc"
+    },
+    {
+        "konsert_datum": "30.09.08",
+        "konsert_namn": "Konsert af Direkt\u00f6r A. Baumert",
+        "lokal_namn": "Svea Dagligen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Baumert, A.",
+        "custom_id": "dark-64666-1-2-23",
+        "url": "https://tidningar.kb.se/k3w0q2lw23j1ngc"
+    },
+    {
+        "konsert_datum": "30.09.08",
+        "konsert_namn": "Kalle Halld\u00e9ns Str\u00e5liliapells aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Kalle",
+        "custom_id": "dark-64666-1-2-24",
+        "url": "https://tidningar.kb.se/k3w0q2lw23j1ngc"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Lin\u00e9a Ackt\u00e9s konsert",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "5kr, 4kr, 3kr, 2kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Ok\u00e4nt",
+        "custom_id": "dark-64666-1-2-25",
+        "url": "https://tidningar.kb.se/k3w0q2lw23j1ngc"
+    },
+    {
+        "konsert_datum": "30.09.08",
+        "konsert_namn": "Kalle och Aftonkonsert",
+        "lokal_namn": "Hotell Fenix",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kalle och Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64666-1-2-26",
+        "url": "https://tidningar.kb.se/k3w0q2lw23j1ngc"
+    },
+    {
+        "konsert_datum": "19.09.08",
+        "konsert_namn": "Typografiska F\u00f6reningens S\u00e5ngk\u00f6r konsert",
+        "lokal_namn": "MoseMe terrass",
+        "konsert_biljettpris": "6kr",
+        "konserttyp_namn": "K\u00f6rkonsert",
+        "Producer": "Typografiska F\u00f6reningen",
+        "custom_id": "dark-64673-1-2-27",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "19.09.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5bkapell konsert",
+        "lokal_namn": "Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64673-1-2-28",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "20.09.08",
+        "konsert_namn": "Rytmiska koraler, Str\u00e4ngaspel, Ringlekar, Folkdansar med Nerg\u00e5rdslasse",
+        "lokal_namn": "H\u00f6gdalens Idunshallen och Sagaliden",
+        "konsert_biljettpris": "0.50kr",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "Hamburger ilrs",
+        "custom_id": "dark-64673-1-2-29",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "19.09.08",
+        "konsert_namn": "Baumert Stor Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64673-1-2-30",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "20.09.08",
+        "konsert_namn": "Folk-Honsert",
+        "lokal_namn": "Thomas Hall\u00e9n Lindblad Valentin Sj\u00f6gren Folkvisor",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64673-1-2-31",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "22.09.08",
+        "konsert_namn": "EBit-KaneUet R MQ &ESS Caffe- o Aftonkonsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Caffe- o Aftonkonsert",
+        "Producer": "Petersen, Otto",
+        "custom_id": "dark-64673-1-2-32",
+        "url": "https://tidningar.kb.se/sb47z9v45gdbw94"
+    },
+    {
+        "konsert_datum": "08.08.08",
+        "konsert_namn": "Matinkonsert p\u00e5 Dalar\u00f6 Hotell",
+        "lokal_namn": "Dalar\u00f6 Hotell",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Matinkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63701-1-3-33",
+        "url": "https://tidningar.kb.se/zh9d4fv93n8d8ll"
+    },
+    {
+        "konsert_datum": "05.08.08",
+        "konsert_namn": "Sommarfluga",
+        "lokal_namn": "NORDISKA MUSEET",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63701-1-3-34",
+        "url": "https://tidningar.kb.se/zh9d4fv93n8d8ll"
+    },
+    {
+        "konsert_datum": "09.08.08",
+        "konsert_namn": "Ok\u00e4nt",
+        "lokal_namn": "Vaxholms kyrka",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ok\u00e4nt",
+        "Producer": "Ok\u00e4nt",
+        "custom_id": "dark-63701-1-3-35",
+        "url": "https://tidningar.kb.se/zh9d4fv93n8d8ll"
+    },
+    {
+        "konsert_datum": "08.08.08",
+        "konsert_namn": "Herman Peckings Solistkapell daglig middags- och aftonkonsert",
+        "lokal_namn": "Djurg\u00e5rdsbrunns V\u00e4rdshus",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Peckings, Herman",
+        "custom_id": "dark-63701-1-3-36",
+        "url": "https://tidningar.kb.se/zh9d4fv93n8d8ll"
+    },
+    {
+        "konsert_arrangoer": "Wullner, Andra",
+        "konsert_datum": "30.09.08",
+        "konsert_namn": "Menzinsky afskedskonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Afskedskonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64664-1-7-37",
+        "url": "https://tidningar.kb.se/h1txn0jt42whcq3"
+    },
+    {
+        "konsert_datum": "19.09.08",
+        "konsert_namn": "Illumination och KONSERT",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Gentzel, C A",
+        "custom_id": "dark-64657-1-3-38",
+        "url": "https://tidningar.kb.se/8slpfr9l4wgvwqr"
+    },
+    {
+        "konsert_datum": "07.09.08",
+        "konsert_namn": "Daglig Middags- och Aftonkonsert",
+        "lokal_namn": "Restaurant Tattersall",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64657-1-3-39",
+        "url": "https://tidningar.kb.se/8slpfr9l4wgvwqr"
+    },
+    {
+        "konsert_datum": "18.09.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell kaffekonsert",
+        "lokal_namn": "Reslfluranl METROPOL",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64657-1-3-40",
+        "url": "https://tidningar.kb.se/8slpfr9l4wgvwqr"
+    },
+    {
+        "konsert_datum": "18.09.08",
+        "konsert_namn": "WPfks original tonservaringsapparater Ensamf\u00f6rs\u00e4ljaro",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ok\u00e4nd",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64657-1-3-41",
+        "url": "https://tidningar.kb.se/8slpfr9l4wgvwqr"
+    },
+    {
+        "konsert_datum": "03.07.08",
+        "konsert_namn": "Konsert-Direktion i Eduard Gellin presentiarer",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "Gellin, Eduard",
+        "custom_id": "dark-63674-1-6-42",
+        "url": "https://tidningar.kb.se/2ldh7jxd4fjvkrm"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "UNKNOWN",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63674-1-6-43",
+        "url": "https://tidningar.kb.se/2ldh7jxd4fjvkrm"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Emil Sj\u00f6gren-konsert",
+        "lokal_namn": "Paris",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64656-1-5-44",
+        "url": "https://tidningar.kb.se/7rkndq8k1kphn0g"
+    },
+    {
+        "konsert_datum": "06.08.08",
+        "konsert_namn": "Tyska bl\u00e5fackor",
+        "lokal_namn": "Hasselbacken",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63712-1-5-45",
+        "url": "https://tidningar.kb.se/bvnrhs7n4vkkh04"
+    },
+    {
+        "konsert_datum": "06.08.08",
+        "konsert_namn": "Folkkonserterna vid Svea Artilleriregementes musikk\u00e5r",
+        "lokal_namn": "Hvitabergs parkanl\u00e4ggning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63712-1-5-46",
+        "url": "https://tidningar.kb.se/bvnrhs7n4vkkh04"
+    },
+    {
+        "konsert_datum": "15.09.08",
+        "konsert_namn": "Ok\u00e4nd",
+        "lokal_namn": "Herr Abr Lundqnists Musikhandel",
+        "konsert_biljettpris": "3:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Ok\u00e4nd",
+        "Producer": "Lundqnist, Abr",
+        "custom_id": "dark-64646-1-2-47",
+        "url": "https://tidningar.kb.se/wf7b2dx7074lc4z"
+    },
+    {
+        "konsert_datum": "10.09.08",
+        "konsert_namn": "El\u00e9t-ManelSei Modess Caffe- o Aftonkonsert",
+        "lokal_namn": "Motel 3en",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64646-1-2-48",
+        "url": "https://tidningar.kb.se/wf7b2dx7074lc4z"
+    },
+    {
+        "konsert_datum": "10.09.08",
+        "konsert_namn": "Kaffe-Si Aftonkonsert",
+        "lokal_namn": "HosebocKe Terrass",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64646-1-2-49",
+        "url": "https://tidningar.kb.se/wf7b2dx7074lc4z"
+    },
+    {
+        "konsert_datum": "08.07.08",
+        "konsert_namn": "Stockholms Allm\u00e4nna S\u00e5ngf\u00f6rening och Kungl. G\u00f6ta Lifgardes Musikk\u00e5r",
+        "lokal_namn": "Hasselbacken",
+        "konsert_biljettpris": "60 \u00f6re",
+        "konserttyp_namn": "K\u00f6r- och Milit\u00e4rmusik",
+        "Producer": "Corelius, Emil",
+        "custom_id": "dark-63660-1-2-50",
+        "url": "https://tidningar.kb.se/5phlbmth0qj1qx0"
+    },
+    {
+        "konsert_datum": "08.07.08",
+        "konsert_namn": "Russiskes Orkester konsert",
+        "lokal_namn": "Mosebacke Terass",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "H\u00f6gberg, E",
+        "custom_id": "dark-63660-1-2-51",
+        "url": "https://tidningar.kb.se/5phlbmth0qj1qx0"
+    },
+    {
+        "konsert_datum": "Fr\u00e5n 02.07.08",
+        "konsert_namn": "Middags- och Aftonkonsert med Dam-Solistensemblet 'Perlt\u00e9o'",
+        "lokal_namn": "Turist- och Idrottsutst\u00e4llningen 'Enast\u00e5ende sk\u00f6nhet'",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-63660-1-2-52",
+        "url": "https://tidningar.kb.se/5phlbmth0qj1qx0"
+    },
+    {
+        "konsert_datum": "15.09.08",
+        "konsert_namn": "Ok\u00e4nt",
+        "lokal_namn": "Herr Abr Lundqnists Ho musikliandel",
+        "konsert_biljettpris": "2:50kr, 2kr, 1:60kr",
+        "konserttyp_namn": "Ok\u00e4nt",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64635-1-2-54",
+        "url": "https://tidningar.kb.se/j2vzp1jv296gfrj"
+    },
+    {
+        "konsert_datum": "08.09.08",
+        "konsert_namn": "Halls Halld\u00e9ns Str\u00e5kkapell aftonkonsert",
+        "lokal_namn": "Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halls Halld\u00e9n",
+        "custom_id": "dark-64635-1-2-55",
+        "url": "https://tidningar.kb.se/j2vzp1jv296gfrj"
+    },
+    {
+        "konsert_datum": "08.09.08",
+        "konsert_namn": "Schwarzmans Orkesters aftonkonsert",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Schwarzmanoff, UNKNOWN",
+        "custom_id": "dark-64635-1-2-56",
+        "url": "https://tidningar.kb.se/j2vzp1jv296gfrj"
+    },
+    {
+        "konsert_datum": "08.09.08",
+        "konsert_namn": "Senix Dagligen Caffe- o Aftonkonsert",
+        "lokal_namn": "ZBit-KapeSBot",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64635-1-2-57",
+        "url": "https://tidningar.kb.se/j2vzp1jv296gfrj"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Djurg\u00e5rdsbrunns V\u00e4rdshus Midags- och Aftonkonsert",
+        "lokal_namn": "Djurg\u00e5rdsbrunns V\u00e4rdshus",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64630-1-2-58",
+        "url": "https://tidningar.kb.se/cwpsjvcp5qp24q1"
+    },
+    {
+        "konsert_datum": "12.09.08",
+        "konsert_namn": "Unknown",
+        "lokal_namn": "Unknown",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Unknown",
+        "Producer": "Holierkorn, Math",
+        "custom_id": "dark-64630-1-2-59",
+        "url": "https://tidningar.kb.se/cwpsjvcp5qp24q1"
+    },
+    {
+        "konsert_datum": "13.09.08",
+        "konsert_namn": "Folk-Konsert",
+        "lokal_namn": "Musikinstitutet",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Folkkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64630-1-2-60",
+        "url": "https://tidningar.kb.se/cwpsjvcp5qp24q1"
+    },
+    {
+        "konsert_datum": "12.09.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell kaffekonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffekonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64630-1-2-61",
+        "url": "https://tidningar.kb.se/cwpsjvcp5qp24q1"
+    },
+    {
+        "konsert_datum": "15.09.08",
+        "konsert_namn": "Ok\u00e4nt",
+        "lokal_namn": "Herr Abr Lundquists Hofmusikhandel",
+        "konsert_biljettpris": "3kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Ok\u00e4nt",
+        "Producer": "Lundquist, Abr",
+        "custom_id": "dark-64630-1-2-62",
+        "url": "https://tidningar.kb.se/cwpsjvcp5qp24q1"
+    },
+    {
+        "konsert_datum": "01.01.09",
+        "konsert_namn": "Skotska Damorkestern Mac Gregor konsert",
+        "lokal_namn": "Mosebacke Restaurant",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "PROSCHOWSKY, R.",
+        "custom_id": "dark-64729-1-2-2",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "31.12.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell aftonkonsert",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64729-1-2-3",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "31.12.08",
+        "konsert_namn": "Caffe- o Aftonkonsert",
+        "lokal_namn": "Hamburger B\u00f6rs",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe- och aftonkonsert",
+        "Producer": "Italienska Solistkapellet ROMA",
+        "custom_id": "dark-64729-1-2-4",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "01.01.08",
+        "konsert_namn": "Holl\u00e4ndska Damorkestern afskedskonsert",
+        "lokal_namn": "Blanchs Caf\u00e9",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64729-1-2-5",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "01.01.08",
+        "konsert_namn": "Ny\u00e5rs-Vaka",
+        "lokal_namn": "Nordiska Museet, Lejonlitten",
+        "konsert_biljettpris": "0.50kr f\u00f6r intr\u00e4de, 1kr f\u00f6r barn",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "Ok\u00e4nd",
+        "custom_id": "dark-64729-1-2-6",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "31.12.08",
+        "konsert_namn": "WGT KONSERT",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64729-1-2-7",
+        "url": "https://tidningar.kb.se/zh9d4g395nb8g62"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Andra Symfonikonserten",
+        "lokal_namn": "Konserthus Teatern",
+        "konsert_biljettpris": "Ok\u00e4nt",
+        "konserttyp_namn": "Symfonikonsert",
+        "Producer": "Ok\u00e4nt",
+        "custom_id": "dark-64738-1-2-8",
+        "url": "https://tidningar.kb.se/8slpfrdl3hcnbrh"
+    },
+    {
+        "konsert_datum": "20.12.08",
+        "konsert_namn": "Konsert till f\u00f6rm\u00e5n f\u00f6r fattiga barns bekl\u00e4dnad",
+        "lokal_namn": "Fransta kyrka",
+        "konsert_biljettpris": "1kr",
+        "konserttyp_namn": "V\u00e4lg\u00f6renhetskonsert",
+        "Producer": "Malmberg, Nils",
+        "custom_id": "dark-64738-1-2-9",
+        "url": "https://tidningar.kb.se/8slpfrdl3hcnbrh"
+    },
+    {
+        "konsert_datum": "18.12.08",
+        "konsert_namn": "Daglig Middags- och Aftonkonsert",
+        "lokal_namn": "Tattersail",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64738-1-2-10",
+        "url": "https://tidningar.kb.se/8slpfrdl3hcnbrh"
+    },
+    {
+        "konsert_datum": "18.12.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64738-1-2-11",
+        "url": "https://tidningar.kb.se/8slpfrdl3hcnbrh"
+    },
+    {
+        "konsert_datum": "18.10.08",
+        "konsert_namn": "Rytmiska koraler konsert",
+        "lokal_namn": "H\u00f6gloltet, Bragehallon, Balderslunden",
+        "konsert_biljettpris": "50 \u00f6re, Barn (intill 12 \u00e5r) fri entr\u00e9, Barn (intill 3 \u00e5r) fri entr\u00e9",
+        "konserttyp_namn": "Koralkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64692-1-2-13",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "17.10.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64692-1-2-14",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "17.10.08",
+        "konsert_namn": "Hamburger B\u00f6rs lunch- och aftonkonsert",
+        "lokal_namn": "Hamburger B\u00f6rs",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Lunch- och aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64692-1-2-15",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "17.10.08",
+        "konsert_namn": "Caffe- o Aftonkonsert",
+        "lokal_namn": "Hotell Se\u00f1or",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Marianne Tanterl, Damkapellet",
+        "custom_id": "dark-64692-1-2-16",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "17.10.08",
+        "konsert_namn": "Teatersoup\u00e9er Elegant Festv\u00e5ning Konsert",
+        "lokal_namn": "Matsalen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64692-1-2-17",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "17.10.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell kaffeaftonkonsert",
+        "lokal_namn": "Restaurang HETROPOL",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64692-1-2-18",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "22.10.08",
+        "konsert_namn": "Alexander Heinemanns 3:e Konsert",
+        "lokal_namn": "Herr Abr Lundqnists Hofinn",
+        "konsert_biljettpris": "3kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64692-1-2-19",
+        "url": "https://tidningar.kb.se/fzrvlxhr5gtknnm"
+    },
+    {
+        "konsert_datum": "07.10.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen Stor Konsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64652-1-2-20",
+        "url": "https://tidningar.kb.se/3mfj8l4f1hv4tkf"
+    },
+    {
+        "konsert_datum": "07.10.08",
+        "konsert_namn": "Kaffe-Aftonkonsert",
+        "lokal_namn": "Festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusikkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64652-1-2-21",
+        "url": "https://tidningar.kb.se/3mfj8l4f1hv4tkf"
+    },
+    {
+        "konsert_datum": "07.10.08",
+        "konsert_namn": "M\u00e4ddags- Aftonkonsert",
+        "lokal_namn": "ftestaurwt ftosenbaS",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64652-1-2-22",
+        "url": "https://tidningar.kb.se/3mfj8l4f1hv4tkf"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Aino Ackt\u00e9 konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64652-1-2-23",
+        "url": "https://tidningar.kb.se/3mfj8l4f1hv4tkf"
+    },
+    {
+        "konsert_datum": "09.10.08",
+        "konsert_namn": "Alexander Heinemanns konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "Heinemann, Alexander",
+        "program": [
+            {
+                "piece": "Schubert - Der Lindenbaum",
+                "composer": "Franz Schubert"
+            },
+            {
+                "piece": "Litanei auf das Fest Allerseelen",
+                "composer": "Franz Schubert"
+            },
+            {
+                "piece": "Salomo, Meine Braut",
+                "composer": "Hermann"
+            },
+            {
+                "piece": "Der alte Herr",
+                "composer": "UNKNOWN"
+            },
+            {
+                "piece": "S\u00fcderhof",
+                "composer": "Brahms"
+            },
+            {
+                "piece": "Schw\u00f6sterlein, St\u00e4ndchen",
+                "composer": "Brahms"
+            },
+            {
+                "piece": "Vergebliches St\u00e4ndchen",
+                "composer": "Brahms"
+            },
+            {
+                "piece": "Der arme Peter",
+                "composer": "Robert Schumann"
+            },
+            {
+                "piece": "Du bist wie eine Blume",
+                "composer": "Robert Schumann"
+            },
+            {
+                "piece": "Die beiden Grenadiere",
+                "composer": "UNKNOWN"
+            }
+        ],
+        "custom_id": "dark-64652-1-7-25",
+        "url": "https://tidningar.kb.se/3mfj8l4f1hv4tkf"
+    },
+    {
+        "konsert_datum": "27.12.08",
+        "konsert_namn": "Offentligt f\u00f6redrag av Katherine Tingley",
+        "lokal_namn": "Universella Broderskapet och Teosofiska Samfundet, Centrum N :r 1, Nybrogatan 50",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "F\u00f6redrag",
+        "Producer": "Tingley, Katherine",
+        "custom_id": "dark-64739-1-2-26",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "25.12.08",
+        "konsert_namn": "Middagskonsert av Rum\u00e4niska Kapellet \u00bbCarmen Sylva\u00bb",
+        "lokal_namn": "Berns Salonger",
+        "konsert_biljettpris": "1kr, 76\u00f6re, 60\u00f6re",
+        "konserttyp_namn": "Orkesterkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64739-1-2-27",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "24.12.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64739-1-2-28",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "24.12.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell aftonkonsert",
+        "lokal_namn": "Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64739-1-2-29",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "24.12.08",
+        "konsert_namn": "IPU Julkonsert med engagerat solist-elitkapell",
+        "lokal_namn": "Vintertr\u00e4dg\u00e5rden",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64739-1-2-30",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "24.12.08",
+        "konsert_namn": "Italienska Solistkapellet ROMA Caffe- o Aftonkonsert",
+        "lokal_namn": "Dagligen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kapellkonsert",
+        "Producer": "Senix, Moiel",
+        "custom_id": "dark-64739-1-2-31",
+        "url": "https://tidningar.kb.se/9tmqgsfm5hfdt55"
+    },
+    {
+        "konsert_datum": "14.11.08",
+        "konsert_namn": "Lundbergs Familje-Soir\u00e9e",
+        "lokal_namn": "Vetenskapsakademien",
+        "konsert_biljettpris": "1kr, 75\u00f6re, 50\u00f6re",
+        "konserttyp_namn": "Familjekonsert",
+        "Producer": "Lundberg, Familjen",
+        "custom_id": "dark-64696-1-2-33",
+        "url": "https://tidningar.kb.se/k3w0q2mw5c9mt58"
+    },
+    {
+        "konsert_datum": "20.11.08",
+        "konsert_namn": "Konsert med Kammarmusikus Fritzohns orkester",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "2kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Kammarmusik",
+        "Producer": "Fritzohn",
+        "custom_id": "dark-64696-1-2-34",
+        "url": "https://tidningar.kb.se/k3w0q2mw5c9mt58"
+    },
+    {
+        "konsert_datum": "06.10.08",
+        "konsert_namn": "Middags- Aftonkonsert",
+        "lokal_namn": "Hamburger B\u00f6rs",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64658-1-2-35",
+        "url": "https://tidningar.kb.se/9tmqgsbm3q8sc3c"
+    },
+    {
+        "konsert_datum": "09.10.08",
+        "konsert_namn": "Konsert med Alexander Meliksenian",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "3kr, 2kr, 1.50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Italienska Solistkapellet RGsfi\u00c4",
+        "custom_id": "dark-64658-1-2-36",
+        "url": "https://tidningar.kb.se/9tmqgsbm3q8sc3c"
+    },
+    {
+        "konsert_datum": "06.10.08",
+        "konsert_namn": "Wiener-Konsert-ensemiblen",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64658-1-2-37",
+        "url": "https://tidningar.kb.se/9tmqgsbm3q8sc3c"
+    },
+    {
+        "konsert_datum": "06.10.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell kaffekonsert",
+        "lokal_namn": "Metropol",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffekonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64658-1-2-38",
+        "url": "https://tidningar.kb.se/9tmqgsbm3q8sc3c"
+    },
+    {
+        "konsert_datum": "06.10.08",
+        "konsert_namn": "Middags- och Aftonkonsert",
+        "lokal_namn": "Restaurant Tossebana",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Middags- och Aftonkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64658-1-2-39",
+        "url": "https://tidningar.kb.se/9tmqgsbm3q8sc3c"
+    },
+    {
+        "konsert_datum": "20.02.08",
+        "konsert_namn": "Teresa Carenos konsert",
+        "lokal_namn": "Musikaliska akademiens lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64701-1-7-41",
+        "url": "https://tidningar.kb.se/q825w7t22xxslhb"
+    },
+    {
+        "konsert_datum": "03.10.08",
+        "konsert_namn": "Middags-Aftonkonsert",
+        "lokal_namn": "Restaurang Rosenbad",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64661-1-2-42",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "03.10.08",
+        "konsert_namn": "Carmen Sylva",
+        "lokal_namn": "Ok\u00e4nt",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Daglig konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64661-1-2-43",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "03.10.08",
+        "konsert_namn": "Stor Konsert",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Baumert, A.",
+        "custom_id": "dark-64661-1-2-44",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "03.10.08",
+        "konsert_namn": "Caffe- o Aftonkonsert av Italienska Solistkapellet ROMA",
+        "lokal_namn": "Hotell Se\u00f1or",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Italienska Solistkapellet ROMA",
+        "custom_id": "dark-64661-1-2-46",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "03.10.08",
+        "konsert_namn": "Kathleen Peloos konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "8kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64661-1-2-47",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Rio Ackt\u00e9 konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "6kr, 6kr, 4kr, 3kr, 2kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64661-1-2-48",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "09.10.08",
+        "konsert_namn": "Alexander Heinemann konsert",
+        "lokal_namn": "Hofmusikhandel Mahntorgsgat 8",
+        "konsert_biljettpris": "3kr, 2kr, 1kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Heinemann, Alexander",
+        "custom_id": "dark-64661-1-2-49",
+        "url": "https://tidningar.kb.se/dxqtkwfq10n4s2x"
+    },
+    {
+        "konsert_datum": "04.10.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen Stor Konsert",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Trautmann, Karl",
+        "custom_id": "dark-64671-1-2-50",
+        "url": "https://tidningar.kb.se/q825w7s20508p7p"
+    },
+    {
+        "konsert_datum": "16.10.08",
+        "konsert_namn": "Konsert i Matsalen",
+        "lokal_namn": "Elegant Festv\u00e5ning",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64671-1-2-51",
+        "url": "https://tidningar.kb.se/q825w7s20508p7p"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5Ukapell kaffestr\u00e5konsert",
+        "lokal_namn": "ResHrit METROPOL",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffe-str\u00e5konsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64671-1-2-52",
+        "url": "https://tidningar.kb.se/q825w7s20508p7p"
+    },
+    {
+        "konsert_datum": "16.10.08",
+        "konsert_namn": "Ungerska Kapellets middags- och aftonkonsert",
+        "lokal_namn": "Cetd Rydberg",
+        "konsert_biljettpris": "1:60kr, 2:60kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64671-1-2-53",
+        "url": "https://tidningar.kb.se/q825w7s20508p7p"
+    },
+    {
+        "konsert_datum": "16.10.08",
+        "konsert_namn": "H\u00f6stfest",
+        "lokal_namn": "Gr\u00f6na Lunds Tivoli",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Festival",
+        "Producer": "Typografiska F\u00f6reningen",
+        "custom_id": "dark-64671-1-2-54",
+        "url": "https://tidningar.kb.se/q825w7s20508p7p"
+    },
+    {
+        "konsert_datum": "21.02.08",
+        "konsert_namn": "Vivien Cliartrcs afskedskonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "2:50 kr, 2 kr, 1:50 kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Gellin, Eduard",
+        "custom_id": "dark-64677-1-7-56",
+        "url": "https://tidningar.kb.se/xg8c3f0859vlnmc"
+    },
+    {
+        "konsert_datum": "23.11.08",
+        "konsert_namn": "Konsert-Direktion i Eduard Gellin | i 2-\u00e5riga engelska violinisten | Vivien Cliartrcs | popul\u00e4r -4 Afskeds-Konsert",
+        "lokal_namn": "Musikaliska akademiens stora sal",
+        "konsert_biljettpris": "5:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Gellin, Eduard",
+        "custom_id": "dark-64718-1-7-57",
+        "url": "https://tidningar.kb.se/9tmqgsdm4hp7x3b"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Sven Kjellstr\u00f6m och Alfred Roth konsert",
+        "lokal_namn": "Kungliga Musikaliska Akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64683-1-7-59",
+        "url": "https://tidningar.kb.se/4ngk9m6g5nnlzx3"
+    },
+    {
+        "konsert_datum": "16.11.08",
+        "konsert_namn": "Wiener-Konsert-ensemblen",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "KAHL TllAUTMANN",
+        "custom_id": "dark-64716-1-2-60",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "19.11.08",
+        "konsert_namn": "Hymn Crusell, V\u00e5gen Laurin, Ur Havamal Nor\u00e9n, Du sofver Svea folk K J Ekman, Solen i v\u00e5gen sig s\u00e4nkte A J\u00e4rnefelt, Sommarfrid i Sofelid I Wid\u00e9en, En Engel har r\u00f6rt ved din Fd Lange-M\u00fcller",
+        "lokal_namn": "Vasakyrkans lokal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64716-1-2-61",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "16.11.08",
+        "konsert_namn": "En S\u00e5ngers B\u00f6n",
+        "lokal_namn": "K F U M:s sekretariat",
+        "konsert_biljettpris": "1kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64716-1-2-62",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "16.11.08",
+        "konsert_namn": "Middags-Aftonkonsert",
+        "lokal_namn": "Festv\u00e5ningapme",
+        "konsert_biljettpris": "1:60kr, 2:10kr",
+        "konserttyp_namn": "Aftonkonsert",
+        "Producer": "Rydberg, \u00f6td",
+        "custom_id": "dark-64716-1-2-63",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "19.11.08",
+        "konsert_namn": "Carin Gillberg konsert",
+        "lokal_namn": "Kungliga musikaliska akademiens orgelsal",
+        "konsert_biljettpris": "2kr",
+        "konserttyp_namn": "Orgelkonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64716-1-2-64",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "16.11.08",
+        "konsert_namn": "Svensk konsert",
+        "lokal_namn": "M\u00fcnchens konservatorium",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "F\u00f6reningen f\u00f6r svensk konsert",
+        "organisat\u00f6r": "Concertf\u00f6reningen i Stockholm",
+        "custom_id": "dark-64716-1-7-65",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "UNKNOWN",
+        "konsert_namn": "Tennist\u00e4vlingar i Uppsala",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Sportevenemang/Tennist\u00e4vling",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64716-1-7-66",
+        "url": "https://tidningar.kb.se/7rkndqbk0s9dqk5"
+    },
+    {
+        "konsert_datum": "18.10.08",
+        "konsert_namn": "Kathleen Parlow popular concert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Popul\u00e4r konsert",
+        "Producer": "Parlow, Kathleen",
+        "custom_id": "dark-64662-1-5-67",
+        "url": "https://tidningar.kb.se/fzrvlxgr233k9fx"
+    },
+    {
+        "konsert_datum": "16.10.08",
+        "konsert_namn": "Typografiska F\u00f6reningens konsert",
+        "lokal_namn": "Gr\u00f6na Lunds Tivoli",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "F\u00f6reningsevenemang",
+        "Producer": "Typografiska F\u00f6reningens",
+        "custom_id": "dark-64676-1-2-68",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "13.10.08",
+        "konsert_namn": "Wiener-Konsert-ensemblea",
+        "lokal_namn": "Svea-Salen",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Terzmann, BiarB",
+        "custom_id": "dark-64676-1-2-69",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "14.10.08",
+        "konsert_namn": "Kathleen Par-Bows 2dra solokonsert",
+        "lokal_namn": "Kungliga musikaliska akademiens stora sal",
+        "konsert_biljettpris": "3kr, 2:50kr, 2kr, 1:50kr",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "Malld\u00e9n, Nalia",
+        "custom_id": "dark-64676-1-2-70",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "13.10.08",
+        "konsert_namn": "Ryska konstn\u00e4rskapellet konsert",
+        "lokal_namn": "H\u00e5dhusrestauranten",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "Dramatiska Teatern",
+        "custom_id": "dark-64676-1-2-71",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "13.10.08",
+        "konsert_namn": "Middags- och aftonkonsert av Damkapellet Marianne Tanterl",
+        "lokal_namn": "Hamburger K\u00f6rs",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Marianne Tanterl",
+        "custom_id": "dark-64676-1-2-72",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "13.10.08",
+        "konsert_namn": "Italienska Solistkapellet ROMA Caffe- o Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Ensemblekonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64676-1-2-73",
+        "url": "https://tidningar.kb.se/wf7b2dz72q89gqj"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Sfer Konsert",
+        "lokal_namn": "Wieiuer-Bossert-engerablott",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "UNKNOWN",
+        "Producer": "Fautzmann, KstrE Yrautmamn",
+        "custom_id": "dark-64820-1-2-74",
+        "url": "https://tidningar.kb.se/0jbf5h7b38grdtr"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "Nalle Halld\u00e9ns Str\u00e5kkapell aftonkonsert",
+        "lokal_namn": "Marai METROPOL",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Kaffekonsert",
+        "Producer": "Halld\u00e9n, Nalle",
+        "custom_id": "dark-64820-1-2-75",
+        "url": "https://tidningar.kb.se/0jbf5h7b38grdtr"
+    },
+    {
+        "konsert_datum": "08.10.08",
+        "konsert_namn": "M\u00f6tet Senix Caffe- o Aftonkonsert",
+        "lokal_namn": "UNKNOWN",
+        "konsert_biljettpris": "UNKNOWN",
+        "konserttyp_namn": "Solokonsert",
+        "Producer": "UNKNOWN",
+        "custom_id": "dark-64820-1-2-76",
+        "url": "https://tidningar.kb.se/0jbf5h7b38grdtr"
+    },
+    {
+        "konsert_datum": "09.10.08",
+        "konsert_namn": "Fru Lina Coen s\u00e4llskapsg\u00e4stkonsert",
+        "lokal_namn": "Vetenskapsakademiens h\u00f6rsal",
+        "konsert_biljettpris": "3kr, 2kr, 2kr, 1:50kr",
+        "konserttyp_namn": "S\u00e4llskapskonsert",
+        "Producer": "Heinemann, Alexander",
+        "custom_id": "dark-64820-1-2-77",
+        "url": "https://tidningar.kb.se/0jbf5h7b38grdtr"
+    },
+    {
+        "konsert_datum": "15.10.08",
+        "konsert_namn": "Carlo Erici konsert",
+        "lokal_namn": "Herr Ahr Lundqnists Hofmusikhandel",
+        "konsert_biljettpris": "3kr, 2kr, 1.60kr",
+        "konserttyp_namn": "Konsert",
+        "Producer": "Erici, Carlo",
+        "custom_id": "dark-64820-1-2-78",
+        "url": "https://tidningar.kb.se/0jbf5h7b38grdtr"
+    }
+]
