@@ -17,7 +17,7 @@ This project provides a set of tools for extracting, processing, and analyzing h
 ## Getting Started
 1. Clone this repository
 2. Install required dependencies (see `requirements.txt`)
-3. Set up API keys for KB and OpenAI
+3. Set up API keys for OpenAI
 4. Adjust search parameters in `KBDownloader.py` for your specific research needs
 5. Run the extraction and processing scripts
 6. Analyze the output data using your preferred tools
