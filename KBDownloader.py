@@ -4,9 +4,6 @@ import pandas as pd
 import json
 from bs4 import BeautifulSoup as bs
 import time
-import backoff
-from urllib.parse import quote_plus
-
 """
 Function to fetch and process data from Swedish newspapers.
 
@@ -36,32 +33,25 @@ result = fetch_newspaper_data(
 print(result)
 """
 
-
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
     base_url = 'https://data.kb.se/search'
-    
-    # Properly encode the query string
-    encoded_query = quote_plus(query)
-    
     params = {
         'to': to_date,
         'from': from_date,
         'isPartOf.@id': collection_id,
-        'q': encoded_query,
+        'q': query,
         'searchGranularity': 'part'
     }
-    
     headers = {'Accept': 'application/json'}
-    
     response = requests.get(base_url, params=params, headers=headers)
-    response.raise_for_status()  # This will raise an HTTPError for bad responses
-    
-    try:
-        return response.json()
-    except ValueError:
-        raise ValueError('Invalid JSON response')
-
+    if response.status_code == 200:
+        try:
+            return response.json()
+        except ValueError:
+            return {'error': 'Invalid JSON response'}
+    else:
+        return {'error': response.status_code, 'message': response.text}
 
 # Function to extract URLs from the result
 def extract_urls(result):
@@ -210,12 +200,6 @@ class Page:
             )
             return content
         return None
-def get_config_value(config, key, default_value):
-    value = config.get(key, default_value)
-    if isinstance(default_value, str) and not isinstance(value, str):
-        # If we expect a string but got something else, use the default
-        return default_value
-    return value
 
 # Main function
 def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, output_filepath):
