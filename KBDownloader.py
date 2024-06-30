@@ -4,46 +4,16 @@ import pandas as pd
 import json
 from bs4 import BeautifulSoup as bs
 import time
-import backoff
+import sqlite3
 from urllib.parse import quote_plus
-
-"""
-Function to fetch and process data from Swedish newspapers.
-
-Parameters:
-- query (str): The search query to be used.
-- from_date (str): The start date for the search in 'YYYY-MM-DD' format.
-- to_date (str): The end date for the search in 'YYYY-MM-DD' format.
-- newspaper (str): The name of the newspaper to search in. Valid options are:
-  'Dagens nyheter', 'Svenska Dagbladet', 'Aftonbladet', 'Dagligt Allehanda'.
-- prompt_filepath (str): The file path to the LLM prompt configuration file.
-- output_filepath (str): The base file path for the output files (without extension).
-
-Returns:
-- dict: A dictionary containing the result of the operation with keys:
-  'success' (bool): Indicates if the operation was successful.
-  'message' (str): Describes the result of the operation or any error encountered.
-
-Example usage:
-result = fetch_newspaper_data(
-    query='Kungliga musikaliska akademien',
-    from_date='1908-10-01',
-    to_date='1908-12-31',
-    newspaper='Svenska Dagbladet',
-    prompt_filepath='oldtimey_touringbot_prompt_for_deployment.txt',
-    output_filepath='extracted_data'
-)
-print(result)
-"""
-
+import yaml
+from datetime import datetime
+import os
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
     base_url = 'https://data.kb.se/search'
-    
-    # Properly encode the query string
     encoded_query = quote_plus(query)
-    
     params = {
         'to': to_date,
         'from': from_date,
@@ -51,23 +21,19 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query):
         'q': encoded_query,
         'searchGranularity': 'part'
     }
-    
     headers = {'Accept': 'application/json'}
-    
     response = requests.get(base_url, params=params, headers=headers)
-    response.raise_for_status()  # This will raise an HTTPError for bad responses
-    
+    response.raise_for_status()
     try:
         return response.json()
     except ValueError:
         raise ValueError('Invalid JSON response')
 
-
 # Function to extract URLs from the result
 def extract_urls(result):
     base_url = 'https://data.kb.se'
     details = []
-    for hit in result['hits']:
+    for hit in result.get('hits', []):
         part_number = hit.get('part')
         page_number = hit.get('page')
         page_id = hit.get('@id')
@@ -93,41 +59,32 @@ def extract_xml_urls(api_response, page_ids):
     return xml_urls
 
 # Function to fetch XML content
-def fetch_xml_content(xml_urls, max_retries=10, initial_delay=5):
+def fetch_xml_content(xml_urls, max_retries=5, initial_delay=5):
     xml_content_by_page = {}
-    
     for page_number, url in xml_urls.items():
         retries = 0
         delay = initial_delay
-        
         while retries < max_retries:
             try:
                 response = requests.get(url)
-                
                 if response.status_code == 200:
                     xml_content_by_page[page_number] = response.content
                     break
                 else:
                     print(f"Failed to fetch XML content from {url}. Status code: {response.status_code}")
-                    
-                    # If status code indicates rate limiting, wait before retrying
                     if response.status_code == 429:
                         retries += 1
                         print(f"Rate limited. Retrying in {delay} seconds...")
                         time.sleep(delay)
-                        delay *= 2  # Exponential backoff
+                        delay *= 2
                     else:
-                        # For other status codes, break the retry loop
                         break
-            
             except requests.exceptions.RequestException as e:
-                # Handle other possible exceptions such as network errors
                 print(f"Exception occurred while fetching {url}: {e}")
                 retries += 1
                 print(f"Retrying in {delay} seconds...")
                 time.sleep(delay)
-                delay *= 2  # Exponential backoff
-    
+                delay *= 2
     return xml_content_by_page
 
 # Function to read system message from a file
@@ -140,24 +97,28 @@ def read_system_message(filepath, newspaper_date="date not known"):
         return "You are a helpful assistant."
 
 # Function to convert a DataFrame row to JSON
-def row_to_json(row, prompt_filepath, counter):
+def row_to_json(row, config, counter):
     counter += 1
     date = row['Date']
-    system_message_content = read_system_message(prompt_filepath, date)
+    system_message_content = read_system_message(config['prompt_filepath'], date)
     system_message = {"role": "system", "content": system_message_content}
     user_content_parts = [str(row[col]) for col in row.index if col not in ['System Content', 'Package ID', 'Date', 'Part', 'Page']]
     user_message = {"role": "user", "content": " ".join(user_content_parts)}
     custom_id = f"{row['Package ID']}-{row['Part']}-{row['Page']}-{counter}"
-    return {
+    return json.dumps({
         "custom_id": custom_id,
         "method": "POST",
         "url": "/v1/chat/completions",
         "body": {
-            "model": "gpt-3.5-turbo-0125",
+            "model": config['llm_model'],  # Use the model from the config
             "messages": [system_message, user_message],
-            "max_tokens": 1000
+            "max_tokens": config['max_tokens']  # Use the max_tokens from the config
         }
-    }
+    })
+
+# Function to save DataFrame to SQL database
+def save_to_database(df, db_conn, table_name):
+    df.to_sql(table_name, db_conn, if_exists='append', index=False)
 
 class Page:
     def __init__(self, xml_path=None, xml_content=None) -> None:
@@ -212,7 +173,7 @@ class Page:
         return None
 
 # Main function
-def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, output_filepath):
+def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, db_path):
     counter = 0
     newspaper_dict = {
         'Dagens nyheter': 'https://libris.kb.se/m5z2w4lz3m2zxpk#it',
@@ -250,6 +211,8 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, 
                     df['Package ID'] = info['package_id']
                     df['Part'] = info['part_number']
                     df['Page'] = page_number
+                    df['Raw API Result'] = df.apply(lambda row: json.dumps(api_response), axis=1)
+                    df['Full Prompt'] = df.apply(lambda row: row_to_json(row, config, counter), axis=1)  # Pass the config
                     all_data_frames.append(df)
         else:
             print(f"Failed to fetch data from {url}. Status code: {response.status_code}")
@@ -258,11 +221,11 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, 
         final_df = pd.concat(all_data_frames, ignore_index=True)
         final_df = final_df.drop_duplicates(subset=["ComposedBlock Content"])
         if not final_df.empty:
-            final_df.to_excel(f"{output_filepath}.xlsx", index=False)
-            with open(f"{output_filepath}.jsonl", 'w', encoding='utf-8') as jsonl_file:
-                for _, row in final_df.iterrows():
-                    json_row = row_to_json(row, prompt_filepath, counter)
-                    jsonl_file.write(json.dumps(json_row) + '\n')
+            conn = sqlite3.connect(db_path)
+            try:
+                save_to_database(final_df, conn, 'newspaper_data')
+            finally:
+                conn.close()
             return {"success": True, "message": "Data processing and export completed successfully."}
         else:
             return {"success": False, "message": "No data to export after aggregation."}

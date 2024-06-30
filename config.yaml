@@ -1,5 +1,5 @@
 # File path to Venue list. this is essentially the search terms that will be iteratively inputted into KB
-venue_list: '/Users/brandonfarnsworth/Library/Mobile Documents/com~apple~CloudDocs/Post-Phd/Published Texts/Method Article Collecting Trace Data using LLM/Lokal_Datablad_Original.xlsx'
+venue_list: 'Datasets/test_lokalerna.xlsx'
 
 # Data fetching parameters
 start_year: 1908
@@ -18,3 +18,12 @@ newspaper: 'Svenska Dagbladet'
 max_retries: 10
 max_retry_time: 300
 
+# Prompt file path
+prompt_filepath: 'oldtimey_touringbot_prompt_for_deployment.txt'
+
+# Database path
+db_path: 'Datasets/newspaper_data.db'
+
+# LLM settings
+llm_model: 'gpt-3.5-turbo-0125'
+max_tokens: 1000
