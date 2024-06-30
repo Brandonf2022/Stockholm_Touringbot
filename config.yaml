@@ -1,30 +1,10 @@
-# File path to Venue list. this is essentially the search terms that will be iteratively inputted into KB
-venue_list: 'Datasets/test_lokalerna.xlsx'
+# config.yaml
 
-# Data fetching parameters
-start_year: 1908
-years_to_crawl: 1
-
-# Valid newspaper options
-valid_newspapers:
-'Dagens nyheter': 'https://libris.kb.se/m5z2w4lz3m2zxpk#it',
-'Svenska Dagbladet': 'https://libris.kb.se/2ldhmx8d4mcrlq9#it',
-'Aftonbladet': 'https://libris.kb.se/dwpgqn5q03ft91j#it',
-'Dagligt Allehanda': 'https://libris.kb.se/9tmqzv3m32xfzcz#it'
-  
-
-newspaper: 'Svenska Dagbladet'
-
-# API settings
-max_retries: 10
-max_retry_time: 300
-
-# Prompt file path
-prompt_filepath: 'oldtimey_touringbot_prompt_for_deployment.txt'
-
-# Database path
-db_path: 'Datasets/newspaper_data.db'
-
-# LLM settings
-llm_model: 'gpt-3.5-turbo-0125'
-max_tokens: 1000
+venue_list: 'Datasets/test_lokalerna.xlsx'  # Path to the Excel file with the venue list
+start_year: 1908  # Start year for crawling
+years_to_crawl: 1  # Number of years to crawl
+newspaper: 'Dagens nyheter'  # Newspaper to crawl
+prompt_filepath: 'oldtimey_touringbot_prompt_for_deployment.txt'  # Path to the prompt file
+db_path: 'Datasets/30.06.test.db'  # Path to the SQLite database file
+llm_model: 'gpt-3.5-turbo'  # LLM model name
+max_tokens: 1000  # Maximum number of tokens for the API call
