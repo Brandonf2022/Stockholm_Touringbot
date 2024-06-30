@@ -1,6 +1,6 @@
 # config.yaml
 
-venue_list: 'Datasets/test_lokalerna.xlsx'  # Path to the Excel file with the venue list
+venue_list: 'Datasets/test_lokalerna.xlsx'  # Path to the Excel file with the venue list. This is the 'query'
 start_year: 1908  # Start year for crawling
 years_to_crawl: 1  # Number of years to crawl
 newspaper: 'Dagens nyheter'  # Newspaper to crawl
