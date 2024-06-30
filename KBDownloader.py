@@ -5,6 +5,7 @@ import json
 from bs4 import BeautifulSoup as bs
 import time
 import backoff
+from urllib.parse import quote_plus
 
 """
 Function to fetch and process data from Swedish newspapers.
@@ -35,17 +36,22 @@ result = fetch_newspaper_data(
 print(result)
 """
 
-# Function to search Swedish newspapers
 
+# Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
     base_url = 'https://data.kb.se/search'
+    
+    # Properly encode the query string
+    encoded_query = quote_plus(query)
+    
     params = {
         'to': to_date,
         'from': from_date,
         'isPartOf.@id': collection_id,
-        'q': query,
+        'q': encoded_query,
         'searchGranularity': 'part'
     }
+    
     headers = {'Accept': 'application/json'}
     
     response = requests.get(base_url, params=params, headers=headers)
@@ -55,6 +61,7 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query):
         return response.json()
     except ValueError:
         raise ValueError('Invalid JSON response')
+
 
 # Function to extract URLs from the result
 def extract_urls(result):
