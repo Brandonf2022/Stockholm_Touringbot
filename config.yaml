@@ -7,10 +7,11 @@ years_to_crawl: 1
 
 # Valid newspaper options
 valid_newspapers:
-  - 'Dagens nyheter'
-  - 'Svenska Dagbladet'
-  - 'Aftonbladet'
-  - 'Dagligt Allehanda'
+'Dagens nyheter': 'https://libris.kb.se/m5z2w4lz3m2zxpk#it',
+'Svenska Dagbladet': 'https://libris.kb.se/2ldhmx8d4mcrlq9#it',
+'Aftonbladet': 'https://libris.kb.se/dwpgqn5q03ft91j#it',
+'Dagligt Allehanda': 'https://libris.kb.se/9tmqzv3m32xfzcz#it'
+  
 
 newspaper: 'Svenska Dagbladet'
 

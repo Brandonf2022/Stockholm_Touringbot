@@ -210,6 +210,12 @@ class Page:
             )
             return content
         return None
+def get_config_value(config, key, default_value):
+    value = config.get(key, default_value)
+    if isinstance(default_value, str) and not isinstance(value, str):
+        # If we expect a string but got something else, use the default
+        return default_value
+    return value
 
 # Main function
 def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, output_filepath):
