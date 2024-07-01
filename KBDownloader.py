@@ -9,6 +9,7 @@ from urllib.parse import quote_plus
 import yaml
 from datetime import datetime
 import os
+import pickle
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
@@ -96,14 +97,17 @@ def read_system_message(filepath, newspaper_date="date not known"):
     except FileNotFoundError:
         return "You are a helpful assistant."
 
-# Function to convert a DataFrame row to JSON
+# Function to convert a DataFrame row to JSON and create LLM prompt
 def row_to_json(row, config, counter):
     counter += 1
     date = row['Date']
     system_message_content = read_system_message(config['prompt_filepath'], date)
     system_message = {"role": "system", "content": system_message_content}
-    user_content_parts = [str(row[col]) for col in row.index if col not in ['System Content', 'Package ID', 'Date', 'Part', 'Page']]
+    
+    # Include the composed block content in the user message
+    user_content_parts = [str(row['ComposedBlock Content'])]
     user_message = {"role": "user", "content": " ".join(user_content_parts)}
+    
     custom_id = f"{row['Package ID']}-{row['Part']}-{row['Page']}-{counter}"
     return json.dumps({
         "custom_id": custom_id,
@@ -172,8 +176,24 @@ class Page:
             return content
         return None
 
+# Checkpoint functions
+
+# Function to save checkpoint
+def save_checkpoint(year, half, index):
+    checkpoint = {'year': year, 'half': half, 'index': index}
+    with open('checkpoint.pkl', 'wb') as f:
+        pickle.dump(checkpoint, f)
+
+# Function to load checkpoint
+def load_checkpoint():
+    if os.path.exists('checkpoint.pkl'):
+        with open('checkpoint.pkl', 'rb') as f:
+            return pickle.load(f)
+    return None
+
+
 # Main function
-def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, db_path):
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
     counter = 0
     newspaper_dict = {
         'Dagens nyheter': 'https://libris.kb.se/m5z2w4lz3m2zxpk#it',
@@ -211,8 +231,8 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, 
                     df['Package ID'] = info['package_id']
                     df['Part'] = info['part_number']
                     df['Page'] = page_number
-                    df['Raw API Result'] = df.apply(lambda row: json.dumps(api_response), axis=1)
-                    df['Full Prompt'] = df.apply(lambda row: row_to_json(row, config, counter), axis=1)  # Pass the config
+                    df['Raw API Result'] = json.dumps(api_response)  # This can be a single string
+                    df['Full Prompt'] = df.apply(lambda row: row_to_json(row, config, counter), axis=1)
                     all_data_frames.append(df)
         else:
             print(f"Failed to fetch data from {url}. Status code: {response.status_code}")
@@ -230,4 +250,4 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, prompt_filepath, 
         else:
             return {"success": False, "message": "No data to export after aggregation."}
     else:
-        return {"success": False, "message": "No data to export. The list of data frames is empty."}
+        return {"success": False, "message": "No data to export. The list of data frames is empty. This should be because there are no results for this period"}
