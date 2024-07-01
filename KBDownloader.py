@@ -105,10 +105,10 @@ def row_to_json(row, config, counter):
     system_message = {"role": "system", "content": system_message_content}
     
     # Include the composed block content in the user message
-    user_content_parts = [str(row['ComposedBlock Content'])]
+    user_content_parts = [str(row['[ComposedBlock Content]'])]
     user_message = {"role": "user", "content": " ".join(user_content_parts)}
     
-    custom_id = f"{row['Package ID']}-{row['Part']}-{row['Page']}-{counter}"
+    custom_id = f"{row['[Package ID]']}-{row['Part']}-{row['Page']}-{counter}"
     return json.dumps({
         "custom_id": custom_id,
         "method": "POST",
@@ -181,14 +181,24 @@ class Page:
 # Function to save checkpoint
 def save_checkpoint(year, half, index):
     checkpoint = {'year': year, 'half': half, 'index': index}
-    with open('checkpoint.pkl', 'wb') as f:
-        pickle.dump(checkpoint, f)
+    try:
+        with open('checkpoint.pkl', 'wb') as f:
+            pickle.dump(checkpoint, f)
+        print(f"Checkpoint saved: Year {year}, Half {half}, Index {index}")
+    except Exception as e:
+        print(f"Failed to save checkpoint: {str(e)}")
 
 # Function to load checkpoint
 def load_checkpoint():
     if os.path.exists('checkpoint.pkl'):
-        with open('checkpoint.pkl', 'rb') as f:
-            return pickle.load(f)
+        try:
+            with open('checkpoint.pkl', 'rb') as f:
+                return pickle.load(f)
+        except (EOFError, pickle.UnpicklingError):
+            print("Checkpoint file is corrupted or empty. Starting from the beginning.")
+            os.remove('checkpoint.pkl')  # Remove the corrupted file
+        except Exception as e:
+            print(f"An error occurred while loading the checkpoint: {str(e)}")
     return None
 
 
@@ -210,8 +220,24 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
         return {"error": result['error'], "message": result.get('message', 'Unknown error')}
 
     detailed_info = extract_urls(result)
-    all_data_frames = []
     page_ids = [info['page_id'] for info in detailed_info]
+
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    
+    # Create table if it doesn't exist
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS newspaper_data (
+        Date TEXT,
+        [Package ID] TEXT,
+        Part TEXT,
+        Page INTEGER,
+        [ComposedBlock Content] TEXT,
+        [Raw API Result] TEXT,
+        [Full Prompt] TEXT
+    )
+    ''')
+    total_rows_saved = 0
 
     for info in detailed_info:
         url = info['url']
@@ -226,28 +252,35 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                 date = page.extract_date()
                 matching_composed_blocks = list(page.composed_block_from_keyword(query))
                 if matching_composed_blocks:
-                    df = pd.DataFrame(matching_composed_blocks, columns=["ComposedBlock Content"])
-                    df['Date'] = date
-                    df['Package ID'] = info['package_id']
-                    df['Part'] = info['part_number']
-                    df['Page'] = page_number
-                    df['Raw API Result'] = json.dumps(api_response)  # This can be a single string
-                    df['Full Prompt'] = df.apply(lambda row: row_to_json(row, config, counter), axis=1)
-                    all_data_frames.append(df)
+                    for block in matching_composed_blocks:
+                        counter += 1
+                        custom_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{counter}"
+                        full_prompt = row_to_json({
+                            'Date': date,
+                            '[Package ID]': info['package_id'],
+                            'Part': info['part_number'],
+                            'Page': page_number,
+                            '[ComposedBlock Content]': block,
+                            '[Raw API Result]': json.dumps(api_response)
+                        }, config, counter)
+
+                        cursor.execute('''
+                        INSERT INTO newspaper_data 
+                        (Date, [Package ID], Part, Page, [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        ''', (date, info['package_id'], info['part_number'], page_number, block, 
+                            json.dumps(api_response), full_prompt))
+                        
+                        total_rows_saved += 1
+
+            conn.commit()
         else:
             print(f"Failed to fetch data from {url}. Status code: {response.status_code}")
 
-    if all_data_frames:
-        final_df = pd.concat(all_data_frames, ignore_index=True)
-        final_df = final_df.drop_duplicates(subset=["ComposedBlock Content"])
-        if not final_df.empty:
-            conn = sqlite3.connect(db_path)
-            try:
-                save_to_database(final_df, conn, 'newspaper_data')
-            finally:
-                conn.close()
-            return {"success": True, "message": "Data processing and export completed successfully."}
-        else:
-            return {"success": False, "message": "No data to export after aggregation."}
+    conn.close()
+
+    if total_rows_saved > 0:
+        return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
     else:
-        return {"success": False, "message": "No data to export. The list of data frames is empty. This should be because there are no results for this period"}
+        return {"success": False, "message": "No data to save. This may be because there are no results for this period."}
+
