@@ -99,24 +99,25 @@ def read_system_message(filepath, newspaper_date="date not known"):
 
 # Function to convert a DataFrame row to JSON and create LLM prompt
 def row_to_json(row, config, counter):
-    counter += 1
     date = row['Date']
     system_message_content = read_system_message(config['prompt_filepath'], date)
     system_message = {"role": "system", "content": system_message_content}
     
-    # Include the composed block content in the user message
-    user_content_parts = [str(row['[ComposedBlock Content]'])]
-    user_message = {"role": "user", "content": " ".join(user_content_parts)}
+    # Construct the user message from the ComposedBlock Content
+    user_content = str(row['[ComposedBlock Content]'])
+    user_message = {"role": "user", "content": user_content}
     
+    # Construct a unique custom_id
     custom_id = f"{row['[Package ID]']}-{row['Part']}-{row['Page']}-{counter}"
+    
     return json.dumps({
         "custom_id": custom_id,
         "method": "POST",
         "url": "/v1/chat/completions",
         "body": {
-            "model": config['llm_model'],  # Use the model from the config
+            "model": config['llm_model'],
             "messages": [system_message, user_message],
-            "max_tokens": config['max_tokens']  # Use the max_tokens from the config
+            "max_tokens": config['max_tokens']
         }
     })
 
@@ -201,86 +202,183 @@ def load_checkpoint():
             print(f"An error occurred while loading the checkpoint: {str(e)}")
     return None
 
+import sqlite3
+import json
 
-# Main function
-def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
-    counter = 0
-    newspaper_dict = {
-        'Dagens nyheter': 'https://libris.kb.se/m5z2w4lz3m2zxpk#it',
-        'Svenska Dagbladet': 'https://libris.kb.se/2ldhmx8d4mcrlq9#it',
-        'Aftonbladet': 'https://libris.kb.se/dwpgqn5q03ft91j#it',
-        'Dagligt Allehanda': 'https://libris.kb.se/9tmqzv3m32xfzcz#it'
-    }
-    collection_id = newspaper_dict.get(newspaper)
-    if not collection_id:
-        return {"error": "Invalid newspaper name provided"}
-
-    result = search_swedish_newspapers(to_date, from_date, collection_id, query)
-    if 'error' in result:
-        return {"error": result['error'], "message": result.get('message', 'Unknown error')}
-
-    detailed_info = extract_urls(result)
-    page_ids = [info['page_id'] for info in detailed_info]
-
+# New function to process and save data
+def process_and_save_data(xml_content_by_page, info, query, config, db_path):
+    # Establish database connection
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    
-    # Create table if it doesn't exist
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS newspaper_data (
-        Date TEXT,
-        [Package ID] TEXT,
-        Part TEXT,
-        Page INTEGER,
-        [ComposedBlock Content] TEXT,
-        [Raw API Result] TEXT,
-        [Full Prompt] TEXT
-    )
-    ''')
-    total_rows_saved = 0
 
-    for info in detailed_info:
-        url = info['url']
-        response = requests.get(url, headers={'Accept': 'application/json'})
-        if response.status_code == 200:
-            api_response = response.json()
-            xml_urls = extract_xml_urls(api_response, page_ids)
-            xml_content_by_page = fetch_xml_content(xml_urls)
-            for page_number, xml_content in xml_content_by_page.items():
-                xml_string = xml_content.decode('utf-8')
-                page = Page(xml_content=xml_string)
-                date = page.extract_date()
-                matching_composed_blocks = list(page.composed_block_from_keyword(query))
-                if matching_composed_blocks:
-                    for block in matching_composed_blocks:
-                        counter += 1
-                        custom_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{counter}"
-                        full_prompt = row_to_json({
-                            'Date': date,
-                            '[Package ID]': info['package_id'],
-                            'Part': info['part_number'],
-                            'Page': page_number,
-                            '[ComposedBlock Content]': block,
-                            '[Raw API Result]': json.dumps(api_response)
-                        }, config, counter)
+    # Create a dictionary to hold combined results
+    combined_results = {}
 
-                        cursor.execute('''
-                        INSERT INTO newspaper_data 
-                        (Date, [Package ID], Part, Page, [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                        ''', (date, info['package_id'], info['part_number'], page_number, block, 
-                            json.dumps(api_response), full_prompt))
-                        
-                        total_rows_saved += 1
+    # Process each page's content and aggregate results
+    for page_number, xml_content in xml_content_by_page.items():
+        xml_string = xml_content.decode('utf-8')
+        page = Page(xml_content=xml_string)
+        date = page.extract_date()
+        matching_composed_blocks = list(page.composed_block_from_keyword(query))
 
-            conn.commit()
-        else:
-            print(f"Failed to fetch data from {url}. Status code: {response.status_code}")
+        # Aggregate matches in a dictionary
+        for block in matching_composed_blocks:
+            key = f"{info['package_id']}-{info['part_number']}-{page_number}"
+            if key not in combined_results:
+                combined_results[key] = {
+                    'Date': date,
+                    'Package ID': info['package_id'],
+                    'Part': info['part_number'],
+                    'Page': page_number,
+                    'ComposedBlock Content': [],
+                    'Raw API Result': json.dumps(xml_content_by_page)
+                }
+            combined_results[key]['ComposedBlock Content'].append(block)
 
+    # Insert aggregated results into the database
+    for key, value in combined_results.items():
+        full_prompt = row_to_json(value, config)
+        cursor.execute('''
+            INSERT INTO newspaper_data
+            (Date, [Package ID], Part, Page, [ComposedBlock Content], [Raw API Result], [Full Prompt])
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (value['Date'], value['Package ID'], value['Part'], value['Page'], 
+              json.dumps(value['ComposedBlock Content']), value['Raw API Result'], full_prompt))
+
+    # Commit changes and close connection
+    conn.commit()
     conn.close()
 
-    if total_rows_saved > 0:
-        return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
-    else:
-        return {"success": False, "message": "No data to save. This may be because there are no results for this period."}
+    return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
+# Function to fetch and process data from URLs
+import logging
+from contextlib import closing
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
+    collection_id = newspaper
+    total_rows_saved = 0
+
+    logging.info(f"Starting fetch_newspaper_data for query: {query}, dates: {from_date} to {to_date}")
+
+    try:
+        search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
+        logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
+    except requests.HTTPError as e:
+        logging.error(f"Failed to fetch search results: {e}")
+        return {"success": False, "message": f"Failed to fetch search results: {e}"}
+
+    urls = extract_urls(search_results)
+    logging.info(f"Extracted {len(urls)} URLs from search results")
+    
+    with closing(sqlite3.connect(db_path)) as conn:
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS newspaper_data (
+                Date TEXT,
+                [Package ID] TEXT,
+                Part TEXT,
+                Page INTEGER,
+                [ComposedBlock ID] TEXT,
+                [ComposedBlock Content] TEXT,
+                [Raw API Result] TEXT,
+                [Full Prompt] TEXT,
+                PRIMARY KEY ([Package ID], Part, Page, [ComposedBlock ID])
+            )
+        ''')
+        conn.commit()
+        logging.info("Table 'newspaper_data' created or already exists")
+        
+        for info in urls:
+            url = info['url']
+            page_id = info['page_id']
+
+            logging.info(f"Processing URL: {url}")
+
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                api_response = response.json()
+
+                xml_urls = extract_xml_urls(api_response, [page_id])
+                logging.info(f"Extracted {len(xml_urls)} XML URLs")
+
+                xml_content_by_page = fetch_xml_content(xml_urls)
+                logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
+
+                for page_number, xml_content in xml_content_by_page.items():
+                    xml_string = xml_content.decode('utf-8')
+                    soup = bs(xml_string, features="xml")
+                    date = extract_date(soup)
+
+                    composed_blocks = soup.find_all("ComposedBlock")
+                    for composed_block in composed_blocks:
+                        composed_block_id = composed_block.get('ID')
+                        matching_content = extract_matching_content(composed_block, query)
+                        
+                        if matching_content:
+                            aggregated_content = "\n\n".join(matching_content)
+                            
+                            row_data = {
+                                'Date': date,
+                                '[Package ID]': info['package_id'],
+                                'Part': info['part_number'],
+                                'Page': page_number,
+                                '[ComposedBlock ID]': composed_block_id,
+                                '[ComposedBlock Content]': aggregated_content,
+                                '[Raw API Result]': json.dumps(api_response)
+                            }
+                            full_prompt = row_to_json(row_data, config, total_rows_saved)
+
+                            try:
+                                cursor.execute('''
+                                    INSERT OR REPLACE INTO newspaper_data 
+                                    (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
+                                    aggregated_content, json.dumps(api_response), full_prompt))
+                                
+                                total_rows_saved += 1
+                                logging.info(f"Inserted or updated row {total_rows_saved} in database")
+                            except sqlite3.Error as e:
+                                logging.error(f"Failed to insert or update row in database: {e}")
+
+                conn.commit()
+                logging.info(f"Committed changes for URL: {url}")
+
+            except requests.HTTPError as e:
+                logging.error(f"Failed to fetch data from {url}. Status code: {e.response.status_code}")
+                continue
+            except Exception as e:
+                logging.error(f"Unexpected error processing URL {url}: {str(e)}")
+                continue
+
+    logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
+    return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
+
+def extract_date(soup):
+    file_name_tag = soup.find("fileName")
+    if file_name_tag:
+        file_name = file_name_tag.get_text()
+        date_match = re.search(r'_(\d{8})_', file_name)
+        if date_match:
+            date_str = date_match.group(1)
+            return f"{date_str[0:4]}.{date_str[4:6]}.{date_str[6:8]}"
+    return None
+
+def extract_matching_content(composed_block, query):
+    matching_content = []
+    words = query.split()
+    pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
+    
+    for string in composed_block.find_all("String"):
+        if pattern.search(string.get('CONTENT', '')):
+            text_line = string.find_parent("TextLine")
+            if text_line:
+                line_content = " ".join(s.get('CONTENT', '') for s in text_line.find_all("String"))
+                matching_content.append(line_content)
+    
+    return matching_content
