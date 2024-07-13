@@ -154,28 +154,60 @@ class Page:
                 return formatted_date
         return None
 
-    def composed_block_from_keyword(self, keyword):
-        words = keyword.split()
-        pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
-        token = self.soup.find("String", attrs={"CONTENT": pattern})
-        if token:
-            yield self.token_to_composed_block(token)
-            while True:
-                token = token.find_next("String", attrs={"CONTENT": pattern})
-                if token is None:
-                    break
-                yield self.token_to_composed_block(token)
+    def paragraph_from_keyword(self, keyword):
+        token = self.soup.find("String", attrs={"CONTENT": keyword})
+        yield self.token_to_paragraph(token)
+        while (
+            token := token.find_next("String", attrs={"CONTENT": keyword})
+        ) is not None:
+            yield self.token_to_paragraph(token)
 
-    def token_to_composed_block(self, token):
-        composed_block = token.find_parent("ComposedBlock")
-        if composed_block:
-            text_lines = composed_block.find_all("TextLine")
-            content = "\n".join(
-                " ".join(string["CONTENT"] for string in text_line.find_all("String"))
-                for text_line in text_lines
-            )
-            return content
-        return None
+    def token_to_paragraph(self, token):
+        line_tags = token.parent.parent.find_all("TextLine")
+        leading_tokens = (line_tag.find("String") for line_tag in line_tags)
+        result = ""
+        for leading_token in leading_tokens:
+            sentence = self.token_to_sentence(leading_token)
+            result += f"{sentence}\n"
+        return result.strip()
+
+    def article_from_keyword(self, keyword):
+        # Split the keyword into individual words
+        keywords = keyword.split()
+        # Create a regex pattern that matches any of the words
+        pattern = re.compile(r'\b(' + '|'.join(re.escape(word) for word in keywords) + r')\b', re.IGNORECASE)
+        
+        tokens = self.soup.find_all("String", attrs={"CONTENT": pattern})
+        for token in tokens:
+            article = self.token_to_article(token)
+            if article:
+                yield article
+    
+    def token_to_article(self, token):
+        par_tags = token.parent.parent.parent.find_all("TextBlock")
+        leading_tokens = (line_tag.find("String") for line_tag in par_tags)
+        result = ""
+        for leading_token in leading_tokens:
+            paragraph = self.token_to_paragraph(leading_token)
+            result += f"{paragraph}\n\n"
+        return result.strip()
+
+    def token_to_paragraph(self, token):
+        if token is None:
+            return None
+        line_tags = token.find_parent("TextLine").find_next_siblings("TextLine")
+        leading_tokens = [line_tag.find("String") for line_tag in line_tags if line_tag.find("String")]
+        result = self.token_to_sentence(token) + "\n"
+        for leading_token in leading_tokens:
+            sentence = self.token_to_sentence(leading_token)
+            if sentence:
+                result += f"{sentence}\n"
+        return result.strip()
+
+    def token_to_sentence(self, token):
+        if token is None:
+            return None
+        return " ".join(s.get('CONTENT', '') for s in token.find_parent("TextLine").find_all("String"))
 
 # Checkpoint functions
 
@@ -308,19 +340,20 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
 
                 xml_content_by_page = fetch_xml_content(xml_urls)
                 logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
-
+                
                 for page_number, xml_content in xml_content_by_page.items():
                     xml_string = xml_content.decode('utf-8')
-                    soup = bs(xml_string, features="xml")
-                    date = extract_date(soup)
+                    page = Page(xml_content=xml_string)
+                    date = page.extract_date()
 
-                    composed_blocks = soup.find_all("ComposedBlock")
-                    for composed_block in composed_blocks:
-                        composed_block_id = composed_block.get('ID')
-                        matching_content = extract_matching_content(composed_block, query)
-                        
-                        if matching_content:
-                            aggregated_content = "\n\n".join(matching_content)
+                    articles = list(page.article_from_keyword(query))
+                    if not articles:
+                        logging.info(f"No matching content found for query '{query}' on page {page_number}")
+                        continue
+
+                    for article in articles:
+                        if article:
+                            composed_block_id = f"article_{total_rows_saved}"  # Generate a unique ID
                             
                             row_data = {
                                 'Date': date,
@@ -328,7 +361,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                                 'Part': info['part_number'],
                                 'Page': page_number,
                                 '[ComposedBlock ID]': composed_block_id,
-                                '[ComposedBlock Content]': aggregated_content,
+                                '[ComposedBlock Content]': article,
                                 '[Raw API Result]': json.dumps(api_response)
                             }
                             full_prompt = row_to_json(row_data, config, total_rows_saved)
@@ -339,10 +372,11 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                                     (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                                 ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
-                                    aggregated_content, json.dumps(api_response), full_prompt))
+                                    article, json.dumps(api_response), full_prompt))
                                 
                                 total_rows_saved += 1
                                 logging.info(f"Inserted or updated row {total_rows_saved} in database")
+                                logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
                             except sqlite3.Error as e:
                                 logging.error(f"Failed to insert or update row in database: {e}")
 
@@ -355,7 +389,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
             except Exception as e:
                 logging.error(f"Unexpected error processing URL {url}: {str(e)}")
                 continue
-
     logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
     return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
 
@@ -374,11 +407,16 @@ def extract_matching_content(composed_block, query):
     words = query.split()
     pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
     
-    for string in composed_block.find_all("String"):
-        if pattern.search(string.get('CONTENT', '')):
-            text_line = string.find_parent("TextLine")
-            if text_line:
-                line_content = " ".join(s.get('CONTENT', '') for s in text_line.find_all("String"))
-                matching_content.append(line_content)
+    for textblock in composed_block.find_all("TextBlock"):
+        textblock_content = []
+        for textline in textblock.find_all("TextLine"):
+            string_contents = [s.get('CONTENT', '') for s in textline.find_all("String")]
+            line_content = " ".join(string_contents)
+            textblock_content.append(line_content)
+            logging.debug(f"TextLine content: {line_content}")  # Debug log
+
+        if any(pattern.search(line) for line in textblock_content):
+            matching_content.extend(textblock_content)
+            logging.debug(f"Matching TextBlock content: {textblock_content}")  # Debug log
     
     return matching_content
