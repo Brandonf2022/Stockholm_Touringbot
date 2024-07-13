@@ -43,7 +43,12 @@ Author: Brandon Farnsworth
 Date: 01.07.2024
 
 """
-
+import sqlite3
+import json
+import logging
+import os
+from tqdm import tqdm
+from openai import OpenAI
 
 def create_db_tables(conn):
     cursor = conn.cursor()
@@ -179,7 +184,7 @@ def process_all_jsonl_files(directory_path, db_conn):
             logging.error(f"Error processing file {file_name}: {e}")
 
 ## new SQL functions below ##
-def process_all_prompts(conn):
+def process_all_prompts(conn, client):
     cursor = conn.cursor()
     try:
         # Fetch all prompts from the newspaper_data table
@@ -188,14 +193,15 @@ def process_all_prompts(conn):
         
         for row_id, prompt in tqdm(prompts, desc="Processing prompts"):
             try:
-                process_prompt(conn, row_id, prompt)
+                process_prompt(conn, client, row_id, prompt)
             except Exception as e:
                 logging.error(f"Error processing prompt with row_id {row_id}: {e}")
         
         logging.info(f"Processed {len(prompts)} prompts from the database.")
     except sqlite3.Error as e:
         logging.error(f"Database error while fetching prompts: {e}")
-def process_prompt(conn, row_id, prompt):
+
+def process_prompt(conn, client, row_id, prompt):
     try:
         data = json.loads(prompt)
         messages = data['body']['messages']
@@ -232,26 +238,52 @@ def process_prompt(conn, row_id, prompt):
     except Exception as e:
         logging.error(f"Error during API call for row_id {row_id}: {e}")
 
+
 def extract_and_store_event_data(cursor, custom_id, json_response):
     try:
-        event_data = json.loads(json_response)
-        cursor.execute('''
-            INSERT OR REPLACE INTO events 
-            (custom_id, konsert_datum, konsert_namn, lokal_namn, konserttyp_namn, producer)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (
-            custom_id,
-            event_data.get('konsert_datum', ''),
-            event_data.get('konsert_namn', ''),
-            event_data.get('lokal_namn', ''),
-            event_data.get('konserttyp_namn', ''),
-            event_data.get('Producer', '')
-        ))
+        # Parse the JSON response
+        response_data = json.loads(json_response)
+        
+        # Function to check if an item is a list of event-like dictionaries
+        def is_event_list(item):
+            return isinstance(item, list) and all(isinstance(event, dict) and 'konsert_datum' in event for event in item)
+
+        # Extract events
+        if isinstance(response_data, dict):
+            # Look for a list of events in any of the dictionary's values
+            for value in response_data.values():
+                if is_event_list(value):
+                    events = value
+                    break
+            else:  # If no list of events found, treat the whole dict as a single event
+                events = [response_data]
+        elif is_event_list(response_data):
+            events = response_data
+        else:
+            logging.error(f"Unexpected JSON structure for custom_id: {custom_id}")
+            return
+
+        # Process each event
+        for event in events:
+            cursor.execute('''
+                INSERT OR REPLACE INTO events 
+                (custom_id, konsert_datum, konsert_namn, lokal_namn, konserttyp_namn, producer)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (
+                custom_id,
+                event.get('konsert_datum', ''),
+                event.get('konsert_namn', ''),
+                event.get('lokal_namn', ''),
+                event.get('konserttyp_namn', ''),
+                event.get('Producer', '')
+            ))
+
+        logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
+
     except json.JSONDecodeError:
         logging.error(f"Error decoding JSON for custom_id: {custom_id}")
     except Exception as e:
         logging.error(f"Error storing event data for custom_id {custom_id}: {e}")
-
 
 
 def create_db_tables(conn):
@@ -272,13 +304,6 @@ def create_db_tables(conn):
             lokal_namn TEXT,
             konserttyp_namn TEXT,
             producer TEXT
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            prompt TEXT NOT NULL,
-            result TEXT
         )
     ''')
     conn.commit()
