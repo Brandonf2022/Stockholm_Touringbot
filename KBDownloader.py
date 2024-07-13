@@ -126,22 +126,14 @@ def save_to_database(df, db_conn, table_name):
     df.to_sql(table_name, db_conn, if_exists='append', index=False)
 
 class Page:
-    def __init__(self, xml_path=None, xml_content=None) -> None:
-        if xml_path is not None:
-            self.load_xml_path(xml_path)
-        elif xml_content is not None:
+    def __init__(self, xml_content=None) -> None:
+        if xml_content is not None:
             self.load_xml(xml_content)
         else:
-            raise ValueError("No xml path or content provided.")
-
-    def load_xml_path(self, path):
-        with open(path, "r", encoding="utf-8") as f:
-            xml = f.read()
-        self.load_xml(xml)
+            raise ValueError("No xml content provided.")
 
     def load_xml(self, xml):
-        soup = bs(xml, features="xml")
-        self.soup = soup
+        self.soup = bs(xml, features="xml")
 
     def extract_date(self):
         file_name_tag = self.soup.find("fileName")
@@ -154,28 +146,29 @@ class Page:
                 return formatted_date
         return None
 
-    def composed_block_from_keyword(self, keyword):
-        words = keyword.split()
+    def extract_matching_content(self, query):
+        matching_content = []
+        words = query.split()
         pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
-        token = self.soup.find("String", attrs={"CONTENT": pattern})
-        if token:
-            yield self.token_to_composed_block(token)
-            while True:
-                token = token.find_next("String", attrs={"CONTENT": pattern})
-                if token is None:
-                    break
-                yield self.token_to_composed_block(token)
+        
+        composed_blocks = self.soup.find_all("ComposedBlock")
+        for composed_block in composed_blocks:
+            if composed_block.find("String", attrs={"CONTENT": pattern}):
+                block_content = self.extract_composed_block_content(composed_block)
+                matching_content.append(block_content)
+        
+        return matching_content
 
-    def token_to_composed_block(self, token):
-        composed_block = token.find_parent("ComposedBlock")
-        if composed_block:
-            text_lines = composed_block.find_all("TextLine")
-            content = "\n".join(
-                " ".join(string["CONTENT"] for string in text_line.find_all("String"))
-                for text_line in text_lines
-            )
-            return content
-        return None
+    def extract_composed_block_content(self, composed_block):
+        content = []
+        text_blocks = composed_block.find_all("TextBlock")
+        for text_block in text_blocks:
+            text_lines = text_block.find_all("TextLine")
+            for text_line in text_lines:
+                line_content = " ".join(string["CONTENT"] for string in text_line.find_all("String") if "CONTENT" in string.attrs)
+                content.append(line_content)
+        return "\n".join(content)
+
 
 # Checkpoint functions
 
@@ -205,7 +198,7 @@ def load_checkpoint():
 import sqlite3
 import json
 
-# New function to process and save data
+# function to process and save data
 def process_and_save_data(xml_content_by_page, info, query, config, db_path):
     # Establish database connection
     conn = sqlite3.connect(db_path)
@@ -216,10 +209,8 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path):
 
     # Process each page's content and aggregate results
     for page_number, xml_content in xml_content_by_page.items():
-        xml_string = xml_content.decode('utf-8')
-        page = Page(xml_content=xml_string)
-        date = page.extract_date()
-        matching_composed_blocks = list(page.composed_block_from_keyword(query))
+        soup = bs(xml_content, 'xml')
+        matching_composed_blocks = extract_matching_content(soup, query)
 
         # Aggregate matches in a dictionary
         for block in matching_composed_blocks:
@@ -254,9 +245,6 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path):
 # Function to fetch and process data from URLs
 import logging
 from contextlib import closing
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
     collection_id = newspaper
     total_rows_saved = 0
@@ -310,41 +298,41 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                 logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
 
                 for page_number, xml_content in xml_content_by_page.items():
-                    xml_string = xml_content.decode('utf-8')
-                    soup = bs(xml_string, features="xml")
-                    date = extract_date(soup)
+                    page = Page(xml_content)
+                    date = page.extract_date()
 
-                    composed_blocks = soup.find_all("ComposedBlock")
-                    for composed_block in composed_blocks:
-                        composed_block_id = composed_block.get('ID')
-                        matching_content = extract_matching_content(composed_block, query)
+                    if date is None:
+                        logging.warning(f"Could not extract date for page {page_number}. Skipping this page.")
+                        continue
+
+                    matching_content = page.extract_matching_content(query)
+                    
+                    for index, block_content in enumerate(matching_content):
+                        composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{index}"
                         
-                        if matching_content:
-                            aggregated_content = "\n\n".join(matching_content)
-                            
-                            row_data = {
-                                'Date': date,
-                                '[Package ID]': info['package_id'],
-                                'Part': info['part_number'],
-                                'Page': page_number,
-                                '[ComposedBlock ID]': composed_block_id,
-                                '[ComposedBlock Content]': aggregated_content,
-                                '[Raw API Result]': json.dumps(api_response)
-                            }
-                            full_prompt = row_to_json(row_data, config, total_rows_saved)
+                        row_data = {
+                            'Date': date,
+                            '[Package ID]': info['package_id'],
+                            'Part': info['part_number'],
+                            'Page': page_number,
+                            '[ComposedBlock ID]': composed_block_id,
+                            '[ComposedBlock Content]': block_content,
+                            '[Raw API Result]': json.dumps(api_response)
+                        }
+                        full_prompt = row_to_json(row_data, config, total_rows_saved)
 
-                            try:
-                                cursor.execute('''
-                                    INSERT OR REPLACE INTO newspaper_data 
-                                    (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                                ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
-                                    aggregated_content, json.dumps(api_response), full_prompt))
-                                
-                                total_rows_saved += 1
-                                logging.info(f"Inserted or updated row {total_rows_saved} in database")
-                            except sqlite3.Error as e:
-                                logging.error(f"Failed to insert or update row in database: {e}")
+                        try:
+                            cursor.execute('''
+                                INSERT OR REPLACE INTO newspaper_data 
+                                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
+                                block_content, json.dumps(api_response), full_prompt))
+                            
+                            total_rows_saved += 1
+                            logging.info(f"Inserted or updated row {total_rows_saved} in database")
+                        except sqlite3.Error as e:
+                            logging.error(f"Failed to insert or update row in database: {e}")
 
                 conn.commit()
                 logging.info(f"Committed changes for URL: {url}")
@@ -369,16 +357,46 @@ def extract_date(soup):
             return f"{date_str[0:4]}.{date_str[4:6]}.{date_str[6:8]}"
     return None
 
-def extract_matching_content(composed_block, query):
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def extract_date(soup):
+    file_name_tag = soup.find("fileName")
+    if file_name_tag:
+        file_name = file_name_tag.get_text()
+        date_match = re.search(r'_(\d{8})_', file_name)
+        if date_match:
+            date_str = date_match.group(1)
+            return f"{date_str[0:4]}.{date_str[4:6]}.{date_str[6:8]}"
+    return None
+
+def find_ancestor(element, tag_name, levels):
+    for _ in range(levels):
+        if element.parent:
+            element = element.find_parent(tag_name)
+        else:
+            return None
+    return element
+
+def extract_matching_content(soup, query):
     matching_content = []
     words = query.split()
     pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
     
-    for string in composed_block.find_all("String"):
-        if pattern.search(string.get('CONTENT', '')):
-            text_line = string.find_parent("TextLine")
-            if text_line:
-                line_content = " ".join(s.get('CONTENT', '') for s in text_line.find_all("String"))
-                matching_content.append(line_content)
+    # Find all TextLine elements that match the pattern
+    text_lines = soup.find_all("TextLine")
+    
+    for text_line in text_lines:
+        if pattern.search(text_line.get_text()):
+            # Traverse up to the printspace (great-great-grandparent)
+            printspace = find_ancestor(text_line, "PrintSpace", 3)  # Adjust levels as per the hierarchy
+            if printspace:
+                block_content = []
+                composed_blocks = printspace.find_all("ComposedBlock")
+                for composed_block in composed_blocks:
+                    text_blocks = composed_block.find_all("TextBlock")
+                    for text_block in text_blocks:
+                        paragraphs = " ".join(string["CONTENT"] for string in text_block.find_all("String") if "CONTENT" in string.attrs)
+                        block_content.append(paragraphs)
+                matching_content.append("\n\n".join(block_content))
     
     return matching_content
