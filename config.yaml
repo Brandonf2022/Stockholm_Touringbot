@@ -10,3 +10,12 @@ prompt_filepath: 'oldtimey_touringbot_prompt_for_deployment.txt'  # Path to the 
 db_path: 'Datasets/13.07.test7.db'  # Path to the SQLite database file
 llm_model: 'gpt-3.5-turbo'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
+
+
+# Dataset Comparison Settings
+
+# Set Path to XLS file with human-made data
+Stockholm_Concert_Database_Path: 'Datasets/All_Concerts_1908_filtered.xlsx'
+
+# Columns to compare between the human and LLM Datasets
+columns_to_compare: ['normalized_date', 'normalized_konsert_namn', 'lokal_namn']  
