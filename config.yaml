@@ -1,14 +1,17 @@
 # config.yaml
 
 # Path to the Excel file with the venue list. This is the 'query'
-venue_list: 'Datasets/test_venues_just_royal_opera.xlsx'
+venue_list: 'Datasets/Venues_plus_Konsert.xlsx'
 
 start_year: 1908  # Start year for crawling
 years_to_crawl: 1  # Number of years to crawl
-newspaper: 'Dagens nyheter'  # Newspaper to crawl
-prompt_filepath: 'oldtimey_touringbot_prompt_for_deployment.txt'  # Path to the prompt file
-db_path: 'Datasets/13.07.test7.db'  # Path to the SQLite database file
-llm_model: 'gpt-3.5-turbo'  # LLM model name
+
+# Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
+newspaper: 'Dagens nyheter'
+
+prompt_filepath: 'llm_prompt_for_deployment.txt'  # Path to the prompt file
+db_path: 'Datasets/21.07_Deployment_Version_4.db'  # Path to the SQLite database file
+llm_model: 'gpt-4o-mini'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
 
 
