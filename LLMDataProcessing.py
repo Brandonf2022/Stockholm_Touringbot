@@ -70,11 +70,11 @@ def create_db_tables(conn):
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY,
             custom_id TEXT UNIQUE,
-            konsert_datum TEXT,
-            konsert_namn TEXT,
-            lokal_namn TEXT,
+            date TEXT,
+            name TEXT,
+            venue TEXT,
             konserttyp_namn TEXT,
-            producer TEXT
+            organizer TEXT
         )
     ''')
     conn.commit()
@@ -98,15 +98,16 @@ def extract_and_store_event_data(cursor, custom_id, json_response):
         event_data = json.loads(json_response)
         cursor.execute('''
             INSERT OR REPLACE INTO events 
-            (custom_id, konsert_datum, konsert_namn, lokal_namn, konserttyp_namn, producer)
+            (custom_id, date, name, venue, konserttyp_namn, organizer)
             VALUES (?, ?, ?, ?, ?, ?)
         ''', (
             custom_id,
-            event_data.get('konsert_datum', ''),
-            event_data.get('konsert_namn', ''),
-            event_data.get('lokal_namn', ''),
+            event_data.get('date', ''),
+            event_data.get('name', ''),
+            event_data.get('venue', ''),
             event_data.get('konserttyp_namn', ''),
-            event_data.get('Producer', '')
+            event_data.get('organiser', ''),
+
         ))
     except json.JSONDecodeError:
         logging.error(f"Error decoding JSON for custom_id: {custom_id}")
@@ -246,7 +247,7 @@ def extract_and_store_event_data(cursor, custom_id, json_response):
         
         # Function to check if an item is a list of event-like dictionaries
         def is_event_list(item):
-            return isinstance(item, list) and all(isinstance(event, dict) and 'konsert_datum' in event for event in item)
+            return isinstance(item, list) and all(isinstance(event, dict) and 'date' in event for event in item)
 
         # Extract events
         if isinstance(response_data, dict):
@@ -267,15 +268,18 @@ def extract_and_store_event_data(cursor, custom_id, json_response):
         for event in events:
             cursor.execute('''
                 INSERT OR REPLACE INTO events 
-                (custom_id, konsert_datum, konsert_namn, lokal_namn, konserttyp_namn, producer)
+                (custom_id, date, name, venue, konserttyp_namn, organizer)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (
                 custom_id,
-                event.get('konsert_datum', ''),
-                event.get('konsert_namn', ''),
-                event.get('lokal_namn', ''),
-                event.get('konserttyp_namn', ''),
-                event.get('Producer', '')
+                event.get('date', ''),
+                event.get('name', ''),
+                event.get('venue', ''),
+                event.get('organizer', '')
+                event.get('performers', '')
+                event.get('programme', '')
+                event.get('custom_id', ''),
+
             ))
 
         logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
@@ -299,11 +303,11 @@ def create_db_tables(conn):
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY,
             custom_id TEXT UNIQUE,
-            konsert_datum TEXT,
-            konsert_namn TEXT,
-            lokal_namn TEXT,
+            date TEXT,
+            name TEXT,
+            venue TEXT,
             konserttyp_namn TEXT,
-            producer TEXT
+            organizer TEXT
         )
     ''')
     conn.commit()

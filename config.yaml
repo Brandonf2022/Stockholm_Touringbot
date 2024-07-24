@@ -10,7 +10,7 @@ years_to_crawl: 1  # Number of years to crawl
 newspaper: 'Dagens nyheter'
 
 prompt_filepath: 'llm_prompt_for_deployment.txt'  # Path to the prompt file
-db_path: 'Datasets/21.07_Deployment_Version_4.db'  # Path to the SQLite database file
+db_path: 'Datasets/24.07_Deployment_Version_6.db'  # Path to the SQLite database file
 llm_model: 'gpt-4o-mini'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
 

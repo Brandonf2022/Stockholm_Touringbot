@@ -10,6 +10,7 @@ import yaml
 from datetime import datetime
 import os
 import pickle
+import hashlib
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
@@ -298,6 +299,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
     try:
         search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
         logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
+
     except requests.HTTPError as e:
         logging.error(f"Failed to fetch search results: {e}")
         return {"success": False, "message": f"Failed to fetch search results: {e}"}
@@ -353,7 +355,8 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
 
                     for article in articles:
                         if article:
-                            composed_block_id = f"article_{total_rows_saved}"  # Generate a unique ID
+                            hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
+                            composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
                             
                             row_data = {
                                 'Date': date,
