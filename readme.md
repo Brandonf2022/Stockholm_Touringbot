@@ -10,11 +10,13 @@ This project provides a set of tools for extracting, processing, and analyzing h
 - Flexible data output formats (Excel, JSON) for further research and visualization
 
 ## Components
-1. `KBDownloader.py`: Extracts data from the KB API
-2. `APIAccesstoKB.ipynb`: Jupyter notebook for interacting with the KB API
-3. `OpenAI_DataProcessing.ipynb`: Processes extracted data using OpenAI's language models
+1. `1_Download_from_KB`: Extracts data from the KB API
+2. `2_LLM_Data_Processing`: Processes data from KB using LLM
+3. `3_AccuracyTesting`: Compares data with existing human-made data, generating result score based on accuracy.
+4. `KBDownloader.py`: Libraries for working with KB API Data
+5. `config.yaml`: Config file for coordinating between the different scripts
 
-## Getting Started
+## Getting Started1
 1. Clone this repository
 2. Install required dependencies (see `requirements.txt`)
 3. Set up API keys for OpenAI
