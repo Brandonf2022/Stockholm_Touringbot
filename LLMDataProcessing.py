@@ -50,6 +50,7 @@ import os
 from tqdm import tqdm
 from openai import OpenAI
 
+#This one has performers column
 def create_db_tables(conn):
     cursor = conn.cursor()
     cursor.execute('''
@@ -68,13 +69,13 @@ def create_db_tables(conn):
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS events (
-            id INTEGER PRIMARY KEY,
-            custom_id TEXT UNIQUE,
+            custom_id TEXT PRIMARY KEY,
             date TEXT,
             name TEXT,
             venue TEXT,
-            konserttyp_namn TEXT,
-            organizer TEXT
+            organizer TEXT,
+            performers TEXT,
+            programme TEXT
         )
     ''')
     conn.commit()
@@ -95,20 +96,47 @@ def update_checkpoint(conn, file_path, last_processed_line):
 
 def extract_and_store_event_data(cursor, custom_id, json_response):
     try:
-        event_data = json.loads(json_response)
-        cursor.execute('''
-            INSERT OR REPLACE INTO events 
-            (custom_id, date, name, venue, konserttyp_namn, organizer)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (
-            custom_id,
-            event_data.get('date', ''),
-            event_data.get('name', ''),
-            event_data.get('venue', ''),
-            event_data.get('konserttyp_namn', ''),
-            event_data.get('organiser', ''),
+        # Parse the JSON response
+        response_data = json.loads(json_response)
+        
+        # Function to check if an item is a list of event-like dictionaries
+        def is_event_list(item):
+            return isinstance(item, list) and all(isinstance(event, dict) and 'date' in event for event in item)
 
-        ))
+        # Extract events
+        if isinstance(response_data, dict):
+            # Look for a list of events in any of the dictionary's values
+            for value in response_data.values():
+                if is_event_list(value):
+                    events = value
+                    break
+            else:  # If no list of events found, treat the whole dict as a single event
+                events = [response_data]
+        elif is_event_list(response_data):
+            events = response_data
+        else:
+            logging.error(f"Unexpected JSON structure for custom_id: {custom_id}")
+            return
+
+        # Process each event
+        for event in events:
+            performers = ', '.join(event.get('performers', []))  # Join list of performers into a single string
+            cursor.execute('''
+                INSERT OR REPLACE INTO events 
+                (custom_id, date, name, venue, organizer, performers, programme)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                custom_id,
+                event.get('date', ''),
+                event.get('name', ''),
+                event.get('venue', ''),
+                event.get('organizer', ''),
+                performers,
+                event.get('programme', '')
+            ))
+
+        logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
+
     except json.JSONDecodeError:
         logging.error(f"Error decoding JSON for custom_id: {custom_id}")
     except Exception as e:
@@ -268,18 +296,16 @@ def extract_and_store_event_data(cursor, custom_id, json_response):
         for event in events:
             cursor.execute('''
                 INSERT OR REPLACE INTO events 
-                (custom_id, date, name, venue, konserttyp_namn, organizer)
-                VALUES (?, ?, ?, ?, ?, ?)
+                (custom_id, date, name, venue, organizer, performers, programme)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (
                 custom_id,
                 event.get('date', ''),
                 event.get('name', ''),
                 event.get('venue', ''),
-                event.get('organizer', '')
-                event.get('performers', '')
+                event.get('organizer', ''),
+                ', '.join(event.get('performers', [])),  # Join list of performers into a single string
                 event.get('programme', '')
-                event.get('custom_id', ''),
-
             ))
 
         logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
@@ -289,28 +315,6 @@ def extract_and_store_event_data(cursor, custom_id, json_response):
     except Exception as e:
         logging.error(f"Error storing event data for custom_id {custom_id}: {e}")
 
-
-def create_db_tables(conn):
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS completions (
-            id INTEGER PRIMARY KEY,
-            custom_id TEXT UNIQUE,
-            content TEXT
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS events (
-            id INTEGER PRIMARY KEY,
-            custom_id TEXT UNIQUE,
-            date TEXT,
-            name TEXT,
-            venue TEXT,
-            konserttyp_namn TEXT,
-            organizer TEXT
-        )
-    ''')
-    conn.commit()
 
 def fetch_prompts_from_db(conn):
     """Fetch JSON prompts from the newspaper_data table."""
@@ -335,3 +339,25 @@ def save_results_to_db(conn, results):
         logging.info(f"Saved {len(results)} results to the database.")
     except sqlite3.Error as e:
         logging.error(f"Failed to save results: {e}")
+
+def query_events(cursor, custom_id=None):
+    if custom_id:
+        cursor.execute("SELECT * FROM events WHERE custom_id = ?", (custom_id,))
+    else:
+        cursor.execute("SELECT * FROM events")
+
+    rows = cursor.fetchall()
+    events = []
+    for row in rows:
+        event = {
+            'custom_id': row[0],
+            'date': row[1],
+            'name': row[2],
+            'venue': row[3],
+            'organizer': row[4],
+            'performers': row[5].split(', ') if row[5] else [],  # Split performers string into a list
+            'programme': row[6]
+        }
+        events.append(event)
+
+    return events
