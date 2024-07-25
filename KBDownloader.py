@@ -290,6 +290,14 @@ from contextlib import closing
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+import logging
+from contextlib import closing
+import sqlite3
+import hashlib
+import json
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
     collection_id = newspaper
     total_rows_saved = 0
@@ -306,10 +314,10 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
 
     urls = extract_urls(search_results)
     logging.info(f"Extracted {len(urls)} URLs from search results")
-    
+
     with closing(sqlite3.connect(db_path)) as conn:
         cursor = conn.cursor()
-        
+
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS newspaper_data (
                 Date TEXT,
@@ -320,12 +328,12 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                 [ComposedBlock Content] TEXT,
                 [Raw API Result] TEXT,
                 [Full Prompt] TEXT,
-                PRIMARY KEY ([Package ID], Part, Page, [ComposedBlock ID])
+                PRIMARY KEY ([ComposedBlock ID])
             )
         ''')
         conn.commit()
         logging.info("Table 'newspaper_data' created or already exists")
-        
+
         for info in urls:
             url = info['url']
             page_id = info['page_id']
@@ -342,7 +350,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
 
                 xml_content_by_page = fetch_xml_content(xml_urls)
                 logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
-                
+
                 for page_number, xml_content in xml_content_by_page.items():
                     xml_string = xml_content.decode('utf-8')
                     page = Page(xml_content=xml_string)
@@ -357,31 +365,39 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                         if article:
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
                             composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
-                            
-                            row_data = {
-                                'Date': date,
-                                '[Package ID]': info['package_id'],
-                                'Part': info['part_number'],
-                                'Page': page_number,
-                                '[ComposedBlock ID]': composed_block_id,
-                                '[ComposedBlock Content]': article,
-                                '[Raw API Result]': json.dumps(api_response)
-                            }
-                            full_prompt = row_to_json(row_data, config, total_rows_saved)
 
-                            try:
-                                cursor.execute('''
-                                    INSERT OR REPLACE INTO newspaper_data 
-                                    (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt]) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                                ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
-                                    article, json.dumps(api_response), full_prompt))
-                                
-                                total_rows_saved += 1
-                                logging.info(f"Inserted or updated row {total_rows_saved} in database")
-                                logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
-                            except sqlite3.Error as e:
-                                logging.error(f"Failed to insert or update row in database: {e}")
+                            # Check if the composed_block_id already exists in the database
+                            cursor.execute("SELECT COUNT(*) FROM newspaper_data WHERE [ComposedBlock ID] = ?", (composed_block_id,))
+                            existing_count = cursor.fetchone()[0]
+
+                            if existing_count == 0:
+                                # Insert a new row if the composed_block_id doesn't exist
+                                row_data = {
+                                    'Date': date,
+                                    '[Package ID]': info['package_id'],
+                                    'Part': info['part_number'],
+                                    'Page': page_number,
+                                    '[ComposedBlock ID]': composed_block_id,
+                                    '[ComposedBlock Content]': article,
+                                    '[Raw API Result]': json.dumps(api_response)
+                                }
+                                full_prompt = row_to_json(row_data, config, total_rows_saved)
+
+                                try:
+                                    cursor.execute('''
+                                        INSERT INTO newspaper_data
+                                        (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                    ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
+                                          article, json.dumps(api_response), full_prompt))
+
+                                    total_rows_saved += 1
+                                    logging.info(f"Inserted row {total_rows_saved} in database")
+                                    logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
+                                except sqlite3.Error as e:
+                                    logging.error(f"Failed to insert row in database: {e}")
+                            else:
+                                logging.info(f"Skipping existing entry with [ComposedBlock ID] '{composed_block_id}'")
 
                 conn.commit()
                 logging.info(f"Committed changes for URL: {url}")
@@ -392,6 +408,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
             except Exception as e:
                 logging.error(f"Unexpected error processing URL {url}: {str(e)}")
                 continue
+
     logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
     return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
 

@@ -7,10 +7,10 @@ start_year: 1908  # Start year for crawling
 years_to_crawl: 1  # Number of years to crawl
 
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
-newspaper: 'Dagens nyheter'
+newspaper: 'Dagligt Allehanda'
 
 prompt_filepath: 'llm_prompt_for_deployment.txt'  # Path to the prompt file
-db_path: 'Datasets/25.07_Deployment_Version_11.db'  # Path to the SQLite database file
+db_path: 'Datasets/26.07_Deployment_Version_1.0.db'  # Path to the SQLite database file
 llm_model: 'gpt-4o-mini'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
 
@@ -21,5 +21,11 @@ max_tokens: 1000  # Maximum number of tokens for the API call
 Stockholm_Concert_Database_Path: 'Datasets/All_Concerts_1908_filtered.xlsx'
 
 # Columns to compare between the human and LLM Datasets
-#columns_to_compare: ['normalized_date', 'normalized_konsert_namn', 'lokal_namn']
 columns_to_compare: ['normalized_date', 'name', 'venue']
+
+# Column Mapping between LLM and Human Data
+column_mapping:
+  konsert_datum: date
+  konsert_namn: name
+  lokal_namn: venue
+  arrangör: organiser
