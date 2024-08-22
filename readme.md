@@ -16,7 +16,7 @@ This project provides a set of tools for extracting, processing, and analyzing h
 4. `KBDownloader.py`: Libraries for working with KB API Data
 5. `config.yaml`: Config file for coordinating between the different scripts
 
-## Getting Started1
+## Getting Started
 1. Clone this repository
 2. Install required dependencies (see `requirements.txt`)
 3. Set up API keys for OpenAI
