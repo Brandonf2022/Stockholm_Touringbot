@@ -11,6 +11,7 @@ from datetime import datetime
 import os
 import pickle
 import hashlib
+from urllib.parse import urljoin, urlencode
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
@@ -46,8 +47,11 @@ def extract_urls(result):
     return details
 
 # Function to extract XML URLs from API response
-def extract_xml_urls(api_response, page_ids):
+
+
+def extract_xml_urls(api_response, page_ids, kb_key=None):
     xml_urls = {}
+    base_url = 'https://data.kb.se'
     parts_list = api_response.get('hasPart', [])
     for part in parts_list:
         pages = part.get('hasPartList', [])
@@ -57,7 +61,11 @@ def extract_xml_urls(api_response, page_ids):
                 for include in includes:
                     if 'alto.xml' in include['@id']:
                         page_number = int(page['@id'].split('/')[-1].replace('page', ''))
-                        xml_urls[page_number] = include['@id']
+                        xml_url = urljoin(base_url, include['@id'])
+                        if kb_key:
+                            query_params = urlencode({'api_key': kb_key})
+                            xml_url = f"{xml_url}?{query_params}"
+                        xml_urls[page_number] = xml_url
     return xml_urls
 
 # Function to fetch XML content
@@ -239,7 +247,7 @@ import sqlite3
 import json
 
 # New function to process and save data
-def process_and_save_data(xml_content_by_page, info, query, config, db_path):
+def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_key):
     # Establish database connection
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -298,7 +306,7 @@ import json
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key):
     collection_id = newspaper
     total_rows_saved = 0
 
@@ -345,7 +353,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
                 response.raise_for_status()
                 api_response = response.json()
 
-                xml_urls = extract_xml_urls(api_response, [page_id])
+                xml_urls = extract_xml_urls(api_response, [page_id], kb_key)
                 logging.info(f"Extracted {len(xml_urls)} XML URLs")
 
                 xml_content_by_page = fetch_xml_content(xml_urls)
@@ -411,32 +419,3 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path):
 
     logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
     return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
-
-def extract_date(soup):
-    file_name_tag = soup.find("fileName")
-    if file_name_tag:
-        file_name = file_name_tag.get_text()
-        date_match = re.search(r'_(\d{8})_', file_name)
-        if date_match:
-            date_str = date_match.group(1)
-            return f"{date_str[0:4]}.{date_str[4:6]}.{date_str[6:8]}"
-    return None
-
-def extract_matching_content(composed_block, query):
-    matching_content = []
-    words = query.split()
-    pattern = re.compile('|'.join(re.escape(word) for word in words), re.IGNORECASE)
-    
-    for textblock in composed_block.find_all("TextBlock"):
-        textblock_content = []
-        for textline in textblock.find_all("TextLine"):
-            string_contents = [s.get('CONTENT', '') for s in textline.find_all("String")]
-            line_content = " ".join(string_contents)
-            textblock_content.append(line_content)
-            logging.debug(f"TextLine content: {line_content}")  # Debug log
-
-        if any(pattern.search(line) for line in textblock_content):
-            matching_content.extend(textblock_content)
-            logging.debug(f"Matching TextBlock content: {textblock_content}")  # Debug log
-    
-    return matching_content
