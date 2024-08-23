@@ -7,11 +7,12 @@ venue_list: 'Datasets/Venues_plus_Konsert.xlsx'
 start_year: 1908  # Start year for crawling
 years_to_crawl: 1  # Number of years to crawl
 rate_limit: 10 # in transactions per second
+composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
 newspaper: 'Svenska Dagbladet'
 
 prompt_filepath: 'llm_prompt_for_deployment.txt'  # Path to the prompt file
-db_path: 'Datasets/26.07_Deployment_Version_1.0.db'  # Path to the SQLite database file
+db_path: 'Datasets/23.08_Deployment_Version_1.0.test3.db'  # Path to the SQLite database file
 llm_model: 'gpt-4o-mini'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
 

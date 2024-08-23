@@ -168,24 +168,7 @@ class Page:
                 return formatted_date
         return None
 
-    def paragraph_from_keyword(self, keyword):
-        token = self.soup.find("String", attrs={"CONTENT": keyword})
-        yield self.token_to_paragraph(token)
-        while (
-            token := token.find_next("String", attrs={"CONTENT": keyword})
-        ) is not None:
-            yield self.token_to_paragraph(token)
-
-    def token_to_paragraph(self, token):
-        line_tags = token.parent.parent.find_all("TextLine")
-        leading_tokens = (line_tag.find("String") for line_tag in line_tags)
-        result = ""
-        for leading_token in leading_tokens:
-            sentence = self.token_to_sentence(leading_token)
-            result += f"{sentence}\n"
-        return result.strip()
-
-    def article_from_keyword(self, keyword):
+    def article_from_keyword(self, keyword, num_blocks=5):
         # Split the keyword into individual words
         keywords = keyword.split()
         # Create a regex pattern that matches any of the words
@@ -193,35 +176,44 @@ class Page:
         
         tokens = self.soup.find_all("String", attrs={"CONTENT": pattern})
         for token in tokens:
-            article = self.token_to_article(token)
-            if article:
-                yield article
+            composed_block = token.find_parent("ComposedBlock")
+            if composed_block:
+                article = self.composed_block_to_text(composed_block)
+                # Get previous and next articles
+                prev_articles = self.get_sibling_composed_blocks_text(composed_block, direction='previous', count=num_blocks)
+                next_articles = self.get_sibling_composed_blocks_text(composed_block, direction='next', count=num_blocks)
+                
+                # Concatenate the articles
+                full_article = (prev_articles + "\n" if prev_articles else "") + article + (("\n" + next_articles) if next_articles else "")
+                yield full_article
     
-    def token_to_article(self, token):
-        par_tags = token.parent.parent.parent.find_all("TextBlock")
-        leading_tokens = (line_tag.find("String") for line_tag in par_tags)
+    def get_sibling_composed_blocks_text(self, composed_block, direction='next', count=1):
+        siblings = []
+        current = composed_block
+        for _ in range(count):
+            sibling = current.find_next_sibling("ComposedBlock") if direction == 'next' else current.find_previous_sibling("ComposedBlock")
+            if sibling:
+                siblings.append(sibling)
+                current = sibling
+            else:
+                break
+        return "\n".join(self.composed_block_to_text(sib) for sib in siblings)
+
+    def composed_block_to_text(self, composed_block):
+        if composed_block is None:
+            return None
+        text_blocks = composed_block.find_all("TextBlock")
         result = ""
-        for leading_token in leading_tokens:
-            paragraph = self.token_to_paragraph(leading_token)
+        for text_block in text_blocks:
+            paragraph = self.text_block_to_paragraph(text_block)
             result += f"{paragraph}\n\n"
         return result.strip()
 
-    def token_to_paragraph(self, token):
-        if token is None:
+    def text_block_to_paragraph(self, text_block):
+        if text_block is None:
             return None
-        line_tags = token.find_parent("TextLine").find_next_siblings("TextLine")
-        leading_tokens = [line_tag.find("String") for line_tag in line_tags if line_tag.find("String")]
-        result = self.token_to_sentence(token) + "\n"
-        for leading_token in leading_tokens:
-            sentence = self.token_to_sentence(leading_token)
-            if sentence:
-                result += f"{sentence}\n"
-        return result.strip()
-
-    def token_to_sentence(self, token):
-        if token is None:
-            return None
-        return " ".join(s.get('CONTENT', '') for s in token.find_parent("TextLine").find_all("String"))
+        strings = text_block.find_all("String")
+        return " ".join(s.get('CONTENT', '') for s in strings)
 
 # Checkpoint functions
 
@@ -298,7 +290,7 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
-def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit):
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit, num_composed_blocks=1):
     global last_request_time
     collection_id = newspaper
     total_rows_saved = 0
@@ -319,21 +311,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
     with closing(sqlite3.connect(db_path)) as conn:
         cursor = conn.cursor()
 
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS newspaper_data (
-                Date TEXT,
-                [Package ID] TEXT,
-                Part TEXT,
-                Page INTEGER,
-                [ComposedBlock ID] TEXT,
-                [ComposedBlock Content] TEXT,
-                [Raw API Result] TEXT,
-                [Full Prompt] TEXT,
-                PRIMARY KEY ([ComposedBlock ID])
-            )
-        ''')
-        conn.commit()
-        logging.info("Table 'newspaper_data' created or already exists")
         for info in urls:
             url = info['url']
             page_id = info['page_id']
@@ -365,11 +342,11 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                     page = Page(xml_content=xml_string)
                     date = page.extract_date()
 
-                    articles = list(page.article_from_keyword(query))
+                    articles = list(page.article_from_keyword(query, num_blocks=num_composed_blocks))
                     if not articles:
                         logging.info(f"No matching content found for query '{query}' on page {page_number}")
                         continue
-
+                    
                     for article in articles:
                         if article:
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
