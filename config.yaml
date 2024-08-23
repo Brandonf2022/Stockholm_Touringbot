@@ -1,11 +1,12 @@
 # config.yaml
 
+########PART 1: DOWNLOAD ########
 # Path to the Excel file with the venue list. This is the 'query'
 venue_list: 'Datasets/Venues_plus_Konsert.xlsx'
 
 start_year: 1908  # Start year for crawling
 years_to_crawl: 1  # Number of years to crawl
-
+rate_limit: 10 # in transactions per second
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
 newspaper: 'Svenska Dagbladet'
 
@@ -14,8 +15,7 @@ db_path: 'Datasets/26.07_Deployment_Version_1.0.db'  # Path to the SQLite databa
 llm_model: 'gpt-4o-mini'  # LLM model name
 max_tokens: 1000  # Maximum number of tokens for the API call
 
-
-# Dataset Comparison Settings
+########PART 3: COMPARISON SETTINGS ########
 
 # Set Path to XLS file with human-made data
 Stockholm_Concert_Database_Path: 'Datasets/All_Concerts_1908_filtered_until_June_30.xlsx'

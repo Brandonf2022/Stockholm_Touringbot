@@ -1,17 +1,22 @@
 import re
 import requests
-import pandas as pd
 import json
 from bs4 import BeautifulSoup as bs
 import time
 import sqlite3
 from urllib.parse import quote_plus
-import yaml
-from datetime import datetime
 import os
 import pickle
 import hashlib
 from urllib.parse import urljoin, urlencode
+import logging
+from contextlib import closing
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+# Keep track of the last request time
+last_request_time = None
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
@@ -293,23 +298,11 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
-import logging
-from contextlib import closing
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-import logging
-from contextlib import closing
-import sqlite3
-import hashlib
-import json
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key):
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit):
+    global last_request_time
     collection_id = newspaper
     total_rows_saved = 0
-
+    RATE_LIMIT = rate_limit
     logging.info(f"Starting fetch_newspaper_data for query: {query}, dates: {from_date} to {to_date}")
 
     try:
@@ -341,10 +334,18 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
         ''')
         conn.commit()
         logging.info("Table 'newspaper_data' created or already exists")
-
         for info in urls:
             url = info['url']
             page_id = info['page_id']
+
+            # Rate limiting logic
+            current_time = time.time()
+            if last_request_time is not None:
+                elapsed_time = current_time - last_request_time
+                if elapsed_time < 1 / RATE_LIMIT:
+                    time.sleep(1 / RATE_LIMIT - elapsed_time)
+
+            last_request_time = time.time()
 
             logging.info(f"Processing URL: {url}")
 
