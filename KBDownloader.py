@@ -243,7 +243,7 @@ def load_checkpoint():
 import sqlite3
 import json
 
-# New function to process and save data
+#  function to process and save data
 def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_key):
     # Establish database connection
     conn = sqlite3.connect(db_path)
@@ -257,7 +257,7 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
         xml_string = xml_content.decode('utf-8')
         page = Page(xml_content=xml_string)
         date = page.extract_date()
-        matching_composed_blocks = list(page.composed_block_from_keyword(query))
+        matching_composed_blocks = list(page.article_from_keyword(query))
 
         # Aggregate matches in a dictionary
         for block in matching_composed_blocks:
@@ -275,13 +275,12 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
 
     # Insert aggregated results into the database
     for key, value in combined_results.items():
-        full_prompt = row_to_json(value, config)
         cursor.execute('''
             INSERT INTO newspaper_data
-            (Date, [Package ID], Part, Page, [ComposedBlock Content], [Raw API Result], [Full Prompt])
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (value['Date'], value['Package ID'], value['Part'], value['Page'], 
-              json.dumps(value['ComposedBlock Content']), value['Raw API Result'], full_prompt))
+            (Date, [Package ID], Part, Page, [ComposedBlock Content], [Raw API Result])
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (value['Date'], value['Package ID'], value['Part'], value['Page'],
+              json.dumps(value['ComposedBlock Content']), value['Raw API Result']))
 
     # Commit changes and close connection
     conn.commit()
@@ -346,7 +345,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                     if not articles:
                         logging.info(f"No matching content found for query '{query}' on page {page_number}")
                         continue
-                    
+
                     for article in articles:
                         if article:
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()

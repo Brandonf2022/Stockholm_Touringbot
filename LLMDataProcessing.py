@@ -75,7 +75,15 @@ def create_db_tables(conn):
             venue TEXT,
             organizer TEXT,
             performers TEXT,
-            programme TEXT
+            programme TEXT,
+            reasoning_steps TEXT
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS reasoning_steps (
+            custom_id TEXT PRIMARY KEY,
+            reasoning_steps TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     conn.commit()
@@ -96,123 +104,41 @@ def update_checkpoint(conn, file_path, last_processed_line):
 
 def extract_and_store_event_data(cursor, custom_id, json_response):
     try:
-        # Parse the JSON response
         response_data = json.loads(json_response)
-        
-        # Function to check if an item is a list of event-like dictionaries
-        def is_event_list(item):
-            return isinstance(item, list) and all(isinstance(event, dict) and 'date' in event for event in item)
+        concerts = response_data.get('Concerts', [])
+        reasoning_steps = response_data.get('ReasoningSteps', [])
 
-        # Extract events
-        if isinstance(response_data, dict):
-            # Look for a list of events in any of the dictionary's values
-            for value in response_data.values():
-                if is_event_list(value):
-                    events = value
-                    break
-            else:  # If no list of events found, treat the whole dict as a single event
-                events = [response_data]
-        elif is_event_list(response_data):
-            events = response_data
-        else:
-            logging.error(f"Unexpected JSON structure for custom_id: {custom_id}")
-            return
-
-        # Process each event
-        for event in events:
-            performers = ', '.join(event.get('performers', []))  # Join list of performers into a single string
+        # Store each concert
+        for concert in concerts:
             cursor.execute('''
                 INSERT OR REPLACE INTO events 
                 (custom_id, date, name, venue, organizer, performers, programme)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (
                 custom_id,
-                event.get('date', ''),
-                event.get('name', ''),
-                event.get('venue', ''),
-                event.get('organizer', ''),
-                performers,
-                event.get('programme', '')
+                concert.get('date', ''),
+                concert.get('name', ''),
+                concert.get('venue', ''),
+                concert.get('organizer', ''),
+                ', '.join(concert.get('performers', [])),  # Convert list to string
+                concert.get('programme', '')
             ))
 
-        logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
+        # Store reasoning steps
+        for step in reasoning_steps:
+            cursor.execute('''
+                INSERT INTO reasoning_steps (custom_id, reasoning_steps)
+                VALUES (?, ?)
+            ''', (custom_id, json.dumps(step)))  # Store each step as a JSON string
+
+        cursor.connection.commit()
+        logging.info(f"Stored concert and reasoning data for custom_id: {custom_id}")
 
     except json.JSONDecodeError:
         logging.error(f"Error decoding JSON for custom_id: {custom_id}")
     except Exception as e:
         logging.error(f"Error storing event data for custom_id {custom_id}: {e}")
 
-def process_jsonl(file_path, db_conn):
-    cursor = db_conn.cursor()
-    last_processed_line = get_checkpoint(db_conn, file_path)
-    
-    try:
-        with open(file_path, 'r') as file:
-            # Skip to the last processed line
-            for _ in range(last_processed_line):
-                next(file)
-            
-            # Count remaining lines for progress bar
-            remaining_lines = sum(1 for _ in file) - last_processed_line
-            file.seek(0, 0)  # Reset file pointer
-            for _ in range(last_processed_line):
-                next(file)
-            
-            for current_line, line in tqdm(enumerate(file, start=last_processed_line), total=remaining_lines, desc="Processing lines"):
-                try:
-                    data = json.loads(line.strip())
-                    messages = data['body']['messages']
-                    custom_id = data.get('custom_id', f"line_{current_line}")
-                    
-                    # Check if this custom_id has already been processed
-                    cursor.execute('SELECT id FROM completions WHERE custom_id = ?', (custom_id,))
-                    if cursor.fetchone():
-                        logging.info(f"Skipping already processed custom_id: {custom_id}")
-                        continue
-                    
-                    completion = client.chat.completions.create(
-                        model='gpt-3.5-turbo',
-                        response_format={"type": "json_object"},
-                        messages=messages,
-                        max_tokens=data['body']['max_tokens']
-                    )
-                    
-                    json_response = completion.choices[0].message.content
-                    
-                    # Store the result in the completions table
-                    cursor.execute('INSERT INTO completions (custom_id, content) VALUES (?, ?)',
-                                   (custom_id, json_response))
-                    
-                    # Extract and store event data
-                    extract_and_store_event_data(cursor, custom_id, json_response)
-                    
-                    # Update checkpoint every 10 lines
-                    if current_line % 10 == 0:
-                        update_checkpoint(db_conn, file_path, current_line)
-                        db_conn.commit()
-                    
-                except json.JSONDecodeError:
-                    logging.error(f"Error decoding JSON at line {current_line}")
-                except Exception as e:
-                    logging.error(f"Error during API call at line {current_line}: {e}")
-                
-            # Final checkpoint update
-            update_checkpoint(db_conn, file_path, current_line)
-            db_conn.commit()
-            
-    except IOError as e:
-        logging.error(f"Error opening or reading the file: {file_path}. Error: {e}")
-
-def process_all_jsonl_files(directory_path, db_conn):
-    jsonl_files = [f for f in os.listdir(directory_path) if f.endswith('.jsonl')]
-    for file_name in tqdm(jsonl_files, desc="Processing files"):
-        file_path = os.path.join(directory_path, file_name)
-        try:
-            process_jsonl(file_path, db_conn)
-        except Exception as e:
-            logging.error(f"Error processing file {file_name}: {e}")
-
-## new SQL functions below ##
 def process_all_prompts(conn, client):
     cursor = conn.cursor()
     try:
@@ -230,91 +156,72 @@ def process_all_prompts(conn, client):
     except sqlite3.Error as e:
         logging.error(f"Database error while fetching prompts: {e}")
 
+import json
+import logging
+
 def process_prompt(conn, client, row_id, prompt):
     try:
-        data = json.loads(prompt)
-        messages = data['body']['messages']
-        custom_id = data.get('custom_id', f"row_{row_id}")
+        logging.info(f"Processing prompt for row_id {row_id}: {prompt}")
         
+        # Parse the JSON string
+        prompt_data = json.loads(prompt)
+        logging.info("Loaded JSON data successfully.")
+        logging.info(f"Prompt data type: {type(prompt_data)}")
+        logging.info(f"Prompt data content: {json.dumps(prompt_data, indent=2)}")
+
+        # Extract the necessary data from the prompt
+        body = prompt_data['body']
+        model = body['model']
+        messages = body['messages']
+        response_format = body['response_format']
+
+        # Ensure messages is a list of dictionaries
+        if not isinstance(messages, list) or not all(isinstance(message, dict) for message in messages):
+            logging.error(f"Invalid format for messages in prompt for row_id {row_id}")
+            return
+        
+        # Generate a unique custom_id using row_id, Package ID, Part, and Page
         cursor = conn.cursor()
+        cursor.execute("SELECT [Package ID], Part, Page FROM newspaper_data WHERE rowid = ?", (row_id,))
+        package_id, part, page = cursor.fetchone()
+        custom_id = f"{package_id}-{part}-{page}-{row_id}"
+
+        # Prepare the request payload
+        request_payload = {
+            "model": model,
+            "messages": messages,
+            "response_format": response_format
+        }
         
-        # Check if this custom_id has already been processed
-        cursor.execute('SELECT id FROM completions WHERE custom_id = ?', (custom_id,))
-        if cursor.fetchone():
-            logging.info(f"Skipping already processed custom_id: {custom_id}")
-            return
-        
-        completion = client.chat.completions.create(
-            model='gpt-3.5-turbo',
-            response_format={"type": "json_object"},
-            messages=messages,
-            max_tokens=data['body']['max_tokens']
-        )
-        
+        logging.info("Prepared request payload.")
+
+        # Log the query being sent to the API
+        logging.info("QUERY:")
+        logging.info(json.dumps(request_payload, indent=4))
+
+        # Make the API call using the extracted settings
+        completion = client.chat.completions.create(**request_payload)
+
+        # Log the full API response for debugging
         json_response = completion.choices[0].message.content
-        
+        logging.info("RESPONSE:")
+        logging.info(json.dumps(json.loads(json_response), indent=4))
+
         # Store the result in the completions table
-        cursor.execute('INSERT INTO completions (custom_id, content) VALUES (?, ?)',
-                       (custom_id, json_response))
-        
-        # Extract and store event data
-        extract_and_store_event_data(cursor, custom_id, json_response)
-        
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO completions (custom_id, content)
+            VALUES (?, ?)
+        ''', (custom_id, json_response))
+
         conn.commit()
-        
-    except json.JSONDecodeError:
-        logging.error(f"Error decoding JSON for row_id {row_id}")
+
+    except json.JSONDecodeError as e:
+        logging.error(f"Error decoding JSON for row_id {row_id}: {e}")
+        logging.error(f"JSON causing error: {prompt}")
     except Exception as e:
-        logging.error(f"Error during API call for row_id {row_id}: {e}")
-
-
-def extract_and_store_event_data(cursor, custom_id, json_response):
-    try:
-        # Parse the JSON response
-        response_data = json.loads(json_response)
-        
-        # Function to check if an item is a list of event-like dictionaries
-        def is_event_list(item):
-            return isinstance(item, list) and all(isinstance(event, dict) and 'date' in event for event in item)
-
-        # Extract events
-        if isinstance(response_data, dict):
-            # Look for a list of events in any of the dictionary's values
-            for value in response_data.values():
-                if is_event_list(value):
-                    events = value
-                    break
-            else:  # If no list of events found, treat the whole dict as a single event
-                events = [response_data]
-        elif is_event_list(response_data):
-            events = response_data
-        else:
-            logging.error(f"Unexpected JSON structure for custom_id: {custom_id}")
-            return
-
-        # Process each event
-        for event in events:
-            cursor.execute('''
-                INSERT OR REPLACE INTO events 
-                (custom_id, date, name, venue, organizer, performers, programme)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                custom_id,
-                event.get('date', ''),
-                event.get('name', ''),
-                event.get('venue', ''),
-                event.get('organizer', ''),
-                ', '.join(event.get('performers', [])),  # Join list of performers into a single string
-                event.get('programme', '')
-            ))
-
-        logging.info(f"Inserted {len(events)} events for custom_id: {custom_id}")
-
-    except json.JSONDecodeError:
-        logging.error(f"Error decoding JSON for custom_id: {custom_id}")
-    except Exception as e:
-        logging.error(f"Error storing event data for custom_id {custom_id}: {e}")
-
+        logging.error(f"Error processing prompt for row_id {row_id}: {e}")
+        logging.exception("Full traceback:")
 
 def fetch_prompts_from_db(conn):
     """Fetch JSON prompts from the newspaper_data table."""

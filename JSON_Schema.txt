@@ -1,0 +1,85 @@
+{
+    "name": "concert_schema",
+  "type": "object",
+  "description": "Schema for structuring information about music concerts and operas from Swedish newspaper sources, accounting for OCR errors and misspellings",
+  "properties": {
+    "ReasoningSteps": {
+      "type": "array",
+      "description": "A detailed breakdown of the reasoning process used to extract, correct, and structure the concert information from error-prone OCR text",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stepNumber": {
+            "type": "integer",
+            "description": "The sequential number of the reasoning step"
+          },
+          "stepType": {
+            "type": "string",
+            "enum": ["Extraction", "OCRCorrection", "SpellingCorrection", "Inference", "Formatting", "Validation", "ContextualInterpretation"],
+            "description": "The type of reasoning step performed, including OCR and spelling error corrections"
+          },
+          "field": {
+            "type": "string",
+            "enum": ["date", "name", "venue", "organizer", "performers", "programme", "general"],
+            "description": "The specific field of the concert object this step relates to, or 'general' if it applies to multiple fields"
+          },
+          "action": {
+            "type": "string",
+            "description": "A brief description of the action taken in this step, including any error corrections"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "The reasoning behind the action, including considerations of common OCR errors, Swedish spelling conventions, and historical context"
+          },
+          "originalText": {
+            "type": "string",
+            "description": "The original OCR text from the source, potentially containing errors"
+          },
+          "correctedText": {
+            "type": "string",
+            "description": "The text after OCR and spelling corrections, if applicable"
+          },
+          "confidenceLevel": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"],
+            "description": "The level of confidence in the correction or interpretation made"
+          },
+          "alternativeInterpretations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Possible alternative interpretations of the text, especially in cases of low confidence"
+          },
+          "result": {
+            "type": "string",
+            "description": "The final outcome of this reasoning step, such as the extracted and corrected information"
+          }
+        },
+        "required": ["stepNumber", "stepType", "field", "action", "rationale", "originalText", "correctedText", "confidenceLevel", "alternativeInterpretations", "result"],
+        "additionalProperties": false
+      }
+    },
+    "Concerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {"type": "string"},
+          "name": {"type": "string"},
+          "venue": {"type": "string"},
+          "organizer": {"type": "string"},
+          "performers": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "programme": {"type": "string"}
+        },
+        "required": ["date", "name", "venue", "organizer", "performers", "programme"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["Concerts", "ReasoningSteps"],
+  "additionalProperties": false
+}
