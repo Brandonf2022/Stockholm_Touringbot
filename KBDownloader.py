@@ -11,12 +11,35 @@ import hashlib
 from urllib.parse import urljoin, urlencode
 import logging
 from contextlib import closing
+import time
+from sqlite3 import OperationalError
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 # Keep track of the last request time
 last_request_time = None
+
+def retry_on_db_lock(func, max_attempts=5, delay=1):
+    for attempt in range(max_attempts):
+        try:
+            return func()
+        except OperationalError as e:
+            if "database is locked" in str(e) and attempt < max_attempts - 1:
+                time.sleep(delay)
+                delay *= 2  # Exponential backoff
+            else:
+                raise
+    raise Exception("Max retry attempts reached")
+
+def insert_batch(conn, data_list):
+    cursor = conn.cursor()
+    cursor.executemany('''
+        INSERT INTO newspaper_data
+        (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', data_list)
+    conn.commit()
 
 # Function to search Swedish newspapers
 def search_swedish_newspapers(to_date, from_date, collection_id, query):
@@ -232,7 +255,13 @@ def load_checkpoint():
     if os.path.exists('checkpoint.pkl'):
         try:
             with open('checkpoint.pkl', 'rb') as f:
-                return pickle.load(f)
+                checkpoint = pickle.load(f)
+            if isinstance(checkpoint, dict) and all(key in checkpoint for key in ['year', 'half', 'index']):
+                print(f"Checkpoint loaded: Year {checkpoint['year']}, Half {checkpoint['half']}, Index {checkpoint['index']}")
+                return checkpoint
+            else:
+                print("Checkpoint file is invalid. Starting from the beginning.")
+                os.remove('checkpoint.pkl')  # Remove the invalid checkpoint file
         except (EOFError, pickle.UnpicklingError):
             print("Checkpoint file is corrupted or empty. Starting from the beginning.")
             os.remove('checkpoint.pkl')  # Remove the corrupted file
@@ -299,7 +328,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
     try:
         search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
         logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
-
     except requests.HTTPError as e:
         logging.error(f"Failed to fetch search results: {e}")
         return {"success": False, "message": f"Failed to fetch search results: {e}"}
@@ -309,6 +337,8 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
 
     with closing(sqlite3.connect(db_path)) as conn:
         cursor = conn.cursor()
+        batch = []
+        batch_size = 100
 
         for info in urls:
             url = info['url']
@@ -320,7 +350,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                 elapsed_time = current_time - last_request_time
                 if elapsed_time < 1 / RATE_LIMIT:
                     time.sleep(1 / RATE_LIMIT - elapsed_time)
-
             last_request_time = time.time()
 
             logging.info(f"Processing URL: {url}")
@@ -351,12 +380,13 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
                             composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
 
-                            # Check if the composed_block_id already exists in the database
-                            cursor.execute("SELECT COUNT(*) FROM newspaper_data WHERE [ComposedBlock ID] = ?", (composed_block_id,))
-                            existing_count = cursor.fetchone()[0]
+                            def check_existing():
+                                cursor.execute("SELECT COUNT(*) FROM newspaper_data WHERE [ComposedBlock ID] = ?", (composed_block_id,))
+                                return cursor.fetchone()[0]
+
+                            existing_count = retry_on_db_lock(check_existing)
 
                             if existing_count == 0:
-                                # Insert a new row if the composed_block_id doesn't exist
                                 row_data = {
                                     'Date': date,
                                     '[Package ID]': info['package_id'],
@@ -366,26 +396,32 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                                     '[ComposedBlock Content]': article,
                                     '[Raw API Result]': json.dumps(api_response)
                                 }
+
                                 full_prompt = row_to_json(row_data, config, total_rows_saved)
 
-                                try:
-                                    cursor.execute('''
-                                        INSERT INTO newspaper_data
-                                        (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                                    ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
-                                          article, json.dumps(api_response), full_prompt))
+                                batch.append((
+                                    date,
+                                    info['package_id'],
+                                    info['part_number'],
+                                    page_number,
+                                    composed_block_id,
+                                    article,
+                                    json.dumps(api_response),
+                                    full_prompt
+                                ))
 
-                                    total_rows_saved += 1
-                                    logging.info(f"Inserted row {total_rows_saved} in database")
-                                    logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
-                                except sqlite3.Error as e:
-                                    logging.error(f"Failed to insert row in database: {e}")
+                                total_rows_saved += 1
+                                logging.info(f"Prepared row {total_rows_saved} for batch insert")
+                                logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
+
+                                if len(batch) >= batch_size:
+                                    retry_on_db_lock(lambda: insert_batch(conn, batch))
+                                    batch = []
+                                    logging.info(f"Inserted batch of {batch_size} rows")
                             else:
                                 logging.info(f"Skipping existing entry with [ComposedBlock ID] '{composed_block_id}'")
 
-                conn.commit()
-                logging.info(f"Committed changes for URL: {url}")
+                logging.info(f"Processed URL: {url}")
 
             except requests.HTTPError as e:
                 logging.error(f"Failed to fetch data from {url}. Status code: {e.response.status_code}")
@@ -393,6 +429,11 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
             except Exception as e:
                 logging.error(f"Unexpected error processing URL {url}: {str(e)}")
                 continue
+
+        # Insert any remaining rows in the batch
+        if batch:
+            retry_on_db_lock(lambda: insert_batch(conn, batch))
+            logging.info(f"Inserted final batch of {len(batch)} rows")
 
     logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
     return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
