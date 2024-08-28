@@ -11,6 +11,7 @@ import hashlib
 from urllib.parse import urljoin, urlencode
 import logging
 from contextlib import closing
+from logging.handlers import RotatingFileHandler
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -22,23 +23,47 @@ last_request_time = None
 import time
 from requests.exceptions import RequestException
 
-def search_swedish_newspapers(to_date, from_date, collection_id, query, max_retries=5, base_delay=1):
+from urllib.parse import urlparse, parse_qs, urlunparse, urlencode
+
+def add_api_key_to_url(url, api_key):
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    query_params['api_key'] = [api_key]
+    new_query = urlencode(query_params, doseq=True)
+    return urlunparse(parsed_url._replace(query=new_query))
+
+import requests
+import time
+from requests.exceptions import RequestException
+
+def search_swedish_newspapers(to_date, from_date, collection_id, query, kb_key, max_retries=5, base_delay=1):
     base_url = 'https://data.kb.se/search'
-    encoded_query = quote_plus(query)
     params = {
         'to': to_date,
         'from': from_date,
         'isPartOf.@id': collection_id,
-        'q': encoded_query,
+        'q': query,
         'searchGranularity': 'part'
     }
     headers = {'Accept': 'application/json'}
-    
+
+    url_with_params = f"{base_url}?{urlencode(params)}"
+    url_with_key = add_api_key_to_url(url_with_params, kb_key)
+
     for attempt in range(max_retries):
         try:
-            response = requests.get(base_url, params=params, headers=headers)
+            response = requests.get(url_with_key, headers=headers)
             response.raise_for_status()
-            return response.json()
+            result = response.json()
+            
+            # Add the API key to all URLs in the result
+            for hit in result.get('hits', []):
+                if '@id' in hit:
+                    hit['@id'] = add_api_key_to_url(hit['@id'], kb_key)
+                if 'hasFilePackage' in hit and '@id' in hit['hasFilePackage']:
+                    hit['hasFilePackage']['@id'] = add_api_key_to_url(hit['hasFilePackage']['@id'], kb_key)
+            
+            return result
         except RequestException as e:
             if response.status_code == 429:
                 wait_time = (2 ** attempt) * base_delay
@@ -46,12 +71,11 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query, max_retr
                 time.sleep(wait_time)
             else:
                 raise e
-    
+
     raise Exception(f"Failed to fetch search results after {max_retries} attempts")
 
 # Function to extract URLs from the result
 def extract_urls(result):
-    base_url = 'https://data.kb.se'
     details = []
     for hit in result.get('hits', []):
         part_number = hit.get('part')
@@ -59,59 +83,118 @@ def extract_urls(result):
         page_id = hit.get('@id')
         package_id = hit.get('hasFilePackage', {}).get('@id', '').split('/')[-1]
         if part_number and page_number and package_id and page_id:
-            url = f"{base_url}/{package_id}/part/{part_number}/page/{page_number}"
+            # Use the page_id directly, which should already include the API key
+            url = page_id
             details.append({'part_number': part_number, 'page_number': page_number, 'package_id': package_id, 'url': url, 'page_id': page_id})
     return details
 
 # Function to extract XML URLs from API response
 
 
-def extract_xml_urls(api_response, page_ids, kb_key=None):
+import logging
+from urllib.parse import urljoin, urlparse, urlunparse, parse_qs, urlencode
+
+def extract_xml_urls(api_response, page_ids, kb_key):
+    """
+    Extract XML URLs from the API response for specified page IDs.
+    
+    Args:
+    api_response (dict): The JSON response from the API.
+    page_ids (list): List of page IDs to extract XML URLs for.
+    kb_key (str): The API key for authentication.
+    
+    Returns:
+    dict: A dictionary mapping page numbers to their corresponding XML URLs.
+    """
     xml_urls = {}
     base_url = 'https://data.kb.se'
-    parts_list = api_response.get('hasPart', [])
-    for part in parts_list:
-        pages = part.get('hasPartList', [])
-        for page in pages:
-            if page['@id'] in page_ids:
-                includes = page.get('includes', [])
-                for include in includes:
-                    if 'alto.xml' in include['@id']:
-                        page_number = int(page['@id'].split('/')[-1].replace('page', ''))
-                        xml_url = urljoin(base_url, include['@id'])
-                        if kb_key:
-                            xml_url = f"{xml_url}?api_key={kb_key}"
-                        xml_urls[page_number] = xml_url
+    
+    if not isinstance(api_response, dict) or 'hasPart' not in api_response:
+        logging.error("Invalid API response format")
+        return xml_urls
+    
+    for part in api_response.get('hasPart', []):
+        for page in part.get('hasPartList', []):
+            if page['@id'] not in page_ids:
+                continue
+            
+            for include in page.get('includes', []):
+                if 'alto.xml' not in include.get('@id', ''):
+                    continue
+                
+                page_number = int(page['@id'].split('/')[-1].replace('page', ''))
+                xml_url = urljoin(base_url, include['@id'])
+                
+                # Parse the URL and add the API key as a query parameter
+                parsed_url = urlparse(xml_url)
+                query_params = parse_qs(parsed_url.query)
+                query_params['api_key'] = [kb_key]
+                new_query = urlencode(query_params, doseq=True)
+                
+                # Reconstruct the URL with the API key
+                new_url = urlunparse(
+                    (parsed_url.scheme, parsed_url.netloc, parsed_url.path, 
+                     parsed_url.params, new_query, parsed_url.fragment)
+                )
+                
+                xml_urls[page_number] = new_url
+                logging.info(f"Extracted XML URL for page {page_number}")
+    
+    if not xml_urls:
+        logging.warning("No XML URLs were extracted from the API response")
+    
     return xml_urls
 
+
 # Function to fetch XML content
-def fetch_xml_content(xml_urls, max_retries=5, initial_delay=5):
+import requests
+import time
+import logging
+from requests.exceptions import RequestException
+from urllib.parse import urlparse, parse_qs, urlunparse, urlencode
+
+import requests
+import time
+import logging
+from requests.exceptions import RequestException
+
+def fetch_xml_content(xml_urls, kb_key, max_retries=5, initial_delay=1, max_delay=60):
     xml_content_by_page = {}
+    session = requests.Session()
+
     for page_number, url in xml_urls.items():
-        retries = 0
+        url_with_key = add_api_key_to_url(url, kb_key)
         delay = initial_delay
-        while retries < max_retries:
+
+        for attempt in range(max_retries):
             try:
-                response = requests.get(url)
-                if response.status_code == 200:
-                    xml_content_by_page[page_number] = response.content
+                response = session.get(url_with_key, timeout=10)
+                response.raise_for_status()
+
+                xml_content_by_page[page_number] = response.content
+                logging.info(f"Successfully fetched XML content for page {page_number}")
+                break
+
+            except RequestException as e:
+                if response.status_code == 429:
+                    logging.warning(f"Rate limit hit for page {page_number}. Retrying in {delay} seconds...")
+                elif response.status_code == 401:
+                    logging.error(f"Authentication failed for page {page_number}. Check your API key.")
                     break
                 else:
-                    print(f"Failed to fetch XML content from {url}. Status code: {response.status_code}")
-                    if response.status_code == 429:
-                        retries += 1
-                        print(f"Rate limited. Retrying in {delay} seconds...")
-                        time.sleep(delay)
-                        delay *= 2
-                    else:
-                        break
-            except requests.exceptions.RequestException as e:
-                print(f"Exception occurred while fetching {url}: {e}")
-                retries += 1
-                print(f"Retrying in {delay} seconds...")
-                time.sleep(delay)
-                delay *= 2
+                    logging.error(f"Error fetching XML for page {page_number}: {str(e)}")
+
+                if attempt == max_retries - 1:
+                    logging.error(f"Max retries reached for page {page_number}. Moving to next URL.")
+                else:
+                    time.sleep(delay)
+                    delay = min(delay * 2, max_delay)
+
+    if not xml_content_by_page:
+        logging.warning("No XML content was successfully fetched.")
+
     return xml_content_by_page
+
 
 # Function to read system message from a file
 def read_system_message(filepath, newspaper_date="date not known"):
@@ -298,24 +381,22 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
-# Function to fetch and process data from URLs
 def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit, num_composed_blocks=1):
     global last_request_time
     collection_id = newspaper
     total_rows_saved = 0
     RATE_LIMIT = rate_limit
-    
+
     try:
-        # Implement rate limiting for the search request
         current_time = time.time()
         if last_request_time is not None:
             time_since_last_request = current_time - last_request_time
             if time_since_last_request < 1 / RATE_LIMIT:
                 time.sleep((1 / RATE_LIMIT) - time_since_last_request)
-        
-        search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
+
+        search_results = search_swedish_newspapers(to_date, from_date, collection_id, query, kb_key)
         last_request_time = time.time()
-        
+
         logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
     except Exception as e:
         logging.error(f"Failed to fetch search results: {e}")
@@ -331,7 +412,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
             url = info['url']
             page_id = info['page_id']
 
-            # Rate limiting logic
             current_time = time.time()
             if last_request_time is not None:
                 elapsed_time = current_time - last_request_time
@@ -340,17 +420,19 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
 
             last_request_time = time.time()
 
-            logging.info(f"Processing URL: {url}")
+            logging.info(f"Processing URL with API key: {url}")
 
             try:
-                response = requests.get(url)
+                # Ensure the API key is in the URL
+                url_with_key = add_api_key_to_url(url, kb_key)
+                response = requests.get(url_with_key)
                 response.raise_for_status()
                 api_response = response.json()
 
                 xml_urls = extract_xml_urls(api_response, [page_id], kb_key)
                 logging.info(f"Extracted {len(xml_urls)} XML URLs")
 
-                xml_content_by_page = fetch_xml_content(xml_urls)
+                xml_content_by_page = fetch_xml_content(xml_urls, kb_key=kb_key)
                 logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
 
                 for page_number, xml_content in xml_content_by_page.items():
@@ -368,7 +450,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
                             composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
 
-                            # Insert a new row
                             row_data = {
                                 'Date': date,
                                 '[Package ID]': info['package_id'],
@@ -392,13 +473,13 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                             logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
 
                 conn.commit()
-                logging.info(f"Committed changes for URL: {url}")
+                logging.info(f"Committed changes for URL: {url_with_key}")
 
             except requests.HTTPError as e:
-                logging.error(f"Failed to fetch data from {url}. Status code: {e.response.status_code}")
+                logging.error(f"Failed to fetch data from {url_with_key}. Status code: {e.response.status_code}")
                 continue
             except Exception as e:
-                logging.error(f"Unexpected error processing URL {url}: {str(e)}")
+                logging.error(f"Unexpected error processing URL {url_with_key}: {str(e)}")
                 continue
 
     logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
