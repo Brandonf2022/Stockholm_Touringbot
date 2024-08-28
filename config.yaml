@@ -9,10 +9,10 @@ years_to_crawl: [1848,1858,1868,1878,1898,1908]  # years to crawl as list
 rate_limit: .5 # in transactions per second
 composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
-# Aftonbladet Status: in progress
-# Dagens nyheter Status: not started
-# Svenska Dagbladet Status: not started
-# Dagligt Allehanda Status: not started
+# Aftonbladet Status: in progress, est time: 400 min
+# Dagens nyheter Status: not started Thurs
+# Svenska Dagbladet Status: not started Thurs overnight
+# Dagligt Allehanda Status: not started Fri
 
 newspaper: 'Aftonbladet'
 db_path: 'Datasets/26.08.24_Stockholm_Touringbot_v1.0.1.db'  # Path to the SQLite database file
