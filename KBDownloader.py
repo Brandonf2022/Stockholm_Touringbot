@@ -19,7 +19,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 last_request_time = None
 
 # Function to search Swedish newspapers
-def search_swedish_newspapers(to_date, from_date, collection_id, query):
+import time
+from requests.exceptions import RequestException
+
+def search_swedish_newspapers(to_date, from_date, collection_id, query, max_retries=5, base_delay=1):
     base_url = 'https://data.kb.se/search'
     encoded_query = quote_plus(query)
     params = {
@@ -30,12 +33,21 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query):
         'searchGranularity': 'part'
     }
     headers = {'Accept': 'application/json'}
-    response = requests.get(base_url, params=params, headers=headers)
-    response.raise_for_status()
-    try:
-        return response.json()
-    except ValueError:
-        raise ValueError('Invalid JSON response')
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(base_url, params=params, headers=headers)
+            response.raise_for_status()
+            return response.json()
+        except RequestException as e:
+            if response.status_code == 429:
+                wait_time = (2 ** attempt) * base_delay
+                print(f"Rate limit hit. Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                raise e
+    
+    raise Exception(f"Failed to fetch search results after {max_retries} attempts")
 
 # Function to extract URLs from the result
 def extract_urls(result):
@@ -68,8 +80,7 @@ def extract_xml_urls(api_response, page_ids, kb_key=None):
                         page_number = int(page['@id'].split('/')[-1].replace('page', ''))
                         xml_url = urljoin(base_url, include['@id'])
                         if kb_key:
-                            query_params = urlencode({'api_key': kb_key})
-                            xml_url = f"{xml_url}?{query_params}"
+                            xml_url = f"{xml_url}?api_key={kb_key}"
                         xml_urls[page_number] = xml_url
     return xml_urls
 
@@ -216,8 +227,6 @@ class Page:
         return " ".join(s.get('CONTENT', '') for s in strings)
 
 # Checkpoint functions
-
-# Function to save checkpoint
 def save_checkpoint(year, half, index):
     checkpoint = {'year': year, 'half': half, 'index': index}
     try:
@@ -289,18 +298,26 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
+# Function to fetch and process data from URLs
 def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit, num_composed_blocks=1):
     global last_request_time
     collection_id = newspaper
     total_rows_saved = 0
     RATE_LIMIT = rate_limit
-    logging.info(f"Starting fetch_newspaper_data for query: {query}, dates: {from_date} to {to_date}")
-
+    
     try:
+        # Implement rate limiting for the search request
+        current_time = time.time()
+        if last_request_time is not None:
+            time_since_last_request = current_time - last_request_time
+            if time_since_last_request < 1 / RATE_LIMIT:
+                time.sleep((1 / RATE_LIMIT) - time_since_last_request)
+        
         search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
+        last_request_time = time.time()
+        
         logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
-
-    except requests.HTTPError as e:
+    except Exception as e:
         logging.error(f"Failed to fetch search results: {e}")
         return {"success": False, "message": f"Failed to fetch search results: {e}"}
 
@@ -351,38 +368,28 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
                             hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
                             composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
 
-                            # Check if the composed_block_id already exists in the database
-                            cursor.execute("SELECT COUNT(*) FROM newspaper_data WHERE [ComposedBlock ID] = ?", (composed_block_id,))
-                            existing_count = cursor.fetchone()[0]
+                            # Insert a new row
+                            row_data = {
+                                'Date': date,
+                                '[Package ID]': info['package_id'],
+                                'Part': info['part_number'],
+                                'Page': page_number,
+                                '[ComposedBlock ID]': composed_block_id,
+                                '[ComposedBlock Content]': article,
+                                '[Raw API Result]': json.dumps(api_response)
+                            }
+                            full_prompt = row_to_json(row_data, config, total_rows_saved)
 
-                            if existing_count == 0:
-                                # Insert a new row if the composed_block_id doesn't exist
-                                row_data = {
-                                    'Date': date,
-                                    '[Package ID]': info['package_id'],
-                                    'Part': info['part_number'],
-                                    'Page': page_number,
-                                    '[ComposedBlock ID]': composed_block_id,
-                                    '[ComposedBlock Content]': article,
-                                    '[Raw API Result]': json.dumps(api_response)
-                                }
-                                full_prompt = row_to_json(row_data, config, total_rows_saved)
+                            cursor.execute('''
+                                INSERT INTO newspaper_data
+                                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
+                                  article, json.dumps(api_response), full_prompt))
 
-                                try:
-                                    cursor.execute('''
-                                        INSERT INTO newspaper_data
-                                        (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                                    ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
-                                          article, json.dumps(api_response), full_prompt))
-
-                                    total_rows_saved += 1
-                                    logging.info(f"Inserted row {total_rows_saved} in database")
-                                    logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
-                                except sqlite3.Error as e:
-                                    logging.error(f"Failed to insert row in database: {e}")
-                            else:
-                                logging.info(f"Skipping existing entry with [ComposedBlock ID] '{composed_block_id}'")
+                            total_rows_saved += 1
+                            logging.info(f"Inserted row {total_rows_saved} in database")
+                            logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
 
                 conn.commit()
                 logging.info(f"Committed changes for URL: {url}")
