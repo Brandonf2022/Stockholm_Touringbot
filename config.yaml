@@ -5,7 +5,7 @@
 venue_list: '/Users/brandonfarnsworth/Library/Mobile Documents/com~apple~CloudDocs/Post-Phd/Published Texts/Method Article Collecting Trace Data using LLM/Venues_and_Search_Terms.xlsx'
 
 start_year: 1848  # Start year for crawling
-years_to_crawl: [1858,1868,1878,1898,1908]  # years to crawl as list
+years_to_crawl: [1848,1858,1868,1878,1898,1908]  # years to crawl as list
 rate_limit: .5 # in transactions per second
 composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
@@ -15,7 +15,7 @@ composed_blocks_context: 10 # Number of ComposedBlocks to include before and aft
 # Dagligt Allehanda Status: not started
 
 newspaper: 'Aftonbladet'
-db_path: 'Datasets/26.08.24_Stockholm_Touringbot_v1.0.1.db'  # Path to the SQLite database file
+db_path: 'Datasets/28.08.24_Stockholm_Touringbot_v1.0.1.db'  # Path to the SQLite database file
 
 ########PART 2: Large Language Model SETTINGS ########
 # Note: The system is currently set up to work *only* with OpenAI
