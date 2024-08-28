@@ -147,11 +147,6 @@ def extract_xml_urls(api_response, page_ids, kb_key):
 
 
 # Function to fetch XML content
-import requests
-import time
-import logging
-from requests.exceptions import RequestException
-from urllib.parse import urlparse, parse_qs, urlunparse, urlencode
 
 import requests
 import time
