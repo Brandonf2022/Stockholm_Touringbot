@@ -11,81 +11,18 @@ import hashlib
 from urllib.parse import urljoin, urlencode
 import logging
 from contextlib import closing
-import time
-from sqlite3 import OperationalError
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 # Keep track of the last request time
 last_request_time = None
 
-def retry_on_db_lock(func, max_attempts=5, delay=1):
-    def wrapper(*args, **kwargs):
-        attempts = 0
-        while attempts < max_attempts:
-            try:
-                return func(*args, **kwargs)
-            except OperationalError as e:
-                if "database is locked" in str(e):
-                    attempts += 1
-                    if attempts == max_attempts:
-                        raise
-                    logging.warning(f"Database locked. Retrying in {delay} seconds...")
-                    time.sleep(delay)
-                    delay *= 2  # Exponential backoff
-                else:
-                    raise
-    return wrapper
-
-@retry_on_db_lock
-def insert_batch_with_transaction(db_path, data_list):
-    with sqlite3.connect(db_path) as conn:
-        try:
-            cursor = conn.cursor()
-            cursor.executemany('''
-                INSERT OR IGNORE INTO newspaper_data
-                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', data_list)
-            conn.commit()
-            return len(data_list)  # Return number of rows inserted
-        except sqlite3.Error as e:
-            conn.rollback()
-            raise
-
-
-def retry_with_backoff(func, max_attempts=5, initial_wait=1, backoff_factor=2):
-    def wrapper(*args, **kwargs):
-        attempts = 0
-        wait_time = initial_wait
-        while attempts < max_attempts:
-            try:
-                return func(*args, **kwargs)
-            except OperationalError as e:
-                if "database is locked" in str(e):
-                    attempts += 1
-                    if attempts == max_attempts:
-                        raise
-                    logging.warning(f"Database locked. Retrying in {wait_time} seconds...")
-                    time.sleep(wait_time)
-                    wait_time *= backoff_factor
-                else:
-                    raise
-    return wrapper
-
-import sqlite3
-
-def insert_batch(conn, data_list):
-    cursor = conn.cursor()
-    cursor.executemany('''
-        INSERT OR IGNORE INTO newspaper_data
-        (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', data_list)
-    conn.commit()
-
 # Function to search Swedish newspapers
-def search_swedish_newspapers(to_date, from_date, collection_id, query):
+import time
+from requests.exceptions import RequestException
+
+def search_swedish_newspapers(to_date, from_date, collection_id, query, max_retries=5, base_delay=1):
     base_url = 'https://data.kb.se/search'
     encoded_query = quote_plus(query)
     params = {
@@ -96,12 +33,21 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query):
         'searchGranularity': 'part'
     }
     headers = {'Accept': 'application/json'}
-    response = requests.get(base_url, params=params, headers=headers)
-    response.raise_for_status()
-    try:
-        return response.json()
-    except ValueError:
-        raise ValueError('Invalid JSON response')
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(base_url, params=params, headers=headers)
+            response.raise_for_status()
+            return response.json()
+        except RequestException as e:
+            if response.status_code == 429:
+                wait_time = (2 ** attempt) * base_delay
+                print(f"Rate limit hit. Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                raise e
+    
+    raise Exception(f"Failed to fetch search results after {max_retries} attempts")
 
 # Function to extract URLs from the result
 def extract_urls(result):
@@ -134,8 +80,7 @@ def extract_xml_urls(api_response, page_ids, kb_key=None):
                         page_number = int(page['@id'].split('/')[-1].replace('page', ''))
                         xml_url = urljoin(base_url, include['@id'])
                         if kb_key:
-                            query_params = urlencode({'api_key': kb_key})
-                            xml_url = f"{xml_url}?{query_params}"
+                            xml_url = f"{xml_url}?api_key={kb_key}"
                         xml_urls[page_number] = xml_url
     return xml_urls
 
@@ -282,8 +227,6 @@ class Page:
         return " ".join(s.get('CONTENT', '') for s in strings)
 
 # Checkpoint functions
-
-# Function to save checkpoint
 def save_checkpoint(year, half, index):
     checkpoint = {'year': year, 'half': half, 'index': index}
     try:
@@ -298,13 +241,7 @@ def load_checkpoint():
     if os.path.exists('checkpoint.pkl'):
         try:
             with open('checkpoint.pkl', 'rb') as f:
-                checkpoint = pickle.load(f)
-            if isinstance(checkpoint, dict) and all(key in checkpoint for key in ['year', 'half', 'index']):
-                print(f"Checkpoint loaded: Year {checkpoint['year']}, Half {checkpoint['half']}, Index {checkpoint['index']}")
-                return checkpoint
-            else:
-                print("Checkpoint file is invalid. Starting from the beginning.")
-                os.remove('checkpoint.pkl')  # Remove the invalid checkpoint file
+                return pickle.load(f)
         except (EOFError, pickle.UnpicklingError):
             print("Checkpoint file is corrupted or empty. Starting from the beginning.")
             os.remove('checkpoint.pkl')  # Remove the corrupted file
@@ -315,80 +252,6 @@ def load_checkpoint():
 import sqlite3
 import json
 
-import sqlite3
-import time
-
-
-def insert_batch_with_transaction(db_path, data_list, max_attempts=5, initial_wait=1, backoff_factor=2):
-    attempts = 0
-    wait_time = initial_wait
-
-    while attempts < max_attempts:
-        try:
-            with sqlite3.connect(db_path) as conn:
-                cursor = conn.cursor()
-                cursor.executemany('''
-                    INSERT OR IGNORE INTO newspaper_data
-                    (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ''', data_list)
-                conn.commit()
-                return len(data_list)  # Return number of rows inserted
-        except OperationalError as e:
-            if "database is locked" in str(e):
-                attempts += 1
-                if attempts == max_attempts:
-                    raise
-                logging.warning(f"Database locked. Retrying in {wait_time} seconds...")
-                time.sleep(wait_time)
-                wait_time *= backoff_factor
-            else:
-                raise
-    raise Exception("Max retry attempts reached")
-
-
-def process_and_save_url(url_info, config, db_path, kb_key, rate_limit, num_composed_blocks, max_attempts=5, initial_wait=1, backoff_factor=2):
-    attempts = 0
-    wait_time = initial_wait
-
-    while attempts < max_attempts:
-        try:
-            result = fetch_newspaper_data(
-                query=url_info['query'],
-                from_date=url_info['from_date'],
-                to_date=url_info['to_date'],
-                newspaper=config['newspaper'],
-                config=config,
-                db_path=db_path,
-                kb_key=kb_key,
-                rate_limit=rate_limit,
-                num_composed_blocks=num_composed_blocks
-            )
-
-            if result.get('success'):
-                rows_inserted = result.get('rows_inserted', 0)
-                if rows_inserted > 0:
-                    logging.info(f"Successfully processed URL for query '{url_info['query']}'. Inserted {rows_inserted} rows.")
-                else:
-                    logging.info(f"Processed URL for query '{url_info['query']}' but no rows were inserted.")
-                return True, rows_inserted
-            else:
-                logging.warning(f"Failed to process URL for query '{url_info['query']}': {result.get('message')}")
-                raise Exception(result.get('message'))
-
-        except Exception as e:
-            attempts += 1
-            if attempts < max_attempts:
-                logging.warning(f"Error processing URL for query '{url_info['query']}'. Retrying in {wait_time} seconds... (Attempt {attempts}/{max_attempts})")
-                logging.warning(f"Error details: {str(e)}")
-                time.sleep(wait_time)
-                wait_time *= backoff_factor
-            else:
-                logging.error(f"Failed to process URL for query '{url_info['query']}' after {max_attempts} attempts.")
-                logging.error(f"Final error: {str(e)}")
-                return False, 0
-
-    return False, 0      
 #  function to process and save data
 def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_key):
     # Establish database connection
@@ -435,108 +298,108 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
-import requests
-import json
-import logging
-import time
-from bs4 import BeautifulSoup as bs
-from urllib.parse import urljoin
-import hashlib
-
-def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit, num_composed_blocks):
-    logging.info(f"Starting fetch_newspaper_data for query: {query}, dates: {from_date} to {to_date}")
-    
-    total_rows_inserted = 0
+# Function to fetch and process data from URLs
+def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, kb_key, rate_limit, num_composed_blocks=1):
+    global last_request_time
+    collection_id = newspaper
+    total_rows_saved = 0
     RATE_LIMIT = rate_limit
-    last_request_time = None
-    batch = []
-    batch_size = 20
-
+    
     try:
-        search_results = search_swedish_newspapers(to_date, from_date, newspaper, query)
+        # Implement rate limiting for the search request
+        current_time = time.time()
+        if last_request_time is not None:
+            time_since_last_request = current_time - last_request_time
+            if time_since_last_request < 1 / RATE_LIMIT:
+                time.sleep((1 / RATE_LIMIT) - time_since_last_request)
+        
+        search_results = search_swedish_newspapers(to_date, from_date, collection_id, query)
+        last_request_time = time.time()
+        
         logging.info(f"Search results received. Hits: {len(search_results.get('hits', []))}")
-    except requests.HTTPError as e:
+    except Exception as e:
         logging.error(f"Failed to fetch search results: {e}")
-        return {"success": False, "message": f"Failed to fetch search results: {e}", "rows_inserted": 0}
+        return {"success": False, "message": f"Failed to fetch search results: {e}"}
 
     urls = extract_urls(search_results)
     logging.info(f"Extracted {len(urls)} URLs from search results")
 
-    batch = []
-    batch_size = 100
+    with closing(sqlite3.connect(db_path)) as conn:
+        cursor = conn.cursor()
 
-    for info in urls:
-        url = info['url']
-        page_id = info['page_id']
+        for info in urls:
+            url = info['url']
+            page_id = info['page_id']
 
-        # Rate limiting logic
-        current_time = time.time()
-        if last_request_time is not None:
-            elapsed_time = current_time - last_request_time
-            if elapsed_time < 1 / RATE_LIMIT:
-                time.sleep(1 / RATE_LIMIT - elapsed_time)
-        last_request_time = time.time()
+            # Rate limiting logic
+            current_time = time.time()
+            if last_request_time is not None:
+                elapsed_time = current_time - last_request_time
+                if elapsed_time < 1 / RATE_LIMIT:
+                    time.sleep(1 / RATE_LIMIT - elapsed_time)
 
-        logging.info(f"Processing URL: {url}")
+            last_request_time = time.time()
 
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            api_response = response.json()
+            logging.info(f"Processing URL: {url}")
 
-            xml_urls = extract_xml_urls(api_response, [page_id], kb_key)
-            logging.info(f"Extracted {len(xml_urls)} XML URLs")
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                api_response = response.json()
 
-            xml_content_by_page = fetch_xml_content(xml_urls)
-            logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
+                xml_urls = extract_xml_urls(api_response, [page_id], kb_key)
+                logging.info(f"Extracted {len(xml_urls)} XML URLs")
 
-            for page_number, xml_content in xml_content_by_page.items():
-                xml_string = xml_content.decode('utf-8')
-                page = Page(xml_content=xml_string)
-                date = page.extract_date()
+                xml_content_by_page = fetch_xml_content(xml_urls)
+                logging.info(f"Fetched XML content for {len(xml_content_by_page)} pages")
 
-                articles = list(page.article_from_keyword(query, num_blocks=num_composed_blocks))
-                if not articles:
-                    logging.info(f"No matching content found for query '{query}' on page {page_number}")
-                    continue
+                for page_number, xml_content in xml_content_by_page.items():
+                    xml_string = xml_content.decode('utf-8')
+                    page = Page(xml_content=xml_string)
+                    date = page.extract_date()
 
-                for article in articles:
-                    if article:
-                        # Generate a unique hash for the article content
-                        hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
-                        composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
+                    articles = list(page.article_from_keyword(query, num_blocks=num_composed_blocks))
+                    if not articles:
+                        logging.info(f"No matching content found for query '{query}' on page {page_number}")
+                        continue
 
-                        batch.append((
-                            date,
-                            info['package_id'],
-                            info['part_number'],
-                            page_number,
-                            composed_block_id,
-                            article,
-                            json.dumps(api_response),
-                            None  # Placeholder for [Full Prompt] which is no longer needed
-                        ))
+                    for article in articles:
+                        if article:
+                            hash_content = hashlib.md5(article.encode('utf-8')).hexdigest()
+                            composed_block_id = f"{info['package_id']}-{info['part_number']}-{page_number}-{hash_content}"
 
-                        if len(batch) >= batch_size:
-                            rows_inserted = insert_batch_with_transaction(db_path, batch)
-                            total_rows_inserted += rows_inserted
-                            batch = []
-                            logging.info(f"Inserted batch of {rows_inserted} rows. Total rows inserted: {total_rows_inserted}")
+                            # Insert a new row
+                            row_data = {
+                                'Date': date,
+                                '[Package ID]': info['package_id'],
+                                'Part': info['part_number'],
+                                'Page': page_number,
+                                '[ComposedBlock ID]': composed_block_id,
+                                '[ComposedBlock Content]': article,
+                                '[Raw API Result]': json.dumps(api_response)
+                            }
+                            full_prompt = row_to_json(row_data, config, total_rows_saved)
 
-            logging.info(f"Processed URL: {url}")
+                            cursor.execute('''
+                                INSERT INTO newspaper_data
+                                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', (date, info['package_id'], info['part_number'], page_number, composed_block_id,
+                                  article, json.dumps(api_response), full_prompt))
 
-        except requests.HTTPError as e:
-            logging.error(f"Failed to fetch data from {url}. Status code: {e.response.status_code}")
-            continue
-        except Exception as e:
-            logging.error(f"Unexpected error processing URL {url}: {str(e)}")
-            continue
+                            total_rows_saved += 1
+                            logging.info(f"Inserted row {total_rows_saved} in database")
+                            logging.debug(f"Saved content: {article[:100]}...")  # Debug log, showing first 100 chars
 
-    # Insert any remaining rows in the batch
-    if batch:
-        rows_inserted = insert_batch_with_transaction(db_path, batch)  # Change here
-        total_rows_inserted += rows_inserted
-        logging.info(f"Inserted final batch of {rows_inserted} rows. Total rows inserted: {total_rows_inserted}")
+                conn.commit()
+                logging.info(f"Committed changes for URL: {url}")
 
-    logging.info(f"Data processing completed. Total rows saved: {total_rows_inserted}")
-    return {"success": True, "message": f"Data processing completed. {total_rows_inserted} rows saved to the database.", "rows_inserted": total_rows_inserted}
+            except requests.HTTPError as e:
+                logging.error(f"Failed to fetch data from {url}. Status code: {e.response.status_code}")
+                continue
+            except Exception as e:
+                logging.error(f"Unexpected error processing URL {url}: {str(e)}")
+                continue
+
+    logging.info(f"Data processing completed. Total rows saved: {total_rows_saved}")
+    return {"success": True, "message": f"Data processing completed. {total_rows_saved} rows saved to the database."}
