@@ -16,21 +16,42 @@ from sqlite3 import OperationalError
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
 # Keep track of the last request time
 last_request_time = None
 
 def retry_on_db_lock(func, max_attempts=5, delay=1):
-    for attempt in range(max_attempts):
+    def wrapper(*args, **kwargs):
+        attempts = 0
+        while attempts < max_attempts:
+            try:
+                return func(*args, **kwargs)
+            except OperationalError as e:
+                if "database is locked" in str(e):
+                    attempts += 1
+                    if attempts == max_attempts:
+                        raise
+                    logging.warning(f"Database locked. Retrying in {delay} seconds...")
+                    time.sleep(delay)
+                    delay *= 2  # Exponential backoff
+                else:
+                    raise
+    return wrapper
+
+@retry_on_db_lock
+def insert_batch_with_transaction(db_path, data_list):
+    with sqlite3.connect(db_path) as conn:
         try:
-            return func()
-        except OperationalError as e:
-            if "database is locked" in str(e) and attempt < max_attempts - 1:
-                time.sleep(delay)
-                delay *= 2  # Exponential backoff
-            else:
-                raise
-    raise Exception("Max retry attempts reached")
+            cursor = conn.cursor()
+            cursor.executemany('''
+                INSERT OR IGNORE INTO newspaper_data
+                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ''', data_list)
+            conn.commit()
+            return len(data_list)  # Return number of rows inserted
+        except sqlite3.Error as e:
+            conn.rollback()
+            raise
 
 
 def retry_with_backoff(func, max_attempts=5, initial_wait=1, backoff_factor=2):
@@ -53,22 +74,6 @@ def retry_with_backoff(func, max_attempts=5, initial_wait=1, backoff_factor=2):
     return wrapper
 
 import sqlite3
-
-@retry_with_backoff
-def insert_batch_with_transaction(db_path, data_list):
-    with sqlite3.connect(db_path) as conn:
-        try:
-            cursor = conn.cursor()
-            cursor.executemany('''
-                INSERT OR IGNORE INTO newspaper_data
-                (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', data_list)
-            conn.commit()
-            return len(data_list)  # Return number of rows inserted
-        except sqlite3.Error as e:
-            conn.rollback()
-            raise
 
 def insert_batch(conn, data_list):
     cursor = conn.cursor()
@@ -310,6 +315,38 @@ def load_checkpoint():
 import sqlite3
 import json
 
+import sqlite3
+import time
+
+
+def insert_batch_with_transaction(db_path, data_list, max_attempts=5, initial_wait=1, backoff_factor=2):
+    attempts = 0
+    wait_time = initial_wait
+
+    while attempts < max_attempts:
+        try:
+            with sqlite3.connect(db_path) as conn:
+                cursor = conn.cursor()
+                cursor.executemany('''
+                    INSERT OR IGNORE INTO newspaper_data
+                    (Date, [Package ID], Part, Page, [ComposedBlock ID], [ComposedBlock Content], [Raw API Result], [Full Prompt])
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ''', data_list)
+                conn.commit()
+                return len(data_list)  # Return number of rows inserted
+        except OperationalError as e:
+            if "database is locked" in str(e):
+                attempts += 1
+                if attempts == max_attempts:
+                    raise
+                logging.warning(f"Database locked. Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+                wait_time *= backoff_factor
+            else:
+                raise
+    raise Exception("Max retry attempts reached")
+
+
 def process_and_save_url(url_info, config, db_path, kb_key, rate_limit, num_composed_blocks, max_attempts=5, initial_wait=1, backoff_factor=2):
     attempts = 0
     wait_time = initial_wait
@@ -398,7 +435,6 @@ def process_and_save_data(xml_content_by_page, info, query, config, db_path, kb_
     return {"success": True, "message": f"Data processing completed. {len(combined_results)} rows saved to the database."}
 
 # Function to fetch and process data from URLs
-
 import requests
 import json
 import logging
@@ -413,6 +449,8 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
     total_rows_inserted = 0
     RATE_LIMIT = rate_limit
     last_request_time = None
+    batch = []
+    batch_size = 20
 
     try:
         search_results = search_swedish_newspapers(to_date, from_date, newspaper, query)
@@ -496,7 +534,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
 
     # Insert any remaining rows in the batch
     if batch:
-        rows_inserted = insert_batch_with_transaction(db_path, batch)
+        rows_inserted = insert_batch_with_transaction(db_path, batch)  # Change here
         total_rows_inserted += rows_inserted
         logging.info(f"Inserted final batch of {rows_inserted} rows. Total rows inserted: {total_rows_inserted}")
 

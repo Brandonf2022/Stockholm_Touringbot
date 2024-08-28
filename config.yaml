@@ -15,7 +15,7 @@ composed_blocks_context: 10 # Number of ComposedBlocks to include before and aft
 # Dagligt Allehanda Status: not started
 
 newspaper: 'Aftonbladet'
-db_path: 'Datasets/28.08.24_Stockholm_Touringbot_v1.0.1.db'  # Path to the SQLite database file
+db_path: 'Datasets/26.08.24_Stockholm_Touringbot_v1.0.1.db'  # Path to the SQLite database file
 
 ########PART 2: Large Language Model SETTINGS ########
 # Note: The system is currently set up to work *only* with OpenAI
