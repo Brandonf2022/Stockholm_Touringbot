@@ -120,23 +120,46 @@ def extract_urls(result):
 # Function to extract XML URLs from API response
 
 
-def extract_xml_urls(api_response, page_ids, kb_key=None):
+def extract_xml_urls(api_response, page_ids, kb_key):
+    """
+    Extract XML URLs from the API response for specified page IDs and append the API key.
+
+    Args:
+    api_response (dict): The JSON response from the API.
+    page_ids (list): List of page IDs to extract XML URLs for.
+    kb_key (str): The API key for authentication.
+
+    Returns:
+    dict: A dictionary mapping page numbers to their corresponding XML URLs with API key.
+    """
     xml_urls = {}
     base_url = 'https://data.kb.se'
-    parts_list = api_response.get('hasPart', [])
-    for part in parts_list:
-        pages = part.get('hasPartList', [])
-        for page in pages:
-            if page['@id'] in page_ids:
-                includes = page.get('includes', [])
-                for include in includes:
-                    if 'alto.xml' in include['@id']:
-                        page_number = int(page['@id'].split('/')[-1].replace('page', ''))
-                        xml_url = urljoin(base_url, include['@id'])
-                        if kb_key:
-                            query_params = urlencode({'api_key': kb_key})
-                            xml_url = f"{xml_url}?{query_params}"
-                        xml_urls[page_number] = xml_url
+
+    if not isinstance(api_response, dict) or 'hasPart' not in api_response:
+        logging.error("Invalid API response format")
+        return xml_urls
+
+    for part in api_response.get('hasPart', []):
+        for page in part.get('hasPartList', []):
+            if page['@id'] not in page_ids:
+                continue
+
+            for include in page.get('includes', []):
+                if 'alto.xml' not in include.get('@id', ''):
+                    continue
+
+                page_number = int(page['@id'].split('/')[-1].replace('page', ''))
+                xml_url = urljoin(base_url, include['@id'])
+
+                # Append the API key as a query parameter
+                xml_url = f"{xml_url}?api_key={kb_key}"
+
+                xml_urls[page_number] = xml_url
+                logging.info(f"Extracted XML URL for page {page_number}")
+
+    if not xml_urls:
+        logging.warning("No XML URLs were extracted from the API response")
+
     return xml_urls
 
 # Function to fetch XML content
