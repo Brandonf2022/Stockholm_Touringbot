@@ -5,8 +5,8 @@
 venue_list: '/Users/brandonfarnsworth/Library/Mobile Documents/com~apple~CloudDocs/Post-Phd/Published Texts/Method Article Collecting Trace Data using LLM/Venues_and_Search_Terms.xlsx'
 years: 1908
 start_year: 1908  # Start year for crawling
-years_to_crawl: [1868,1888,1898,1908]  # years to crawl as list
-rate_limit: .5 # in transactions per second
+years_to_crawl: [1908]  # years to crawl as list
+rate_limit: 10 # in transactions per second
 composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
 # Aftonbladet Status: MISSING 1908.
