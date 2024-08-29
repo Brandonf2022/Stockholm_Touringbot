@@ -93,7 +93,8 @@ def search_swedish_newspapers(to_date, from_date, collection_id, query):
         'from': from_date,
         'isPartOf.@id': collection_id,
         'q': encoded_query,
-        'searchGranularity': 'part'
+        'searchGranularity': 'part',
+        'limit': 100000
     }
     headers = {'Accept': 'application/json'}
     response = requests.get(base_url, params=params, headers=headers)

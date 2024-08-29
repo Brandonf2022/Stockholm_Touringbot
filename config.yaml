@@ -5,16 +5,17 @@
 venue_list: '/Users/brandonfarnsworth/Library/Mobile Documents/com~apple~CloudDocs/Post-Phd/Published Texts/Method Article Collecting Trace Data using LLM/Venues_and_Search_Terms.xlsx'
 years: 1908
 start_year: 1908  # Start year for crawling
-years_to_crawl: [1908]  # years to crawl as list
+years_to_crawl: [1848, 1858, 1868,]  # years to crawl as list
 rate_limit: 10 # in transactions per second
 composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
-# Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda
+# Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda, Nya Dagligt Allehanda
 # Aftonbladet Status: MISSING 1908.
 # Dagens nyheter Status: not started Thurs stopped in second half of 1898 I think cause amphetamine was broken
-# Svenska Dagbladet Status: not started Thurs overnight
-# Dagligt Allehanda Status: not started Fri
+# Svenska Dagbladet Status: we can safely IGNORE this because it's not in the available dataset
+# Dagligt Allehanda Status: relevant are 1848 
+# Nya Dagliga Alehanda Status: only look at 1868
 
-newspaper: 'Dagens nyheter'
+newspaper: 'Aftonbladet'
 db_path: 'Datasets/28.08.24_Dataset.db'  # Path to the SQLite database file
 
 ########PART 2: Large Language Model SETTINGS ########
