@@ -474,7 +474,7 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
     RATE_LIMIT = rate_limit
     last_request_time = None
     batch = []
-    batch_size = 20
+    batch_size = 100
 
     try:
         search_results = search_swedish_newspapers(to_date, from_date, newspaper, query)
@@ -485,9 +485,6 @@ def fetch_newspaper_data(query, from_date, to_date, newspaper, config, db_path, 
 
     urls = extract_urls(search_results)
     logging.info(f"Extracted {len(urls)} URLs from search results")
-
-    batch = []
-    batch_size = 100
 
     for info in urls:
         url = info['url']
