@@ -9,11 +9,18 @@ years_to_crawl: [1848, 1858, 1868,]  # years to crawl as list
 rate_limit: 10 # in transactions per second
 composed_blocks_context: 10 # Number of ComposedBlocks to include before and after the matching block
 # Newspaper to crawl. Valid options are Dagens nyheter, Svenska Dagbladet, Aftonbladet, Dagligt Allehanda, Nya Dagligt Allehanda
-# Aftonbladet Status: MISSING 1908.
+# Aftonbladet Status: MISSING 1908. Won't happen
+
 # Dagens nyheter Status: not started Thurs stopped in second half of 1898 I think cause amphetamine was broken
 # Svenska Dagbladet Status: we can safely IGNORE this because it's not in the available dataset
 # Dagligt Allehanda Status: relevant are 1848 
 # Nya Dagliga Alehanda Status: only look at 1868
+
+# In total to do still on Thursday 29.08.
+# DN: 1848,1858, 1868 hits > 20
+# AB: 1858, 1868 hits > 20
+# DA: 1848 all = 100 min
+# ND: 1969 all = 100 min
 
 newspaper: 'Aftonbladet'
 db_path: 'Datasets/28.08.24_Dataset.db'  # Path to the SQLite database file
