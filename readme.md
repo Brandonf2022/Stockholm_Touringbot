@@ -37,12 +37,8 @@ To adapt the tool for new data sources, modify the data extraction and processin
 ## Contributing
 Contributions to expand and improve this tool are welcome. Please submit pull requests or open issues for bugs, feature requests, or suggestions.
 
-## License
-[Insert your chosen license here]
-
 ## Acknowledgments
 - KB (National Library of Sweden) for providing access to their digital archives
 - OpenAI for their powerful language models
 
-## Contact
-[Your contact information or preferred method of contact]
+
